@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Agile</title>
+<link href="../css/style.css" rel="stylesheet">
+<script type="text/javascript"
+	src="../javascript/jquery.min.js"></script>
+<script type="text/javascript" src="../javascript/util.js"></script>
+<script type="text/javascript">
+    
+    function create() {
+    	
+        //groupname and token for authorization 
+        var groupname = encodeURIComponent(document.getElementById("groupname").value);
+        var id = encodeURIComponent(document.getElementById("id").value);
+        var token = encodeURIComponent(parent.token);
+
+        var resultDiv = $("#resultDivContainer");
+
+        $.ajax({
+            url: '/sensor/'+id,
+            type: 'POST',
+            data: JSON.stringify({"authentication_type":parent.auth_type,"name":  groupname }),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            crossDomain: true,
+            async:false,
+            //headers: {'Authorization': token},
+
+            success: function (result) {
+                var table = display_json(result);
+                $('#resultDivContainer').empty();
+                $('#resultDivContainer').append(table);
+            },
+
+            error: function (xhr, ajaxOptions, thrownError) {
+                resultDiv.html("Error: " + xhr.status + " " + thrownError);
+            }
+        });
+    };
+</script>
+</head>
+<body>
+	<h2 align="center" style="color: DarkBlue;">Create Sensor</h2>
+
+	<form method="get" action="">
+		        
+
+		<table align="center">
+
+			<tr>
+				<td>Id:</td>
+				<td><input type="text" id="id" name="id" />
+					                </td>
+			</tr>
+			<tr>
+				<td>Name:</td>
+				<td><input type="text" id="groupname" name="groupname" />
+					                </td>
+			</tr>
+			
+
+
+			<tr>
+				<td><br>&nbsp;</td>
+				<td><a class="idmButton" onclick="create()">Create</a></td>
+			</tr>
+
+		</table>
+		    
+	</form>
+
+	<div id="resultDivContainer" align="center"></div>
+</body>
+</html>

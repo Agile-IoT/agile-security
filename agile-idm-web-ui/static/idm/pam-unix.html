@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>AGILE</title>
+<link href="../css/style.css" rel="stylesheet">
+<script type="text/javascript"
+	src="../javascript/jquery.min.js"></script>
+<script type="text/javascript" src="../javascript/util.js"></script>
+<script type="text/javascript">
+   
+
+    function authenticateUser() {
+
+        //name and passsword in order to authenticate user
+        var username = encodeURIComponent(document.getElementById("username").value);
+        var userpassword = encodeURIComponent(document.getElementById("password").value);
+
+        var resultDiv = $("#resultDivContainer");
+
+        $.ajax({
+            url: '/pam_unix',
+            type: 'POST',
+            data: '{"username":\"' + username + '\","password":\"' + userpassword + '\"}',
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            crossDomain: true,
+//            async:false,
+                
+            success: function (result) {
+                var table = display_json(result);
+                $('#resultDivContainer').empty();
+                $('#resultDivContainer').append(table);
+            },
+
+            error: function (xhr, ajaxOptions, thrownError) {
+                resultDiv.html("Error: " + xhr.status + " " + thrownError);
+            }
+        });
+    };
+</script>
+</head>
+<body>
+
+	<h2 align="center" style="color: DarkBlue;">Authenticate User</h2>
+
+	<form method="get" action="">
+		        
+		<table align="center">
+			<tr>
+				<td>User name:</td>
+				<td><input type="text" id="username" name="username" value="test"/>
+					                </td>
+			</tr>
+
+			<tr>
+				<td>Password:</td>
+				<td><input type="password" id="password" name="password" value="pass"/>
+					                </td>
+			</tr>
+
+			<tr>
+				<td><br>&nbsp;</td>
+				<td><a class="idmButton" onclick="authenticateUser()">Authent.</a>
+					                </td>
+			</tr>
+
+		</table>
+		    
+	</form>
+
+	<div id="resultDivContainer" align="center"></div>
+</body>
+</html>

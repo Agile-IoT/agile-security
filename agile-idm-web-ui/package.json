@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "authenticate-pam": "1.0.1 ",
+    "cookie-parser": "1.4.3",
+    "express": "^4.13.4",
+    "googleapis": "8.x",
+    "node-rsa": "0.3.x",
+    "request": "2.x",
+    "sqlite3": "3.1.4",
+    "express-session": "^1.14.0",
+    "webid": "^0.3.7"
+  }
+}
