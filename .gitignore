@@ -4,3 +4,4 @@
 *.sqlite3
 *npm-debug.log
 */external-api/d-bus/resources/**
+*.conf
