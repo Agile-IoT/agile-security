@@ -71,6 +71,19 @@ For the authorization URL, you should place    $host_name+$redirect_path (http:/
 
 Then create the application, and place the client Id and client secret in the proper configuration fields.
 
+### Web-ID TLS Certificate Configuration  (Optional)
+
+web-ID relies on a TLS handshake, therefore IDM needs a certificate for the server side. We have included a self-signed certificate in the certs folder and it is configured by default. But, should you want to place your own certificate (please do!) please change the tls attribute of the configuration object in agile-idm-web-ui/conf/agile-ui.conf.
+
+```
+"tls":{
+     "key":"../certs/server.key",
+     "cert":"../certs/server.crt"
+}
+```
+
+In this object you can place the path to your own server key and certificate.  However, if you don't update this, you would use the self-signed certificates by default. Which would work, as long as you instruct your browser to do this security exception...
+
 ## Run the Components
 
 To run the web server, including oauth2, web id, pam, and REST HTTP api for authentication execute the following commands after checking out the project:
@@ -91,3 +104,30 @@ npm install
 cd external-api
 node main.js
 ```
+
+## Try it out
+
+
+At the moment we have a simple demo that lets you authenticate using different identity providers (github, your linux operating system, a Web-ID certificate) and register an entity (sensor with a name). This registration is just valid for IDM. Soon, we shall do this registration from the AGILE device manager.
+
+To test the demo follow this actions:
+
+* Download and clone this repository
+* Configure the components as needed. If you don't want to do any configuration, you can use the Web-ID authentication, or the PAM module out of the box. Otherwise, OAuth2 authentication requires to place the proper client id and secret in the configuration file as described previously.
+* Run the components (as already described).
+* go to your browser to http://localhost:3000/static/index.html
+* authenticate with any mechanism you like
+* click on the menu Sensors>Create
+* write any name and any id, and then click on create
+
+### Troubleshooting
+
+As always... things could go wrong. So, here are a couple of common errors you may see once you attempt to register a sensor:
+
+* you get "The name eu.agile.IDM was not provided by any .service files" error when you attempt to register a sensor: This happens when the core component (agile-idm/external-api/main.js) is not running.
+
+
+
+## Developer Documentation
+
+To integrate AGILE IDM with an appliaction, please have a look at the ui-server.js.
