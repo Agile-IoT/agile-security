@@ -10,9 +10,11 @@
     "escape-html":"1.0.3",
     "clone":"1.0.2",
     "request":"2.42.0",
-    "express":"4.13.4",
+    "express": "^4.13.4",
+    "body-parser":"1.x",
     "cors":"2.7.1",
-    "sqlite3":"3.1.4"
+    "sqlite3":"3.1.4",
+    "dbus-native":"0.2.0"	
   },
   "devDependencies" : {
     "mocha": "2.4.5",
