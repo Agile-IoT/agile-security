@@ -2,7 +2,7 @@ const clone = require('clone');
 var sqlite3 = require('sqlite3').verbose();
 
 var FileStorage = function (storageConf) {
-	this.conf = storageConf;
+	this.conf = storageConf;  
 	this.READ="read";
 	this.CREATE="create";
 	this.UPDATE="update";
@@ -21,7 +21,7 @@ FileStorage.prototype.prepareStatements = function(onCreationFinished){
 			else
 				resolve();
 		});
-	});
+	}); 
 	var p2 = new Promise((resolve, reject) => {
 		this.get_entity_by_id_statement = this.storage.prepare("SELECT * from Entity WHERE id =?", function(error){
 			if(error){
@@ -76,7 +76,7 @@ FileStorage.prototype.prepareStatements = function(onCreationFinished){
 				resolve();
 		});
 	});
-
+	
 	Promise.all([p1, p2, p3, p4, p5, p6, p7]).then(function(results){onCreationFinished({"success":true});}, function(reason){onCreationFinished({"success":false,"error":reason});});
 }
 
@@ -85,46 +85,62 @@ FileStorage.prototype.init = function (onCreationFinished){
 	var filename = this.conf.dbName;
 	var createTables = true;
 	if(!filename || filename == null || filename ==""){
-		this.storage =  new sqlite3.Database(':memory:');
+		this.storage =  new sqlite3.Database(':memory:', onDatabaseReady.bind(this));
 	}
 	else{
-		this.storage = new sqlite3.Database(filename);
+		this.storage = new sqlite3.Database(filename, onDatabaseReady.bind(this));
 	}
-	if(createTables){
-		//create Entity table
-		this.storage.run("CREATE TABLE IF NOT EXISTS Entity (id TEXT PRIMARY KEY, type TEXT NOT NULL)", onCreateEntityTableFinished.bind(this, onCreationFinished));
-
-		function onCreateEntityTableFinished(onCreationFinished, error){
-      if(error){
-				onCreationFinished({"success":false,"error":error});
-      }
-			else{
-			  //create StringAttributeValue table
-				this.storage.run("CREATE TABLE IF NOT EXISTS StringAttributeValue (id TEXT PRIMARY KEY, fk_entity_id TEXT NOT NULL, type TEXT NOT NULL, value TEXT NOT NULL)", onCreateStringTableFinished.bind(this, onCreationFinished));
+		
+	function onDatabaseReady(error){
+		if(error){
+			onCreationFinished({"success":false,"error":error});
+		}
+		else{
+			if(createTables){
+				//FIXME 
+				/*
+					sometimes an 
+						{"errno":14,"code":"SQLITE_CANTOPEN"}
+						{ Error: SQLITE_CANTOPEN: unable to open database file
+						at Error (native) errno: 14, code: 'SQLITE_CANTOPEN' }
+						onCreationFinished({"success":false,"error":error});
+					error is thrown here
+				*/
+				this.storage.run("CREATE TABLE IF NOT EXISTS Entity (id TEXT PRIMARY KEY, type TEXT NOT NULL)", onCreateEntityTableFinished.bind(this));							
 			}
-    }
-
-		function onCreateStringTableFinished(onCreationFinished, error){
-			if(error){
-				onCreationFinished({"success":false,"error":error});
-	    }
 			else{
-			  //create IntAttributeValue table
-				this.storage.run("CREATE TABLE IF NOT EXISTS IntAttributeValue (id TEXT PRIMARY KEY, fk_entity_id TEXT NOT NULL, type TEXT NOT NULL, value INT NOT NULL)", onCreateIntTableFinished.bind(this, onCreationFinished));
+				this.prepareStatements(onCreationFinished);
 			}
-    }
-
-		function onCreateIntTableFinished(onCreationFinished, error){
-	    if(error){
-		    onCreationFinished({"success":false,"error":error});
-      }
-	    else{
-		    this.prepareStatements(onCreationFinished);
-      }
-    }
+		}
 	}
-	else{
-		this.prepareStatements(onCreationFinished);
+	
+	function onCreateEntityTableFinished(error){
+	  if(error){
+			onCreationFinished({"success":false,"error":error});
+	  }
+		else{		
+			//create StringAttributeValue table		
+			this.storage.run("CREATE TABLE IF NOT EXISTS StringAttributeValue (id TEXT PRIMARY KEY, fk_entity_id TEXT NOT NULL, type TEXT NOT NULL, value TEXT NOT NULL)", onCreateStringTableFinished.bind(this));
+		}
+	}	
+
+	function onCreateStringTableFinished(error){
+		if(error){				
+			onCreationFinished({"success":false,"error":error});
+		}
+		else{
+			//create IntAttributeValue table
+			this.storage.run("CREATE TABLE IF NOT EXISTS IntAttributeValue (id TEXT PRIMARY KEY, fk_entity_id TEXT NOT NULL, type TEXT NOT NULL, value INT NOT NULL)", onCreateIntTableFinished.bind(this));
+		}
+	}
+
+	function onCreateIntTableFinished(error){
+		if(error){
+			onCreationFinished({"success":false,"error":error});
+	  }
+		else{
+			this.prepareStatements(onCreationFinished);
+	  }	
 	}
 }
 
@@ -141,9 +157,9 @@ function sqlRowsToObject(entity, attributes){
 
 //returns the attributes of the entity with the given id
 FileStorage.prototype.readEntity = function(id, onCrudOperationFinished){
-  this.get_entity_by_id_statement.get(id, onGetEntityFinished.bind(this,onCrudOperationFinished));
-
-  function onGetEntityFinished(onCrudOperationFinished, error, row){
+  this.get_entity_by_id_statement.get(id, onGetEntityFinished.bind(this)); 
+  
+  function onGetEntityFinished(error, row){
     if(error){
       onCrudOperationFinished({"success":false,"error":error});
     }
@@ -151,18 +167,18 @@ FileStorage.prototype.readEntity = function(id, onCrudOperationFinished){
       onCrudOperationFinished({"success":false,"error":"entity with id "+id+" not found"});
     }
     else{
-      this.get_entity_attributes_by_id_statement.all(id, onGetAttributesFinished.bind(this, row, onCrudOperationFinished));
+      this.get_entity_attributes_by_id_statement.all(id, onGetAttributesFinished.bind(this, row));
     }
   }
-
-  function onGetAttributesFinished(entity, onCrudOperationFinished, error, rows){
+  
+  function onGetAttributesFinished(entity, error, rows){
     if(error){
       onCrudOperationFinished({"success":false,"error":error});
     }
     else if(!rows){
       onCrudOperationFinished({"success":false,"error":"entity with id "+id+" not found"});
     }
-    else{
+    else{		
       var data = sqlRowsToObject(entity, rows)
       onCrudOperationFinished({"success":true, "data":data});
     }
@@ -171,36 +187,38 @@ FileStorage.prototype.readEntity = function(id, onCrudOperationFinished){
 
 //inserts a entity with the given id and type in the entity table. The given attributes are stored in the attributeValue table regarding to their type (int or string)
 FileStorage.prototype.createEntity = function(id, entity_type, data, onCrudOperationFinished){
-  //print stuff
-	var x = JSON.parse(JSON.stringify(data));
-	x.owner = JSON.parse(data.owner);
-	console.log('creating entity: '+JSON.stringify(x, null, 2));
-	onCrudOperationFinished({success:true, data: x});
-	//end of fix for demo
-	//this.store_entity_statement.run(id, entity_type, onStoreEntityFinished.bind(this));
-
+	this.store_entity_statement.run(id, entity_type, onStoreEntityFinished.bind(this));
+	
 	function onStoreEntityFinished(error){
 		if(error){
-		  onCrudOperationFinished({"success":false,"error":JSON.stringify(error)});
+		  onCrudOperationFinished({"success":false,"error":error});
 		}
 		else{
 		  //wrap insertions
-		  this.storage.run("BEGIN TRANSACTION");
-		  for (var type in data) {
-        if(typeof(data[type]) == "string")
-          this.store_string_attribute_value_statement.run(id+"_"+type, id, type, data[type]);
-        else if(typeof(data[type]) == "number")
-          this.store_int_attribute_value_statement.run(id+"_"+type, id, type, data[type]);
-        else
-          onCrudOperationFinished({"success":false,"error":"Type not string or int: "+typeof(data[type])});
-      }
-      this.storage.run("END", onCreationFinished.bind(this, onCrudOperationFinished));
+		  this.storage.run("BEGIN", onTransactionStart.bind(this));
 		}
 	}
-
-	function onCreationFinished(onCrudOperationFinished, error){
+	
+	function onTransactionStart(error){
+		if(error){
+			onCrudOperationFinished({"success":false,"error":error});
+		}
+		else{
+			for (var type in data) {        
+				if(typeof(data[type]) == "string")
+					this.store_string_attribute_value_statement.run(id+"_"+type, id, type, data[type]);
+				else if(typeof(data[type]) == "number")
+					this.store_int_attribute_value_statement.run(id+"_"+type, id, type, data[type]);
+				else
+					onCrudOperationFinished({"success":false,"error":"Type not string or int: "+typeof(data[type])});
+			}			
+			this.storage.run("COMMIT", onCreationFinished.bind(this));
+		}
+	}
+				
+	function onCreationFinished(error){
 	  if(error){
-		  onCrudOperationFinished({"success":false,"error":JSON.stringify(error)});
+		  onCrudOperationFinished({"success":false,"error":error});
 	  }
 	  else{
 	    onCrudOperationFinished({"success":true, "data":clone(data)});
@@ -210,90 +228,85 @@ FileStorage.prototype.createEntity = function(id, entity_type, data, onCrudOpera
 
 //updates the attributes of the entity with the given id
 FileStorage.prototype.updateEntity = function(id, data, onCrudOperationFinished){
-
-	this.delete_all_attributes_by_entity_id_statement.run(id, onAttributesDeleted.bind(this, onCrudOperationFinished));
-
-	function onAttributesDeleted(onCrudOperationFinished, error){
+	this.delete_all_attributes_by_entity_id_statement.run(id, onAttributesDeleted.bind(this));
+	
+	function onAttributesDeleted(error){
 	  if(error){
-	    onCrudOperationFinished({"success":false,"error":JSON.stringify(error)});
+	  	onCrudOperationFinished({"success":false,"error":error});
 	  }
 	  else{
 	    //wrap insertions
-		  this.storage.run("BEGIN TRANSACTION");
-		  for (var type in data) {
-        if(typeof(data[type]) == "string")
-          this.store_string_attribute_value_statement.run(id+"_"+type, id, type, data[type]);
-        else if(typeof(data[type]) == "number")
-          this.store_int_attribute_value_statement.run(id+"_"+type, id, type, data[type]);
-        else
-          onCrudOperationFinished({"success":false,"error":"Type not string or int: "+typeof(data[type])});
-      }
-      this.storage.run("END", onUpdateFinished.bind(this, onCrudOperationFinished));
+		  this.storage.run("BEGIN", onTransactionStart.bind(this));
 	  }
 	}
-
-	function onUpdateFinished (onCrudOperationFinished, error){
+	
+	function onTransactionStart(error){
+		if(error){
+			onCrudOperationFinished({"success":false,"error":error});
+		}
+		else{
+			for (var type in data) {        
+				if(typeof(data[type]) == "string")
+					this.store_string_attribute_value_statement.run(id+"_"+type, id, type, data[type]);
+				else if(typeof(data[type]) == "number")
+					this.store_int_attribute_value_statement.run(id+"_"+type, id, type, data[type]);
+				else
+					onCrudOperationFinished({"success":false,"error":"Type not string or int: "+typeof(data[type])});
+			}		
+			this.storage.run("COMMIT", onUpdateFinished.bind(this));
+		}
+	}
+	
+	function onUpdateFinished (error){
 	  if(error){
-		  onCrudOperationFinished({"success":false,"error":JSON.stringify(error)});
+		  onCrudOperationFinished({"success":false,"error":error});
 	  }
 	  else{
 	    onCrudOperationFinished({"success":true, "data":clone(data)});
 	  }
-  }
-
+  }	
 }
 
 //deletes the entity with the given id and all its attributes
 FileStorage.prototype.deleteEntity = function(id, onCrudOperationFinished){
-	this.delete_entity_by_id_statement.run(id, ondeleteEntityFinished.bind(this,onCrudOperationFinished));
-
-  function ondeleteEntityFinished(onCrudOperationFinished, error){
+	this.delete_entity_by_id_statement.run(id, ondeleteEntityFinished.bind(this));  
+	      
+  function ondeleteEntityFinished(error){
 		if(error){
-			onStorageFinished({"success":false,"error":JSON.stringify(error)});
+			onCrudOperationFinished({"success":false,"error":error});
 		}
 		else{
-		  this.delete_all_attributes_by_entity_id_statement.run(id, onAttributesDeleted.bind(this, onCrudOperationFinished));
-		}
+		  this.delete_all_attributes_by_entity_id_statement.run(id, onDeleteFinished.bind(this));
+		}		
 	}
-
-	function onAttributesDeleted(onCrudOperationFinished, error){
-    if(error){
-      onCrudOperationFinished({"success":false,"error":JSON.stringify(error)});
-    }
-    else{
-	    onCrudOperationFinished({"success":true});
-	  }
+	
+	function onDeleteFinished(error){
+		if(error){
+			onCrudOperationFinished({"success":false,"error":error});
+		}
+		else{
+			onCrudOperationFinished({"success":true});
+		}
 	}
 }
 
 FileStorage.prototype.crudOperation = function (id, entity_type, action, data, onCrudOperationFinished) {
 	if(action == this.READ){
-		this.readEntity(id, onCrudOperationFinished);
-	}
+		this.readEntity(id, onCrudOperationFinished);		
+	}	
 	else if(action == this.CREATE){
-		this.createEntity(id,entity_type,data,onCrudOperationFinished);
+		this.createEntity(id,entity_type,data,onCrudOperationFinished);		
 	}
 	else if(action == this.UPDATE){
-		this.updateEntity(id,data,onCrudOperationFinished);
+		this.updateEntity(id,data,onCrudOperationFinished);		
 	}
 	else if(action == this.DELETE){
-		this.deleteEntity(id,onCrudOperationFinished);
+		this.deleteEntity(id,onCrudOperationFinished);		
 	}
 	else{
 		var result = {"success":false,"error":"undefined type of action "+action+" for Storage"};
 		onCrudOperationFinished(result);
 	}
-
-	//var result = {"success":true,"error":""};
-	//this.onCrudOperationFinished(result);
 }
-
-//this function should be overwritten by the owner of this object using the API.
-//result.success is a boolean containing whether the action was successful. In case result.success is false, the error is stored in result.error.
-//result.data contains data in case result.success is true.
-/*FileStorage.prototype.onCrudOperationFinished = function(result){
-	console.log("FileStorage.prototype.onCrudOperationFinished should have been overwritten! - event not handled.");
-	throw "FileStorage.prototype.onCrudOperationFinished should have been overwritten! - event not handled";
-}*/
 
 module.exports = FileStorage;

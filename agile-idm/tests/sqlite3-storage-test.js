@@ -162,9 +162,6 @@ describe('Sqlite3Storage', function() {
       });       	
     });
 
-
-    //TODO do this also for update...
-
     it('should return copies, and make copies of data (instead of references)', function (done) {
       var storeConf = {"dbName":dbName};
       var storage = new Sqlite3Storage(storeConf);
@@ -189,7 +186,7 @@ describe('Sqlite3Storage', function() {
 	        delete result.data.type;//entity type is included so remove it to check
 	        if(deepdif.diff(originalData,result.data) == undefined){
 		        done();	
-	        }//if this fails. we could check with data1 and data2 to see what is happening
+	        }
         }		
         else throw "data  not present after storing it!";	
       }
