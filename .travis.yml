@@ -1,5 +1,8 @@
 language: node_js
 node_js:
   - "stable"
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y libpam0g-dev
 script: cd agile-idm && npm install && npm test
 
