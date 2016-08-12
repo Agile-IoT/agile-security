@@ -1,12 +1,12 @@
 var assert = require('assert');
-const Api = require('../inner-api/api.js');
-const Validator = require('../inner-api/validator/validator');
-const Authorization	 = require('../inner-api/authorization/authorization.js');
-const FileStorage	 = require('../inner-api/storage/file-storage.js');
+const Api = require('../agile-idm/inner-api/api.js');
+const Validator = require('../agile-idm/inner-api/validator/validator');
+const Authorization	 = require('../agile-idm/inner-api/authorization/authorization.js');
+const FileStorage	 = require('../agile-idm/inner-api/storage/file-storage.js');
 
 const fs = require('fs');
 
-var fp = './conf/validator-entities.conf';
+var fp = './agile-idm/conf/validator-entities.conf';
 var d = fs.readFileSync(fp,{encoding:'utf-8'})
 var sch = JSON.parse(d);
 var dummyAuth = {

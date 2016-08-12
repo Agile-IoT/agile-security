@@ -1,5 +1,5 @@
 var assert = require('assert');
-const Authorization	 = require('../inner-api/authorization/authorization.js');
+const Authorization	 = require('../agile-idm/inner-api/authorization/authorization.js');
 
 
 describe('authorization', function() {
@@ -14,7 +14,7 @@ describe('authorization', function() {
         }
 	else throw result.error;
       }
-      authz.validateActionAuthorized("user",{"username":"juan"},"create","id123","principal_executingAction",onvalidateActionAuthorizedFinished);	
+      authz.validateActionAuthorized("user",{"username":"juan"},"create","id123","principal_executingAction",onvalidateActionAuthorizedFinished);
     });
 
 

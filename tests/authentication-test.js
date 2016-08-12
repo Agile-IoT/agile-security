@@ -1,5 +1,5 @@
 var assert = require('assert');
-const Auth = require('../inner-api/authentication/authentication.js');
+const Auth = require('../agile-idm/inner-api/authentication/authentication.js');
 
 
 describe('authentication', function() {
@@ -14,7 +14,7 @@ describe('authentication', function() {
         }
 	else throw result.error;
       }
-      auth.authenticateEntity("wrong-auth-type","juan.com","password",onAuthenticationFinished);	
+      auth.authenticateEntity("wrong-auth-type","juan.com","password",onAuthenticationFinished);
     });
 
 

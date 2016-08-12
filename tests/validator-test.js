@@ -1,5 +1,5 @@
 var assert = require('assert');
-const Validator = require('../inner-api/validator/validator.js');
+const Validator = require('../agile-idm/inner-api/validator/validator.js');
 describe('validator', function() {
   describe('#validate()', function () {
     it('should return values_missing when creating entity missing a required property from the schema', function () {
@@ -7,7 +7,7 @@ describe('validator', function() {
       var schema = [{
 	"entity_type": "user",
 	"attributes": [{
-			 "name": "username", 
+			 "name": "username",
 			 "mandatory":true
 			}, {
 			 "name": "domain",
@@ -36,7 +36,7 @@ describe('validator', function() {
          var schema = [{
 	"entity_type": "user",
 	"attributes": [{
-			 "name": "username", 
+			 "name": "username",
 			 "mandatory":true
 			}, {
 			 "name": "domain",
@@ -59,7 +59,7 @@ describe('validator', function() {
       var schema = [{
 	"entity_type": "user",
 	"attributes": [{
-			 "name": "username", 
+			 "name": "username",
 			 "mandatory":true
 			}, {
 			 "name": "domain",
@@ -83,7 +83,7 @@ describe('validator', function() {
       var schema = [{
 	"entity_type": "user",
 	"attributes": [{
-			 "name": "username", 
+			 "name": "username",
 			 "mandatory":true
 			}, {
 			 "name": "domain",
@@ -106,7 +106,7 @@ describe('validator', function() {
       var schema = [{
 	"entity_type": "user",
 	"attributes": [{
-			 "name": "username", 
+			 "name": "username",
 			 "mandatory":true
 			}, {
 			 "name": "domain",

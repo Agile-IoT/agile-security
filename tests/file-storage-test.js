@@ -1,7 +1,7 @@
 const assert = require('assert');
 const deepdif = require('deep-diff');
 const clone = require('clone');
-const FileStorage	 = require('../inner-api/storage/file-storage.js');
+const FileStorage	 = require('../agile-idm/inner-api/storage/file-storage.js');
 
 
 describe('fileStorage', function() {
@@ -12,10 +12,10 @@ describe('fileStorage', function() {
       function onCrudOperationFinished (result){
 	if(result.success == false){
 		done();
-        }	
-	else throw result.error;	
+        }
+	else throw result.error;
       }
-      storage.crudOperation("unexistent-stuff", "type", storage.READ, undefined, onCrudOperationFinished);	
+      storage.crudOperation("unexistent-stuff", "type", storage.READ, undefined, onCrudOperationFinished);
     });
 
 
@@ -29,10 +29,10 @@ describe('fileStorage', function() {
 		delete result.data.id;//id is included so remove it to check
 		if(deepdif.diff(data,result.data) == undefined){
 			storage.crudOperation("1","type", storage.READ,"" , onReadFinished.bind(this,data));
-			
+
 		}
-		else throw "data returned from CREATE doesn't match what I intended to store!";	
-        }	
+		else throw "data returned from CREATE doesn't match what I intended to store!";
+        }
 	else throw result;
       }
       function onReadFinished(data, result){
@@ -40,15 +40,15 @@ describe('fileStorage', function() {
 		delete result.data.id;//id is included so remove it to check
 		if(deepdif.diff(data,result.data) == undefined){
 			//after reading the same element as it was created... then we are fine
-			done();	
+			done();
 		}
-		else throw "data returned from READ, after CREATE doesn't match what I intended to store!";	
-        }	
+		else throw "data returned from READ, after CREATE doesn't match what I intended to store!";
+        }
 	else throw result;
 
       }
       data = {"data":123,"item":123};
-      storage.crudOperation("1","type", storage.CREATE,data , onCreateFinished.bind(this,data));	
+      storage.crudOperation("1","type", storage.CREATE,data , onCreateFinished.bind(this,data));
     });
 
 
@@ -64,10 +64,10 @@ describe('fileStorage', function() {
 		delete result.data.id;//id is included so remove it to check
 		if(deepdif.diff(data,result.data) == undefined){
 			data["new_thing"]="a";
-			storage.crudOperation("1","type", storage.UPDATE, data, onUpdateFinished.bind(this,data));			
+			storage.crudOperation("1","type", storage.UPDATE, data, onUpdateFinished.bind(this,data));
 		}
-		else throw "data returned from CREATE doesn't match what I intended to store!";	
-        }	
+		else throw "data returned from CREATE doesn't match what I intended to store!";
+        }
 	else throw result;
       }
 
@@ -76,32 +76,32 @@ describe('fileStorage', function() {
 		delete result.data.id;//id is included so remove it to check
 		if(deepdif.diff(data,result.data) == undefined){
 			storage.crudOperation("1","type", storage.READ,"", onSecondRead.bind(this,data));
-				
+
 		}
-		else throw "data returned from READ, after CREATE doesn't match what I intended to store!";	
-       	 }	
+		else throw "data returned from READ, after CREATE doesn't match what I intended to store!";
+       	 }
 	 else throw result;
 
       }
-      
-      function onSecondRead(data, result){	
+
+      function onSecondRead(data, result){
 		if(result.success){
 			delete result.data.id;
 			if(deepdif.diff(data,result.data) == undefined){
-			        done();	
+			        done();
        			 }
 			else{
-				
+
 				throw "data was not updated succesfully"
 			}
-		}		
+		}
 		else{
 			 console.log(JSON.stringify(result));
-			 throw "cannot read after the update";	
+			 throw "cannot read after the update";
 		}
       }
       data = {"data":123,"item":123};
-      storage.crudOperation("1","type", storage.CREATE,data , onCreateFinished.bind(this,data));	
+      storage.crudOperation("1","type", storage.CREATE,data , onCreateFinished.bind(this,data));
     });
 
 
@@ -114,10 +114,10 @@ describe('fileStorage', function() {
 		delete result.data.id;//id is included so remove it to check
 		if(deepdif.diff(data,result.data) == undefined){
 			storage.crudOperation("1","type", storage.READ,"" , onReadFinished.bind(this,data));
-			
+
 		}
-		else throw "data returned from CREATE doesn't match what I intended to store!";	
-        }	
+		else throw "data returned from CREATE doesn't match what I intended to store!";
+        }
 	else throw result;
       }
       function onReadFinished(data, result){
@@ -125,31 +125,31 @@ describe('fileStorage', function() {
 		delete result.data.id;//id is included so remove it to check
 		if(deepdif.diff(data,result.data) == undefined){
 			storage.crudOperation("1", "type", storage.DELETE,"" , onDelete.bind(this,data));
-				
+
 		}
-		else throw "data returned from READ, after CREATE doesn't match what I intended to store!";	
-       	 }	
+		else throw "data returned from READ, after CREATE doesn't match what I intended to store!";
+       	 }
 	 else throw result;
 
       }
-      
+
       function onDelete(data, result){
 
 	 if(result.success == true){
 		storage.crudOperation("1","type", storage.READ,"", onSecondRead.bind(this,data));
-       	 }	
+       	 }
 	 else throw result;
 
       }
-      
-      function onSecondRead(data, result){	
+
+      function onSecondRead(data, result){
 		if(result.success == false){
-			done();	
-		}		
-		else throw "data was not removed succesfully. it is still there!";	
+			done();
+		}
+		else throw "data was not removed succesfully. it is still there!";
       }
       data = {"data":123,"item":123};
-      storage.crudOperation("1", "type", storage.CREATE,data , onCreateFinished.bind(this,data));	
+      storage.crudOperation("1", "type", storage.CREATE,data , onCreateFinished.bind(this,data));
     });
 
 
@@ -169,25 +169,25 @@ describe('fileStorage', function() {
 		if(deepdif.diff(data,result.data) == undefined){
 			data["new_thing"]="a";
 			result.data["new_thing"]="b";
-			storage.crudOperation("1","type", storage.READ, "", onSecondRead.bind(this,originalData, data,result.data));			
+			storage.crudOperation("1","type", storage.READ, "", onSecondRead.bind(this,originalData, data,result.data));
 		}
-		else throw "data returned from CREATE doesn't match what I intended to store!";	
-        }	
+		else throw "data returned from CREATE doesn't match what I intended to store!";
+        }
 	else throw result;
       }
 
-      
-      function onSecondRead(originalData,data1,data2,result){	
+
+      function onSecondRead(originalData,data1,data2,result){
 		if(result.success == true){
 			delete result.data.id;//id is included so remove it to check
 			if(deepdif.diff(originalData,result.data) == undefined){
-				done();	
+				done();
 			}//if this fails. we could check with data1 and data2 to see what is happening
-		}		
-		else throw "data  not present after storing it!";	
+		}
+		else throw "data  not present after storing it!";
       }
       data = {"data":123,"item":123};
-      storage.crudOperation("1", "type", storage.CREATE,data , onCreateFinished.bind(this,data));	
+      storage.crudOperation("1", "type", storage.CREATE,data , onCreateFinished.bind(this,data));
     });
 
 

@@ -1,13 +1,13 @@
 var dbus = require('dbus-native');
-const IDMDbusApi= require('../external-api/d-bus/idm-session-dbus.js');
+const IDMDbusApi= require('../agile-idm/external-api/d-bus/idm-session-dbus.js');
 var fs = require('fs');
-const Api = require('../inner-api/api.js');
-const FileStorage	 = require('../inner-api/storage/file-storage.js');
-const Validator = require('../inner-api/validator/validator.js');
-const Authentication = require('../inner-api/authentication/authentication.js');
+const Api = require('../agile-idm/inner-api/api.js');
+const FileStorage	 = require('../agile-idm/inner-api/storage/file-storage.js');
+const Validator = require('../agile-idm/inner-api/validator/validator.js');
+const Authentication = require('../agile-idm/inner-api/authentication/authentication.js');
 
 
-const IDMClient = require('../api-clients/dbus-session-client.js');
+const IDMClient = require('../agile-idm/api-clients/dbus-session-client.js');
 
 
 
@@ -15,14 +15,14 @@ const IDMClient = require('../api-clients/dbus-session-client.js');
 
 
 var assert = require('assert');
-const Authorization	 = require('../inner-api/authorization/authorization.js');
+const Authorization	 = require('../agile-idm/inner-api/authorization/authorization.js');
 
 
 describe('client-idm', function() {
   describe('#registerEntity()', function () {
     it('should return success after registering the entity TODO fix still async', function (done) {
 
-	var fp = './conf/validator-entities.conf';
+	var fp = './agile-idm/conf/validator-entities.conf';
 	var d = fs.readFileSync(fp,{encoding:'utf-8'})
         var sch = JSON.parse(d);
 	//dummy auth
@@ -33,7 +33,7 @@ describe('client-idm', function() {
 			  result.data["id"] = "test_id";
 			  result.data["auth_type"]="test_auth_type";
 			  onAuthenticationFinished(result);
-			}	
+			}
 	}
 	var conf = {
 	  filePath : fp,
@@ -44,10 +44,10 @@ describe('client-idm', function() {
 	  authz : new Authorization(),
 	  storage : new FileStorage()
 	};
-	
+
 	var api = new IDMDbusApi(conf);
 	api.run();
-		
+
 	//finished with the server setup... now the client
         function afterIDMAction(done, result){
 		if(result.success && result.res == 2){//current return value for received request... TODO still cannot check the actual result.. need to add async calls
@@ -62,4 +62,3 @@ describe('client-idm', function() {
       })
   });
 });
-

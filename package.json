@@ -9,12 +9,21 @@
   "dependencies": {
     "escape-html":"1.0.3",
     "clone":"1.0.2",
-    "request":"2.42.0",
+    "request": "2.x",
     "express": "^4.13.4",
+    "express-session": "^1.14.0",
     "body-parser":"1.x",
+    "cors":"2.7.x",
+    "cookie-parser": "1.4.3",
     "cors":"2.7.1",
     "sqlite3":"3.1.4",
-    "dbus-native":"0.2.0"	
+    "dbus-native":"0.2.0",
+    "authenticate-pam": "1.0.2",
+    "googleapis": "8.x",
+    "node-rsa": "0.3.x",
+    "webid": "^0.3.7",
+    "node-uuid":"1.4.7",
+    "simple-oauth2":"0.8.0"
   },
   "devDependencies" : {
     "mocha": "2.4.5",
