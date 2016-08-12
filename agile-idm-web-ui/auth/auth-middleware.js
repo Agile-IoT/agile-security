@@ -25,9 +25,8 @@
 
 
 const GithubOauth2 = require('./oauth2-github.js');
-/*
-const DropboxOauth2 = require('./oauth2-dropbox.js');
-const DriveOauth2 = require('./oauth2-drive.js');*/
+//const DropboxOauth2 = require('./oauth2-dropbox.js');
+const GoogleOauth2 = require('./oauth2-google.js');
 const PamAuth = require('./pam-auth.js');
 const WebID = require('./web-id.js');
 
@@ -48,7 +47,7 @@ function Oauth2(app, conf){
 
  //var dauth = new DropboxOauth2(app, conf["auth"]["dropbox"], this.storage);
  var gh = new GithubOauth2(app, conf["auth"]["github"], this.storage);
- //var drive = new DriveOauth2(app, conf["auth"]["google"], this.storage);
+ var google = new GoogleOauth2(app, conf["auth"]["google"], this.storage);
  var pam_auth = new PamAuth(app, conf["auth"]["pam"], this.storage);
  var webID = new WebID(app, conf["auth"]["web-id"], this.storage);
 

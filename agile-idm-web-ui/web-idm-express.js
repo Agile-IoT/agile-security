@@ -1,5 +1,5 @@
 /*
-This component integrates everything the Web interfacea, authentication and HTTP rest API in an express node js app.
+This component integrates everything the Web interfaces, authentication and HTTP rest API in an express node js app.
 */
 
 var express = require('express');
@@ -34,7 +34,7 @@ function WebIDMComponent(app, conf,onFinished){
     app.use(cookieParser());
     //set up authentication middleware. That includes all the Oauth2, pam_unix, etc. endpoints to express. This component also maps cookies to tokens
     var dauth = new AuthenticationMiddleware(app, conf);
-    //include the validation middleware. This component validates cookies and redirects to the login pages sites not mathing the allowed urls in the configuration
+    //include the validation middleware. This component validates cookies and redirects to the login pages sites not matching the allowed urls in the configuration
     conf.login.exclude_prefix.push("/api/");//to give access to the api calls introduced by HttpRest
     conf.login.exclude_prefix.push("/web_id/");//to give access to the api calls introduced by HttpRest
     var validator = new ValidationMiddleware(conf);

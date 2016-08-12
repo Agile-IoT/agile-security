@@ -3,6 +3,7 @@ var idmPort = '9090';
 
 
 var github_url= "http://localhost:3000/github";
+var google_url= "http://localhost:3000/google";
 var web_id_url= "https://localhost:1443/web_id";
 /**
  * Creates a table containing the provided json for display.
