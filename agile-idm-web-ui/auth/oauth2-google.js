@@ -35,8 +35,8 @@ function GoogleOauth2(app, conf, storage){
 	var authorization_uri = oauth2.authCode.authorizeURL({
 		redirect_uri: conf.host_name+conf.redirect_path,
 		scope: conf.scope
-	});	
-	
+	});
+
 	// Initial page redirecting to Google Drive
 	app.get(conf.initial_path, function (req, res) {
 		res.redirect(authorization_uri);
@@ -50,7 +50,7 @@ function GoogleOauth2(app, conf, storage){
 			redirect_uri: conf.host_name + conf.redirect_path
 		}, saveToken.bind(this, res));
 	});
-	
+
 	//save the token after the end of the flow
 	function saveToken(res, error, result) {
 		//TODO improve error handling!
@@ -63,7 +63,7 @@ function GoogleOauth2(app, conf, storage){
 			exchangeTokenByPrincipal(token.token, exchangeTokenByPrincipalFinished.bind(this, res, token));
 		}
 	}
-	
+
 	function parseResult(result){
 			var res = {};
 			res.token = result.access_token;
@@ -77,22 +77,25 @@ function GoogleOauth2(app, conf, storage){
 			var options = {
 				url: "https://www.googleapis.com/oauth2/v3/userinfo",
 				headers: {
-					"Authorization": "Bearer "+credentials, 
+					"Authorization": "Bearer "+credentials,
 					"User-Agent": "user-agent",
 					"content-type": "application/json"
 				}
 			};
 			request.get(options, function(error, response, body){
 				if (!error && response.statusCode == 200) {
-					var result = {"success":true,"error":"","data":{}};					
+					var result = {"success":true,"error":"","data":{}};
 					res = JSON.parse(body);
-					console.log(res);
+					//console.log(res);
 					result.data["username"] = res["name"];
-					result.data["id"] = res["sub"];
+					result.data["id"] = res["email"];
+					if(result.data["id"].indexOf("@")>1){//get username from email address
+						   result.data["id"]= result.data["id"].substring(0,result.data["id"].indexOf('@'));
+					}
 					if("email" in res && "email_verified" in res && res["email_verified"]){
 						result.data["email"] = res["email"];
 					}
-					resolve(result);						
+					resolve(result);
 				}
 				else if (!error) {
 					var result = {"success":false, "error": "wrong satus code from authentication: "+response.statusCode+" error "+ body};
@@ -106,19 +109,19 @@ function GoogleOauth2(app, conf, storage){
 					reject(result);
 				}
 			});
-		}); 
-		
+		});
+
 		var getTokenInfo = new Promise((resolve, reject) => {
 			var options = {
 				url: "https://www.googleapis.com/oauth2/v3/tokeninfo",
 				qs: {
 					'access_token': credentials
-				}                               
+				}
 			};
 			request.get(options, function(error, response, body){
 				if (!error && response.statusCode == 200){
 					res = JSON.parse(body);
-					console.log(res);
+
 					resolve({"expiration": res["exp"], "scope": res["scope"]});
 				}
 				else if (!error) {
@@ -133,19 +136,19 @@ function GoogleOauth2(app, conf, storage){
 					reject(result);
 				}
 			});
-		}); 
-		
+		});
+
 		Promise.all([getUserInfo, getTokenInfo]).then(
 			function(results){
 				onAuthenticationFinished(results);
-			}, 
+			},
 			function(reason){
 				onAuthenticationFinished(reason);
 			}
-		);		
-	}  
+		);
+	}
 
-	function exchangeTokenByPrincipalFinished(res, token, result){		
+	function exchangeTokenByPrincipalFinished(res, token, result){
 		if(result[0].success && result[0].data){
 			token["user_id"] = result[0].data.id;
 			token["expiration"] = result[1].expiration;
