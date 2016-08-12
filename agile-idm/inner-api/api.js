@@ -16,7 +16,7 @@ var Api = function (authenticationObject,validatorObject, authorizationObject,st
 	this.authentication = new Authentication();
    	this.validator = new Validator(schema);
   	this.authz = new Authorization();
-   	this.storage = new FileStorage();
+   	this.storage = storageObject;
 
    }
    else{
