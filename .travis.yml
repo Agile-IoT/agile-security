@@ -4,5 +4,6 @@ node_js:
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y libpam0g-dev
-
+install:
+  - npm run-script no-auth-install
 

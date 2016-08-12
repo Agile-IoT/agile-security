@@ -18,7 +18,7 @@
     "cors":"2.7.1",
     "sqlite3":"3.1.4",
     "dbus-native":"0.2.0",
-    "authenticate-pam": "1.0.2",
+    "authenticate-pam":"1.0.2",
     "googleapis": "8.x",
     "node-rsa": "0.3.x",
     "webid": "^0.3.7",
@@ -31,6 +31,7 @@
     "assert":"1.4.1"
   },
   "scripts": {
+    "no-auth-install":"cp package.json package.json.back; cat package.json |grep -v authenticate-pam>package1.json; mv package1.json package.json;npm install;mv package.json.back package.json",
     "test": "mocha tests/*.js"
   },
   "keywords": [

@@ -95,7 +95,7 @@ cd agile-idm-web-ui
 npm install
 node ui-server.js
 ```
-libpam0g-dev is a library required to perform PAM authentication, i.e. native linux authentication. This allows users to provide usernames and passwords to authenticate themselves with the underlying operating system So, if this functionality is not going to be used, you can remove "authenticate-pam" from the package.json file and then ignore the apt-get command above.
+libpam0g-dev is a library required to perform PAM authentication, i.e. native linux authentication. This allows users to provide usernames and passwords to authenticate themselves with the underlying operating system So, if this functionality is not going to be used, you can execute  npm run-script no-auth-install instead of npm install and ignore the apt-get, or remove "authenticate-pam" from the package.json file and then ignore the apt-get command above.
 
 and to run the core component (D-bus), you can execute the following commands (from the root of the folder checked out):
 
