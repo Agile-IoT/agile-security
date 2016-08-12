@@ -123,10 +123,10 @@ To test the demo follow this actions:
 
 ### Troubleshooting
 
-As always... things could go wrong. So, here are a couple of common errors you may see once you attempt to register a sensor:
-
-* you get "The name eu.agile.IDM was not provided by any .service files" error when you attempt to register a sensor: This happens when the core component (agile-idm/external-api/main.js) is not running.
-
+As always... things could go wrong. So, here are a couple of common errors you may see:
+* when you attempt to register a sensor:
+** you get "The name eu.agile.IDM was not provided by any .service files" error when you attempt to register a sensor: This happens when the core component (agile-idm/external-api/main.js) is not running.
+** you get "Error: 200 SyntaxError: JSON.parse: unexpected character at line 1 column 1 of the JSON data". This happens because the authentication step has not been performed (with any IdP provider...)
 
 
 ## Developer Documentation
