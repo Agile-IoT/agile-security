@@ -6,7 +6,7 @@ before_install:
   - sudo apt-get install -y libpam0g-dev
 install: 
   - pwd
-  - cd ../agile-idm-web-ui && npm install
+  - cd agile-idm-web-ui && npm install
   - cd ../agile-idm && npm install
 
 
