@@ -62,8 +62,8 @@ Assuming that you have retrieved a **client Id** 5y4rye1946, and a **clientSecre
        }
 }
 ```
-
-To get the client credentials from github, go to your profile > Settings. Then clock on the left OAuth2 applications menu on the left hand side.
+####Github step by step####
+To get the client credentials from github, go to your profile > Settings. Then click on OAuth2 applications menu on the left hand side.
 By default, this menu opens the __Authorized applications_. Then, click on the second tab __Developer Applications__ and register a new application.
 There, create any application name.
 
@@ -71,6 +71,56 @@ In the application URL, place the combination of $host_name+$initial_path (http:
 For the authorization URL, you should place    $host_name+$redirect_path (http://localhost:3000/callback_github in the example above).
 
 Then create the application, and place the client Id and client secret in the proper configuration fields.
+
+####Google Drive step by step####
+To get the client credentials from Google Drive you have to go to the [Google Developer Console](https://console.developers.google.com/).
+By defauslt you are redirected to the **Library** menu. If not, simply click onto the **Library** tab on the left hand side.
+To use the Google OAuth2 authentication for IDM you have to enable **Drive API**. In order to do that, click onto the link **Drive API** below the heading **Google Apps APIs** (see image 1).
+If not done yet, you will be asked to create a project in order to enable the API. Therefore click on the **create project** button (see image 2).
+In the following dialog click onto the **Create a project** button.
+Enter the name of the project to be created and chose the options you like (see image 3). 
+Make sure you agree the terms of service and a click on the **Create** button will create the project for you. This may take some seconds.
+After the creation of the project you are redirected back to the page where you can enable the Drive API (image 2).
+On the top of the site right next to **Google Drive API** heading click the **Enable** button.
+
+To be able to use the OAUth2 in IDM you need the client Id and the client secret. To obtain them click onto the **Credentials** tab on the left hand side (see image 4).
+As there are no credentials in the newly created project, yet you are asked to create them. Do so by clicking the button **Create credentials** and choosing **OAuth client ID**.
+First you are asked to create a consent screen which is shown whenever a user is asked to log in in order to authenticate to your app. Therefore click the **Configure consent screen** button.
+Here you can put some information. The only required fields are the **Email address** and the **Product name** ones. Fill out the formfields and click the **Save** button.
+Now back on the Credentials site choose **Web application** and fill out the two fields.
+In the first one named **Authorized JavaScript origins** you have to put the website that asks the user to authenticate.
+As paths are not allowed here you have to use the base URI $host_name (http://localhost:3000 according to the example above).
+With the second field named **Authorized redirect URIs** you specify the url to wich the user will be redirected after authentication.
+You should use $host_name+$redirect_path (http://localhost:3000/callback_google in the example above).
+Click the **Create** button and you will receive the needed client Id and client secret.
+Later you can always view the credentials again by clicking on the name of your product on the credentials site.
+Use the client Id and client secret and update the following fields in the configuration file:
+
+* clientID: OAuth2 client
+* clientSecret: OAuth2 secret
+* host_name: host and port where the AGILE gateway is running.
+
+Assuming that you have retrieved a **client Id** 5y4rye1946, and a **clientSecret** vz20g6010oxttt0gyqv2, and that the gateway is running in localhost:3000 the google configuration should look like this:
+
+```
+"auth":{
+       "github":{
+            ...
+       },
+       "google":{
+				"clientID": "5y4rye1946",
+				"clientSecret": "vz20g6010oxttt0gyqv2",
+				"host_name": "http://localhost:3000",
+				"redirect_path": "/callback_google",
+				"initial_path": "/google",
+				"final_path":"/static/index.html",
+				"site": "https://accounts.google.com",
+				"authorizationPath": "/o/oauth2/auth",
+				"tokenPath": "/o/oauth2/token",
+				"scope": "https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
+		}
+}
+```
 
 ### Web-ID TLS Certificate Configuration  (Optional)
 
@@ -123,10 +173,10 @@ To test the demo follow this actions:
 
 ### Troubleshooting
 
-As always... things could go wrong. So, here are a couple of common errors you may see:
-* when you attempt to register a sensor:
-** you get "The name eu.agile.IDM was not provided by any .service files" error when you attempt to register a sensor: This happens when the core component (agile-idm/external-api/main.js) is not running.
-** you get "Error: 200 SyntaxError: JSON.parse: unexpected character at line 1 column 1 of the JSON data". This happens because the authentication step has not been performed (with any IdP provider...)
+As always... things could go wrong. So, here are a couple of common errors you may see once you attempt to register a sensor:
+
+* you get "The name eu.agile.IDM was not provided by any .service files" error when you attempt to register a sensor: This happens when the core component (agile-idm/external-api/main.js) is not running.
+
 
 
 ## Developer Documentation
