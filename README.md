@@ -6,7 +6,8 @@ AGILE Identity Management uses Identity Providers (IdPs) already available to au
 These Identity Providers include:
 * Linux-Pam authentication
 * Github
-* WebID (to be implemented)
+* Google
+* WebID
 
 Further, IDM is split in two components. A web-server (at the moment it is required, but it will be optional in the future), and a loca component exposing an API through D-Bus.
 
