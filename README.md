@@ -63,6 +63,7 @@ Assuming that you have retrieved a **client Id** 5y4rye1946, and a **clientSecre
 }
 ```
 ####Github step by step####
+
 To get the client credentials from github, go to your profile > Settings. Then click on OAuth2 applications menu on the left hand side.
 By default, this menu opens the __Authorized applications_. Then, click on the second tab __Developer Applications__ and register a new application.
 There, create any application name.
@@ -145,7 +146,7 @@ cd agile-idm-web-ui
 npm install
 node ui-server.js
 ```
-libpam0g-dev is a library required to perform PAM authentication, i.e. native linux authentication. This allows users to provide usernames and passwords to authenticate themselves with the underlying operating system So, if this functionality is not going to be used, you can execute  npm run-script no-auth-install instead of npm install and ignore the apt-get, or remove "authenticate-pam" from the package.json file and then ignore the apt-get command above.
+libpam0g-dev is a library required to perform PAM authentication, i.e. native linux authentication. This allows users to provide usernames and passwords to authenticate themselves with the underlying operating system So, if this functionality is not going to be used, you can remove "authenticate-pam" from the package.json file and then ignore the apt-get command above.
 
 and to run the core component (D-bus), you can execute the following commands (from the root of the folder checked out):
 
@@ -173,9 +174,10 @@ To test the demo follow this actions:
 
 ### Troubleshooting
 
-As always... things could go wrong. So, here are a couple of common errors you may see once you attempt to register a sensor:
-
-* you get "The name eu.agile.IDM was not provided by any .service files" error when you attempt to register a sensor: This happens when the core component (agile-idm/external-api/main.js) is not running.
+As always... things could go wrong. So, here are a couple of common errors you may see:
+* when you attempt to register a sensor:
+** you get "The name eu.agile.IDM was not provided by any .service files" error when you attempt to register a sensor: This happens when the core component (agile-idm/external-api/main.js) is not running.
+** you get "Error: 200 SyntaxError: JSON.parse: unexpected character at line 1 column 1 of the JSON data". This happens because the authentication step has not been performed (with any IdP provider...)
 
 
 
