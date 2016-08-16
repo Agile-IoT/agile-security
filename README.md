@@ -1,5 +1,7 @@
-# AGILE Identity Management
 [![Build Status](https://travis-ci.org/Agile-IoT/agile-IDM.svg?branch=master)](https://travis-ci.org/Agile-IoT/agile-IDM)
+
+# AGILE Identity Management
+
 ## Architecture
 
 AGILE Identity Management uses Identity Providers (IdPs) already available to authenticate users of the gateway.
@@ -79,7 +81,7 @@ By defauslt you are redirected to the **Library** menu. If not, simply click ont
 To use the Google OAuth2 authentication for IDM you have to enable **Drive API**. In order to do that, click onto the link **Drive API** below the heading **Google Apps APIs** (see image 1).
 If not done yet, you will be asked to create a project in order to enable the API. Therefore click on the **create project** button (see image 2).
 In the following dialog click onto the **Create a project** button.
-Enter the name of the project to be created and chose the options you like (see image 3). 
+Enter the name of the project to be created and chose the options you like (see image 3).
 Make sure you agree the terms of service and a click on the **Create** button will create the project for you. This may take some seconds.
 After the creation of the project you are redirected back to the page where you can enable the Drive API (image 2).
 On the top of the site right next to **Google Drive API** heading click the **Enable** button.
@@ -141,12 +143,13 @@ In this object you can place the path to your own server key and certificate.  H
 To run the web server, including oauth2, web id, pam, and REST HTTP api for authentication execute the following commands after checking out the project:
 
 ```
+npm install
 sudo apt-get install libpam0g-dev
 cd agile-idm-web-ui
-npm install
 node ui-server.js
 ```
-libpam0g-dev is a library required to perform PAM authentication, i.e. native linux authentication. This allows users to provide usernames and passwords to authenticate themselves with the underlying operating system So, if this functionality is not going to be used, you can remove "authenticate-pam" from the package.json file and then ignore the apt-get command above.
+
+libpam0g-dev is a library required to perform PAM authentication, i.e. native linux authentication. This allows users to provide usernames and passwords to authenticate themselves with the underlying operating system So, if this functionality is not going to be used, you can execute  npm run-script no-auth-install instead of npm install and ignore the apt-get, or remove "authenticate-pam" from the package.json file and then ignore the apt-get command above.
 
 and to run the core component (D-bus), you can execute the following commands (from the root of the folder checked out):
 
