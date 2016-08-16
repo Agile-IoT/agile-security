@@ -66,14 +66,65 @@ Assuming that you have retrieved a **client Id** 5y4rye1946, and a **clientSecre
 ```
 ####Github step by step####
 
-To get the client credentials from github, go to your profile > Settings. Then click on OAuth2 applications menu on the left hand side.
-By default, this menu opens the __Authorized applications_. Then, click on the second tab __Developer Applications__ and register a new application.
-There, create any application name.
+To get the client credentials from github, go to github homepage, log in and click on your profile image. In the drop down menu select **Settings** (see image 1).
 
-In the application URL, place the combination of $host_name+$initial_path (http://localhost:3000/github according to the example above).
-For the authorization URL, you should place    $host_name+$redirect_path (http://localhost:3000/callback_github in the example above).
+<table align="center">
+	<tr>
+		<td><img src="docs/images/tutorialGithub1.PNG" /></td>
+		<td><img src="docs/images/tutorialGithub2.PNG" /></td>
+	</tr>
+	<tr align="center">
+		<td>
+			Image 1
+		</td>
+		<td>
+			Image 2
+		</td>
+	</tr>
+</table>
 
-Then create the application, and place the client Id and client secret in the proper configuration fields.
+Then click on OAuth2 applications in the menu on the left hand side (see image 2).  
+By default, this option opens the **Authorized applications** site (see image 3). Therefore you have to switch to the second tab **Developer Applications** (see image 4).
+
+<table align="center">
+	<tr>
+		<td><img src="docs/images/tutorialGithub3.PNG" /></td>
+		<td><img src="docs/images/tutorialGithub4.PNG" /></td>
+	</tr>
+	<tr align="center">
+		<td>
+			Image 3
+		</td>
+		<td>
+			Image 4
+		</td>
+	</tr>
+</table>
+
+There you can register a new application. To do so, click on the **Register a new application** button.  
+On the next site you have to fill three required fields (see image 5):  
+With the first one "**Application name**" you can name your application.
+The second flield named **Homepage URL** place the combination of $host_name+$initial_path (http://localhost:3000/github according to the example above).  
+For the last field **Authorization callback URL**, you should place $host_name+$redirect_path (http://localhost:3000/callback_github in the example above).  
+After filling the form click the **Register application** button.
+
+<table align="center">
+	<tr>
+		<td><img src="docs/images/tutorialGithub5.PNG" /></td>
+		<td><img src="docs/images/tutorialGithub6.PNG" /></td>
+	</tr>
+	<tr align="center">
+		<td>
+			Image 5
+		</td>
+		<td>
+			Image 6
+		</td>
+	</tr>
+</table>
+
+Now you can scroll to the top to find the **Client ID** and the **Client Secret** fields together with the corresponding values (see image 6).
+Use those and place them in the proper configuration fields.
 
 ####Google Drive step by step####
 To get the client credentials from Google Drive you have to go to the [Google Developer Console](https://console.developers.google.com/).
