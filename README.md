@@ -85,7 +85,7 @@ To use the Google OAuth2 authentication for IDM you have to enable **Drive API**
 		<td><img src="docs/images/tutorialGoogle1.PNG" /></td>
 		<td><img src="docs/images/tutorialGoogle2.PNG" /></td>
 	</tr>
-	<tr style="text-align:center">
+	<tr align="center">
 		<td>
 			Image 1
 		</td>
