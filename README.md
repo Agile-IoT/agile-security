@@ -1,5 +1,5 @@
 # AGILE Identity Management
-
+[![Build Status](https://travis-ci.org/Agile-IoT/agile-IDM.svg?branch=master)](https://travis-ci.org/Agile-IoT/agile-IDM)
 ## Architecture
 
 AGILE Identity Management uses Identity Providers (IdPs) already available to authenticate users of the gateway.
