@@ -77,7 +77,7 @@ Then create the application, and place the client Id and client secret in the pr
 
 ####Google Drive step by step####
 To get the client credentials from Google Drive you have to go to the [Google Developer Console](https://console.developers.google.com/).
-By defauslt you are redirected to the **Library** menu. If not, simply click onto the **Library** tab on the left hand side.
+By default you are redirected to the **Library** menu. If not, simply click onto the **Library** tab on the left hand side.  
 To use the Google OAuth2 authentication for IDM you have to enable **Drive API**. In order to do that, click onto the link **Drive API** below the heading **Google Apps APIs** (see image 1).
 
 <table align="center">
@@ -95,7 +95,7 @@ To use the Google OAuth2 authentication for IDM you have to enable **Drive API**
 	</tr>
 </table>
  
-If not done yet, you will be asked to create a project in order to enable the API. Therefore click on the **create project** button (see image 2).
+If not done yet, you will be asked to create a project in order to enable the API. Therefore click on the **create project** button (see image 2).  
 In the following dialog click onto the **Create a project** button.
 Enter the name of the project to be created and chose the options you like (see image 3).
 <table align="center">
@@ -117,8 +117,8 @@ After the creation of the project you are redirected back to the page where you 
 On the top right next to **Google Drive API** heading click the **Enable** button.
 
 To be able to use the OAUth2 in IDM you need the client Id and the client secret. To obtain them click onto the **Credentials** tab on the left hand side.
-As there are no credentials in the newly created project, yet you are asked to create them. Do so by clicking the button **Create credentials** and choosing **OAuth client ID**.
-First you are asked to create a consent screen which is shown whenever a user is asked to log in in order to authenticate to your app. Therefore click the **Configure consent screen** button (see image 4).
+As there are no credentials in the newly created project, yet you are asked to create them. Do so by clicking the button **Create credentials** and choosing **OAuth client ID**.  
+First you are asked to create a consent screen which is shown whenever a user is asked to log in in order to authenticate to your app. Therefore click the **Configure consent screen** button (see image 4).  
 Here you can put some information (see image 5). The only required fields are the **Email address** and the **Product name** ones. Fill out the formfields and click the **Save** button.
 <table align="center">
 	<tr>
