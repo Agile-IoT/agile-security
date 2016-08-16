@@ -100,10 +100,10 @@ In the following dialog click onto the **Create a project** button.
 Enter the name of the project to be created and chose the options you like (see image 3).
 <table align="center">
 	<tr>
-		<td><img src="docs/images/tutorialGoogle3.PNG" width="450px" /></td>
-		<td><img src="docs/images/tutorialGoogle4.PNG" width="450px" /></td>
+		<td><img src="docs/images/tutorialGoogle3.PNG" /></td>
+		<td><img src="docs/images/tutorialGoogle4.PNG" /></td>
 	</tr>
-	<tr style="text-align:center">
+	<tr align="center">
 		<td>
 			Image 3
 		</td>
@@ -122,10 +122,10 @@ First you are asked to create a consent screen which is shown whenever a user is
 Here you can put some information (see image 5). The only required fields are the **Email address** and the **Product name** ones. Fill out the formfields and click the **Save** button.
 <table align="center">
 	<tr>
-		<td><img src="docs/images/tutorialGoogle5.PNG" width="500px" /></td>
-		<td><img src="docs/images/tutorialGoogle6.PNG" width="500px" /></td>
+		<td><img src="docs/images/tutorialGoogle5.PNG" /></td>
+		<td><img src="docs/images/tutorialGoogle6.PNG" /></td>
 	</tr>
-	<tr style="text-align:center">
+	<tr align="center">
 		<td>
 			Image 5
 		</td>
