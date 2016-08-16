@@ -105,7 +105,7 @@ There you can register a new application. To do so, click on the **Register a ne
 On the next site you have to fill three required fields (see image 5):  
 With the first one "**Application name**" you can name your application.
 The second flield named **Homepage URL** place the combination of $host_name+$initial_path (http://localhost:3000/github according to the example above).  
-For the last field **Authorization callback URL**, you should place $host_name+$redirect_path (http://localhost:3000/callback_github in the example above).  
+For the last field "**Authorization callback URL**", you should place $host_name+$redirect_path (http://localhost:3000/callback_github in the example above).  
 After filling the form click the **Register application** button.
 
 <table align="center">
