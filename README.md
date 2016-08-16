@@ -80,10 +80,10 @@ To get the client credentials from Google Drive you have to go to the [Google De
 By defauslt you are redirected to the **Library** menu. If not, simply click onto the **Library** tab on the left hand side.
 To use the Google OAuth2 authentication for IDM you have to enable **Drive API**. In order to do that, click onto the link **Drive API** below the heading **Google Apps APIs** (see image 1).
 
-<table>
+<table align="center">
 	<tr>
-		<td><img src="docs/images/tutorialGoogle1.PNG" width="350px" /></td>
-		<td><img src="docs/images/tutorialGoogle2.PNG" width="400px" /></td>
+		<td><img src="docs/images/tutorialGoogle1.PNG" /></td>
+		<td><img src="docs/images/tutorialGoogle2.PNG" /></td>
 	</tr>
 	<tr style="text-align:center">
 		<td>
@@ -98,9 +98,9 @@ To use the Google OAuth2 authentication for IDM you have to enable **Drive API**
 If not done yet, you will be asked to create a project in order to enable the API. Therefore click on the **create project** button (see image 2).
 In the following dialog click onto the **Create a project** button.
 Enter the name of the project to be created and chose the options you like (see image 3).
-<table>
+<table align="center">
 	<tr>
-		<td><img src="docs/images/tutorialGoogle3.PNG" width="300px" /></td>
+		<td><img src="docs/images/tutorialGoogle3.PNG" width="450px" /></td>
 		<td><img src="docs/images/tutorialGoogle4.PNG" width="450px" /></td>
 	</tr>
 	<tr style="text-align:center">
@@ -120,10 +120,10 @@ To be able to use the OAUth2 in IDM you need the client Id and the client secret
 As there are no credentials in the newly created project, yet you are asked to create them. Do so by clicking the button **Create credentials** and choosing **OAuth client ID**.
 First you are asked to create a consent screen which is shown whenever a user is asked to log in in order to authenticate to your app. Therefore click the **Configure consent screen** button (see image 4).
 Here you can put some information (see image 5). The only required fields are the **Email address** and the **Product name** ones. Fill out the formfields and click the **Save** button.
-<table>
+<table align="center">
 	<tr>
-		<td><img src="docs/images/tutorialGoogle5.PNG" width="400px" /></td>
-		<td><img src="docs/images/tutorialGoogle6.PNG" width="350px" /></td>
+		<td><img src="docs/images/tutorialGoogle5.PNG" width="500px" /></td>
+		<td><img src="docs/images/tutorialGoogle6.PNG" width="500px" /></td>
 	</tr>
 	<tr style="text-align:center">
 		<td>
