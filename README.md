@@ -48,23 +48,23 @@ Assuming that you have retrieved a **client Id** 5y4rye1946, and a **clientSecre
 
 ```
 "auth":{
-				"github":{
-					"clientID": "5y4rye1946",
-					"clientSecret": "vz20g6010oxttt0gyqv2",
-					"host_name": "http://localhost:3000",
-					"redirect_path": "/callback_github",
-					"initial_path": "/github",
-					"final_path":"/static/index.html",
-					"site": "https://github.com/login",
-					"tokenPath": "/oauth/access_token",
-					"scope": "notifications"
-				},
-       	"google":{
-						...
-				},
-				"dropbox":{
-						...
-				}	
+	"github":{
+		"clientID": "5y4rye1946",
+		"clientSecret": "vz20g6010oxttt0gyqv2",
+		"host_name": "http://localhost:3000",
+		"redirect_path": "/callback_github",
+		"initial_path": "/github",
+		"final_path":"/static/index.html",
+		"site": "https://github.com/login",
+		"tokenPath": "/oauth/access_token",
+		"scope": "notifications"
+	},
+ 	"google":{
+			...
+	},
+	"dropbox":{
+			...
+	}	
 }
 ```
 ####Github step by step####
@@ -206,30 +206,30 @@ Assuming that you have retrieved a **client Id** 5y4rye1946, and a **clientSecre
 
 ```
 "auth":{
-				"github":{
-						...
-				},
-				"google":{
-					"clientID": "5y4rye1946",
-					"clientSecret": "vz20g6010oxttt0gyqv2",
-					"host_name": "http://localhost:3000",
-					"redirect_path": "/callback_google",
-					"initial_path": "/google",
-					"final_path":"/static/index.html",
-					"site": "https://accounts.google.com",
-					"authorizationPath": "/o/oauth2/auth",
-					"tokenPath": "/o/oauth2/token",
-					"scope": "https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
-				},
-				"dropbox":{
-						...
-				}		
+	"github":{
+			...
+	},
+	"google":{
+		"clientID": "5y4rye1946",
+		"clientSecret": "vz20g6010oxttt0gyqv2",
+		"host_name": "http://localhost:3000",
+		"redirect_path": "/callback_google",
+		"initial_path": "/google",
+		"final_path":"/static/index.html",
+		"site": "https://accounts.google.com",
+		"authorizationPath": "/o/oauth2/auth",
+		"tokenPath": "/o/oauth2/token",
+		"scope": "https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
+	},
+	"dropbox":{
+			...
+	}		
 }
 ```
-####Google Drive step by step####
+####Dropbox step by step####
 To get the needed credentials from dropbox go to the [Dropbox App Console](https://www.dropbox.com/developers/apps) and log in.  
-By default you will be directed to the "My apps page" (see image 1).  
-There you can create the bpplication for the IDM authentication by clicking the **Create App** Button.
+By default you will be directed to the **My apps** page (see image 1).  
+There you can create the application for the IDM authentication by clicking the **Create App** Button.
 
 <table align="center">
 	<tr>
@@ -247,13 +247,14 @@ There you can create the bpplication for the IDM authentication by clicking the 
 </table>
 
 On the next site you have to decide which kind of API you want to use (see image 2). For IDM the **Dropbox API** is enough.  
-For the second option you can choose whatever you need in the third point you have to enter an unique name for your application.
+For the second option you can choose whatever you need.  
+Third, you have to enter an unique name for your application.  
 Last check the checkbox to confirm that you agree the terms and conditions of the Dropbox API and click the **Create App** button.  
-Now your app will be created and you are redirected to its overview (see image 3).
+Now your application will be created and you are redirected to its overview (see image 3).
 
 <table align="center">
 	<tr>
-		<td><img src="docs/images/tutorialDropbox3.PNG" /></td>
+		<td><img src="docs/images/tutorialDropbox3.PNG" width="600px" /></td>
 	</tr>
 	<tr align="center">
 		<td>
@@ -275,24 +276,24 @@ Assuming that you have retrieved a **client Id** 5y4rye1946, and a **clientSecre
 
 ```
 "auth":	{
-       	"github":{
-						...
-       	},
-				"google":{
-						...
-				},
-				"dropbox":{
-					"clientID": "5y4rye1946",
-					"clientSecret": "vz20g6010oxttt0gyqv2",
-					"host_name": "http://localhost:3000",
-					"redirect_path": "/callback_dropbox",
-					"initial_path": "/dropbox",
-					"final_path":"/static/index.html",
-					"site": "https://www.dropbox.com/",
-					"authorizationPath": "/1/oauth2/authorize",
-					"tokenPath": "/1/oauth2/token",
-					"scope": ""
-		}
+ 	"github":{
+			...
+ 	},
+	"google":{
+			...
+	},
+	"dropbox":{
+		"clientID": "5y4rye1946",
+		"clientSecret": "vz20g6010oxttt0gyqv2",
+		"host_name": "http://localhost:3000",
+		"redirect_path": "/callback_dropbox",
+		"initial_path": "/dropbox",
+		"final_path":"/static/index.html",
+		"site": "https://www.dropbox.com/",
+		"authorizationPath": "/1/oauth2/authorize",
+		"tokenPath": "/1/oauth2/token",
+		"scope": ""
+	}
 }
 ```
 
