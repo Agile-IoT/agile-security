@@ -48,20 +48,23 @@ Assuming that you have retrieved a **client Id** 5y4rye1946, and a **clientSecre
 
 ```
 "auth":{
-       "github":{
-            "clientID": "5y4rye1946",
-            "clientSecret": "vz20g6010oxttt0gyqv2",
-            "host_name": "http://localhost:3000",
-            "redirect_path": "/callback_github",
-            "initial_path": "/github",
-            "final_path":"/static/index.html",
-            "site": "https://github.com/login",
-            "tokenPath": "/oauth/access_token",
-            "scope": "notifications"
-       },
-       "google":{
-          ...
-       }
+				"github":{
+					"clientID": "5y4rye1946",
+					"clientSecret": "vz20g6010oxttt0gyqv2",
+					"host_name": "http://localhost:3000",
+					"redirect_path": "/callback_github",
+					"initial_path": "/github",
+					"final_path":"/static/index.html",
+					"site": "https://github.com/login",
+					"tokenPath": "/oauth/access_token",
+					"scope": "notifications"
+				},
+       	"google":{
+						...
+				},
+				"dropbox":{
+						...
+				}	
 }
 ```
 ####Github step by step####
@@ -188,9 +191,9 @@ Here you can put some information (see image 5). The only required fields are th
 
 Now back on the Credentials site choose **Web application** and fill out the two fields (see image 6).  
 In the first one named **Authorized JavaScript origins** you have to put the website that asks the user to authenticate.
-As paths are not allowed here you have to use the base URI $host_name (http://localhost:3000 according to the example above).  
+As paths are not allowed here you have to use the base URI $host_name (http://localhost:3000 according to the example below).  
 With the second field named **Authorized redirect URIs** you specify the url to wich the user will be redirected after authentication.
-You should use $host_name+$redirect_path (http://localhost:3000/callback_google in the example above).  
+You should use $host_name+$redirect_path (http://localhost:3000/callback_google in the example below).  
 Click the **Create** button and you will receive the needed client Id and client secret.  
 Later you can always view the credentials again by clicking on the name of your product on the credentials site.
 Use the client Id and client secret and update the following fields in the configuration file:
@@ -203,20 +206,92 @@ Assuming that you have retrieved a **client Id** 5y4rye1946, and a **clientSecre
 
 ```
 "auth":{
-       "github":{
-            ...
-       },
-       "google":{
-				"clientID": "5y4rye1946",
-				"clientSecret": "vz20g6010oxttt0gyqv2",
-				"host_name": "http://localhost:3000",
-				"redirect_path": "/callback_google",
-				"initial_path": "/google",
-				"final_path":"/static/index.html",
-				"site": "https://accounts.google.com",
-				"authorizationPath": "/o/oauth2/auth",
-				"tokenPath": "/o/oauth2/token",
-				"scope": "https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
+				"github":{
+						...
+				},
+				"google":{
+					"clientID": "5y4rye1946",
+					"clientSecret": "vz20g6010oxttt0gyqv2",
+					"host_name": "http://localhost:3000",
+					"redirect_path": "/callback_google",
+					"initial_path": "/google",
+					"final_path":"/static/index.html",
+					"site": "https://accounts.google.com",
+					"authorizationPath": "/o/oauth2/auth",
+					"tokenPath": "/o/oauth2/token",
+					"scope": "https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
+				},
+				"dropbox":{
+						...
+				}		
+}
+```
+####Google Drive step by step####
+To get the needed credentials from dropbox go to the [Dropbox App Console](https://www.dropbox.com/developers/apps) and log in.  
+By default you will be directed to the "My apps page" (see image 1).  
+There you can create the bpplication for the IDM authentication by clicking the **Create App** Button.
+
+<table align="center">
+	<tr>
+		<td><img src="docs/images/tutorialDropbox1.PNG" /></td>
+		<td><img src="docs/images/tutorialDropbox2.PNG" /></td>
+	</tr>
+	<tr align="center">
+		<td>
+			Image 1
+		</td>
+		<td>
+			Image 2
+		</td>
+	</tr>
+</table>
+
+On the next site you have to decide which kind of API you want to use (see image 2). For IDM the **Dropbox API** is enough.  
+For the second option you can choose whatever you need in the third point you have to enter an unique name for your application.
+Last check the checkbox to confirm that you agree the terms and conditions of the Dropbox API and click the **Create App** button.  
+Now your app will be created and you are redirected to its overview (see image 3).
+
+<table align="center">
+	<tr>
+		<td><img src="docs/images/tutorialDropbox3.PNG" /></td>
+	</tr>
+	<tr align="center">
+		<td>
+			Image 3
+		</td>
+	</tr>
+</table>
+
+Fill in a redirect URL into the Field named **Redirect URIs** as a combination of $host_name+$redirect_path (http://localhost:3000/callback_dropbox according to the example below) and click the **Add** button.  
+On this page you can also find the **App key** and after clicking on **Show** the **App secret**.
+
+Use them and update the following fields in the configuration file:
+
+* clientID: OAuth2 client
+* clientSecret: OAuth2 secret
+* host_name: host and port where the AGILE gateway is running.
+
+Assuming that you have retrieved a **client Id** 5y4rye1946, and a **clientSecret** vz20g6010oxttt0gyqv2, and that the gateway is running in localhost:3000 the dropbox configuration should look like this:
+
+```
+"auth":	{
+       	"github":{
+						...
+       	},
+				"google":{
+						...
+				},
+				"dropbox":{
+					"clientID": "5y4rye1946",
+					"clientSecret": "vz20g6010oxttt0gyqv2",
+					"host_name": "http://localhost:3000",
+					"redirect_path": "/callback_dropbox",
+					"initial_path": "/dropbox",
+					"final_path":"/static/index.html",
+					"site": "https://www.dropbox.com/",
+					"authorizationPath": "/1/oauth2/authorize",
+					"tokenPath": "/1/oauth2/token",
+					"scope": ""
 		}
 }
 ```
