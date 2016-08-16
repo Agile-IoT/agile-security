@@ -79,23 +79,68 @@ Then create the application, and place the client Id and client secret in the pr
 To get the client credentials from Google Drive you have to go to the [Google Developer Console](https://console.developers.google.com/).
 By defauslt you are redirected to the **Library** menu. If not, simply click onto the **Library** tab on the left hand side.
 To use the Google OAuth2 authentication for IDM you have to enable **Drive API**. In order to do that, click onto the link **Drive API** below the heading **Google Apps APIs** (see image 1).
+
+<table>
+	<tr>
+		<td><img src="docs/images/tutorialGoogle1.PNG" width="350px" /></td>
+		<td><img src="docs/images/tutorialGoogle2.PNG" width="400px" /></td>
+	</tr>
+	<tr style="text-align:center">
+		<td>
+			Image 1
+		</td>
+		<td>
+			Image 2
+		</td>
+	</tr>
+</table>
+ 
 If not done yet, you will be asked to create a project in order to enable the API. Therefore click on the **create project** button (see image 2).
 In the following dialog click onto the **Create a project** button.
 Enter the name of the project to be created and chose the options you like (see image 3).
+<table>
+	<tr>
+		<td><img src="docs/images/tutorialGoogle3.PNG" width="300px" /></td>
+		<td><img src="docs/images/tutorialGoogle4.PNG" width="450px" /></td>
+	</tr>
+	<tr style="text-align:center">
+		<td>
+			Image 3
+		</td>
+		<td>
+			Image 4
+		</td>
+	</tr>
+</table>
 Make sure you agree the terms of service and a click on the **Create** button will create the project for you. This may take some seconds.
 After the creation of the project you are redirected back to the page where you can enable the Drive API (image 2).
-On the top of the site right next to **Google Drive API** heading click the **Enable** button.
+On the top right next to **Google Drive API** heading click the **Enable** button.
 
-To be able to use the OAUth2 in IDM you need the client Id and the client secret. To obtain them click onto the **Credentials** tab on the left hand side (see image 4).
+To be able to use the OAUth2 in IDM you need the client Id and the client secret. To obtain them click onto the **Credentials** tab on the left hand side.
 As there are no credentials in the newly created project, yet you are asked to create them. Do so by clicking the button **Create credentials** and choosing **OAuth client ID**.
-First you are asked to create a consent screen which is shown whenever a user is asked to log in in order to authenticate to your app. Therefore click the **Configure consent screen** button.
-Here you can put some information. The only required fields are the **Email address** and the **Product name** ones. Fill out the formfields and click the **Save** button.
-Now back on the Credentials site choose **Web application** and fill out the two fields.
+First you are asked to create a consent screen which is shown whenever a user is asked to log in in order to authenticate to your app. Therefore click the **Configure consent screen** button (see image 4).
+Here you can put some information (see image 5). The only required fields are the **Email address** and the **Product name** ones. Fill out the formfields and click the **Save** button.
+<table>
+	<tr>
+		<td><img src="docs/images/tutorialGoogle5.PNG" width="400px" /></td>
+		<td><img src="docs/images/tutorialGoogle6.PNG" width="350px" /></td>
+	</tr>
+	<tr style="text-align:center">
+		<td>
+			Image 5
+		</td>
+		<td>
+			Image 6
+		</td>
+	</tr>
+</table>
+
+Now back on the Credentials site choose **Web application** and fill out the two fields (see image 6).  
 In the first one named **Authorized JavaScript origins** you have to put the website that asks the user to authenticate.
-As paths are not allowed here you have to use the base URI $host_name (http://localhost:3000 according to the example above).
+As paths are not allowed here you have to use the base URI $host_name (http://localhost:3000 according to the example above).  
 With the second field named **Authorized redirect URIs** you specify the url to wich the user will be redirected after authentication.
-You should use $host_name+$redirect_path (http://localhost:3000/callback_google in the example above).
-Click the **Create** button and you will receive the needed client Id and client secret.
+You should use $host_name+$redirect_path (http://localhost:3000/callback_google in the example above).  
+Click the **Create** button and you will receive the needed client Id and client secret.  
 Later you can always view the credentials again by clicking on the name of your product on the credentials site.
 Use the client Id and client secret and update the following fields in the configuration file:
 
