@@ -14,23 +14,6 @@ const Authentication = require('../agile-idm-commons/authentication.js');
 
 function WebIDMComponent(app, conf,onFinished){
 
-  var storage = new TokenStorage();
-  storage.init(conf['token-storage'], setup.bind(this,storage,conf, onFinished));
-  //if more dependencies need to be loaded, this should be updated to a promise
-  function setup(storage, conf,callback, result){
-
-    if(!result.success){
-       console.error('could not load the token storage component!');
-       return;
-    }
-    if( 'objects' in conf){
-      conf['objects']['token-storage-obj'] = storage;
-    }
-    else{
-       conf['objects']={'token-storage-obj':  storage};
-    }
-
-
     app.use(cookieParser());
     //set up authentication middleware. That includes all the Oauth2, pam_unix, etc. endpoints to express. This component also maps cookies to tokens
     var dauth = new AuthenticationMiddleware(app, conf);
@@ -48,7 +31,7 @@ function WebIDMComponent(app, conf,onFinished){
     //configure the IDM Server-side REST API! To get authentication requests from the D-bus service, and other places...
     var restApiConf = {
       schema : null,
-      authentication : new Authentication({"source":"sqlite3-db-object","objects":conf["objects"]}),
+      authentication : new Authentication({"source":"token-storage","token-storage":conf["token-storage"]}),
       validator : null,
       authz : null,
       storage : null
@@ -56,8 +39,8 @@ function WebIDMComponent(app, conf,onFinished){
     var router = new HttpRestAPI(restApiConf);
 
     app.use('/api', router);
-    callback({success:true});
-  };
+    onFinished({success:true});
+
 
 
 }

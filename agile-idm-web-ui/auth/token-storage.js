@@ -47,9 +47,6 @@ TokenStorage.prototype.prepareStatements = function(onInitFinished,error){
    }),
    new Promise((resolve, reject) => {
      this.get_token_by_token_statement = this.storage.prepare("SELECT id , cookie , token , scope , token_type , auth_type,userId, expiration  from token WHERE token =?", promisseHandle.bind(this,resolve,reject));
-   }),
-   new Promise((resolve, reject) => {
-     this.get_token_by_user_id = this.storage.prepare("SELECT id , cookie , token , scope , token_type , auth_type,userId, expiration  from token WHERE userId =?", promisseHandle.bind(this,resolve,reject));
    })]
 
 	Promise.all(promisses).then(function(results){onInitFinished({"success":true});}, function(reason){onInitFinished({"success":false,"error":reason});});
@@ -91,29 +88,6 @@ TokenStorage.prototype.storeToken = function (token_id, auth_type, token,onStora
 
 	}
 
-}
-
-
-// returns an object with success (false or true). and when success is true, an additional element in the obkect (data) is present with the selected row of the DB.
-TokenStorage.prototype.getTokenByUserId = function (userId,onStorageTokenFinishedCallback){
-
-
-
-        function onStorageFinished(onStorageTokenFinishedCallback, error, row){
-
-		if(error){
-			onStorageTokenFinishedCallback({"success":false,"error":JSON.stringify(error)});
-		}
-	        else if(!row){
-			onStorageTokenFinishedCallback({"success":false,"error":"no data found"});
-		}
-		else{
-			onStorageTokenFinishedCallback({"success":true, "data":row});
-		}
-
-	}
-
-      this.get_token_by_user_id.get(userId, onStorageFinished.bind(this,onStorageTokenFinishedCallback));
 }
 
 // returns an object with success (false or true). and when success is true, an additional element in the obkect (data) is present with the selected row of the DB.

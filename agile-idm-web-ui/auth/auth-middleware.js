@@ -29,15 +29,22 @@ const GithubOauth2 = require('./oauth2-github.js');
 const GoogleOauth2 = require('./oauth2-google.js');
 const PamAuth = require('./pam-auth.js');
 const WebID = require('./web-id.js');
+const connectionPool = require('./token-connection-pool');
 
 var bodyParser = require('body-parser');
 
 function Oauth2(app, conf){
 
+   connectionPool(function(storage){
+     var gh = new GithubOauth2(app, conf["auth"]["github"], storage);
+     var google = new GoogleOauth2(app, conf["auth"]["google"], storage);
+     var pam_auth = new PamAuth(app, conf["auth"]["pam"], storage);
+     var webID = new WebID(app, conf["auth"]["web-id"], storage);
+   }, conf['token-storage']);
 //create a cookie -> token storage and use it inside the different authentication modules.
 //var app = express();
 
- this.storage = conf['objects']['token-storage-obj'];
+
 
 
 
@@ -46,10 +53,6 @@ function Oauth2(app, conf){
  //app.use(bodyParser.json());
 
  //var dauth = new DropboxOauth2(app, conf["auth"]["dropbox"], this.storage);
- var gh = new GithubOauth2(app, conf["auth"]["github"], this.storage);
- var google = new GoogleOauth2(app, conf["auth"]["google"], this.storage);
- var pam_auth = new PamAuth(app, conf["auth"]["pam"], this.storage);
- var webID = new WebID(app, conf["auth"]["web-id"], this.storage);
 
 }
 

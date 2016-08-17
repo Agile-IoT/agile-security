@@ -1,26 +1,24 @@
 const OfflineValidation = require('./token-validation.js');
 const IDMHttpClient = require('../agile-idm/api-clients/http-idm-client.js');
-const TokenStorage = require('../agile-idm-web-ui/auth/token-storage.js');
+const connectionPool = require('../agile-idm-web-ui/auth/token-connection-pool');
 
 
 var Auth = function (conf) {
   this.source_web_server = "web-server";
   this.source_db = "token-storage";
-  this.source_sqlite3_db_object = "sqlite3-db-object";
 
   this.source = conf["source"];
-  if(this.source == this.source_sqlite3_db_object){
-      this.source = this.source_db;//whether the db is read or passed as an object is the same
-      this.tokenStorage =  conf['objects']['token-storage-obj'];
-1  }
-  else if(this.source==this.source_web_server){
+
+  if(this.source==this.source_web_server){
      this.idmHttpClient = new IDMHttpClient(conf);
       //this.idm_url=conf[this.source_web_server];
 
   }
   else if(this.source == this.source_db){
-     this.tokenStorage = new TokenStorage(conf[this.source_db]);
-     this.tokenStorage.init(conf[this.source_db]);
+
+    connectionPool(function(storage){
+         this.tokenStorage = storage;
+    }.bind(this), conf['token-storage']);
   }
   this.offlineValid = new OfflineValidation();
 

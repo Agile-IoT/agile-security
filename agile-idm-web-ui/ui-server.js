@@ -44,7 +44,7 @@ console.log('Listening');
 
 // do additional functionality
 function setupDemo(){
-  
+
   var jsonBodyEncoder = bodyParser.json();
     app.post('/sensor/:sensor_id', jsonBodyEncoder, function (req, res) {
         //console.log("visible object for authentication: "+req["agile-auth-obj"]);

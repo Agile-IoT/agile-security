@@ -3,7 +3,7 @@ const Authentication = require('../../agile-idm-commons/authentication.js');
 
 var TokenValidator = function (conf) {
    this.login_site = conf["login"]["site"];
-   this.authentication = new Authentication({ "source":"sqlite3-db-object","objects":{"token-storage-obj":conf['objects']['token-storage-obj']}});
+   this.authentication = new Authentication({ "source":"token-storage","token-storage":conf["token-storage"]});
    this.conf = conf;
 
 };

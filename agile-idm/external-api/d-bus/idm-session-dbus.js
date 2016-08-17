@@ -15,27 +15,9 @@ var IDMDbusApi = function (configuration) {
      this.conf  = configuration;
    }
    else{
-        console.warn("didn't find configuration for IDMBUsAPI... assuming... best guess");
-
-	var fp = '../../conf/validator-entities.conf';
-	var d = fs.readFileSync(fp,{encoding:'utf-8'})
-	var sch = JSON.parse(d);
-	this.conf = {
-	  filePath : fp,
-	  data : d,
-	  schema : sch,
-	  authentication : new Authentication(),
-	  validator : new Validator(sch),
-	  authz : new Authorization(),
-	  storage : new FileStorage()
-	};
+        console.error("didn't find configuration for IDMBUsAPI... Entities  WILL NOT BE STORED!" );
   }
 };
-
-
-
-
-
 
 
 IDMDbusApi.prototype.run = function () {
@@ -55,7 +37,7 @@ IDMDbusApi.prototype.run = function () {
     onAPIActionFinished: function(result){
 	//TODO reply with some dbus message as response
 
-	  //console.log('api action finished with result :'+JSON.stringify(result));
+	               console.log('api action finished with result :'+JSON.stringify(result));
     },
    //splits the array from dbus into an object containing keys in labels into a property called labeled, and the rest of the arguments is placed under other...
    filterByLabel: function (labels, dict){
