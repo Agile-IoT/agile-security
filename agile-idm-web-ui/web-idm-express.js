@@ -10,7 +10,7 @@ const cookieParser = require('cookie-parser');
 const TokenStorage = require('./auth/token-storage.js');
 
 const HttpRestAPI = require('../agile-idm/external-api/http/http-rest-api.js');
-const Authentication = require('../agile-idm/inner-api/authentication/authentication.js');
+const Authentication = require('../agile-idm-commons/authentication.js');
 
 function WebIDMComponent(app, conf,onFinished){
 

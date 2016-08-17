@@ -4,7 +4,7 @@ var fs = require('fs');
 const Api = require('../agile-idm/inner-api/api.js');
 const FileStorage	 = require('../agile-idm/inner-api/storage/file-storage.js');
 const Validator = require('../agile-idm/inner-api/validator/validator.js');
-const Authentication = require('../agile-idm/inner-api/authentication/authentication.js');
+const Authentication = require('../agile-idm-commons/authentication.js');
 
 
 const IDMClient = require('../agile-idm/api-clients/dbus-session-client.js');

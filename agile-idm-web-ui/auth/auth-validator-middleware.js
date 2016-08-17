@@ -1,5 +1,5 @@
 
-const Authentication = require('../../agile-idm/inner-api/authentication/authentication.js');
+const Authentication = require('../../agile-idm-commons/authentication.js');
 
 var TokenValidator = function (conf) {
    this.login_site = conf["login"]["site"];

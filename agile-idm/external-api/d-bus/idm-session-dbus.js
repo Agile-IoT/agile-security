@@ -3,7 +3,7 @@ var fs = require('fs');
 const Api = require('../../inner-api/api.js');
 const FileStorage	 = require('../../inner-api/storage/file-storage.js');
 const Validator = require('../../inner-api/validator/validator.js');
-const Authentication = require('../../inner-api/authentication/authentication.js');
+const Authentication = require('../../../agile-idm-commons/authentication.js');
 const Authorization = require('../../inner-api/authorization/authorization.js');
 
 

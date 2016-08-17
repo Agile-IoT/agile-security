@@ -1,5 +1,5 @@
 var assert = require('assert');
-const Auth = require('../agile-idm/inner-api/authentication/authentication.js');
+const Auth = require('../agile-idm-commons/authentication.js');
 
 
 describe('authentication', function() {

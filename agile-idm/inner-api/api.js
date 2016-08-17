@@ -1,7 +1,7 @@
 //TODO Thilo update here and put sqlite3 storage
 const FileStorage	 = require('./storage/file-storage.js');
 const Validator = require('./validator/validator.js');
-const Authentication = require('./authentication/authentication.js');
+const Authentication = require('../../agile-idm-commons/authentication.js');
 const Authorization = require('./authorization/authorization.js');
 var fs = require("fs");
 

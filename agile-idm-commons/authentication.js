@@ -1,6 +1,6 @@
-const OfflineValidation = require('../../../agile-idm-commons/token-validation.js');
-const IDMHttpClient = require('../..//api-clients/http-idm-client.js');
-const TokenStorage = require('../../../agile-idm-web-ui/auth/token-storage.js');
+const OfflineValidation = require('./token-validation.js');
+const IDMHttpClient = require('../agile-idm/api-clients/http-idm-client.js');
+const TokenStorage = require('../agile-idm-web-ui/auth/token-storage.js');
 
 
 var Auth = function (conf) {

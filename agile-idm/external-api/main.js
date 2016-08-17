@@ -3,7 +3,7 @@ const Api = require('../inner-api/api.js');
 const Sqlite3Storage	 = require('../inner-api/storage/sqlite3-storage.js');
 const Validator = require('../inner-api/validator/validator.js');
 const TokenStorage = require('../../agile-idm-web-ui/auth/token-storage.js');
-const Authentication = require('../inner-api/authentication/authentication.js');
+const Authentication = require('../../agile-idm-commons/authentication.js');
 const Authorization = require('../inner-api/authorization/authorization.js');
 const IDMDbusApi= require('./d-bus/idm-session-dbus.js');
 
