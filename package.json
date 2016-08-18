@@ -7,31 +7,37 @@
     "test": "tests"
   },
   "dependencies": {
-    "escape-html":"1.0.3",
-    "clone":"1.0.2",
-    "request": "2.x",
+    "authenticate-pam": "1.0.2",
+    "body-parser": "1.x",
+    "clone": "1.0.2",
+    "cookie-parser": "1.4.3",
+    "cors": "2.7.1",
+    "dateformat": "^1.0.12",
+    "dbus-native": "0.2.0",
+    "escape-html": "1.0.3",
     "express": "^4.13.4",
     "express-session": "^1.14.0",
-    "body-parser":"1.x",
-    "cors":"2.7.x",
-    "cookie-parser": "1.4.3",
-    "cors":"2.7.1",
-    "sqlite3":"3.1.4",
-    "dbus-native":"0.2.0",
-    "authenticate-pam":"1.0.2",
     "googleapis": "8.x",
+    "method-override": "^2.3.6",
+    "morgan": "^1.7.0",
     "node-rsa": "0.3.x",
-    "webid": "^0.3.7",
-    "node-uuid":"1.4.7",
-    "simple-oauth2":"0.8.0"
+    "node-uuid": "1.4.7",
+    "passport": "^0.3.2",
+    "passport-github2": "^0.1.10",
+    "passport-google-oauth2": "^0.1.6",
+    "passport-http-bearer": "^1.0.1",
+    "request": "2.x",
+    "simple-oauth2": "0.8.0",
+    "sqlite3": "3.1.4",
+    "webid": "^0.3.7"
   },
-  "devDependencies" : {
+  "devDependencies": {
     "mocha": "2.4.5",
-    "deep-diff":"0.3.3",
-    "assert":"1.4.1"
+    "deep-diff": "0.3.3",
+    "assert": "1.4.1"
   },
   "scripts": {
-    "no-auth-install":"cp package.json package.json.back; cat package.json |grep -v authenticate-pam>package1.json; mv package1.json package.json;npm install;mv package.json.back package.json",
+    "no-auth-install": "cp package.json package.json.back; cat package.json |grep -v authenticate-pam>package1.json; mv package1.json package.json;npm install;mv package.json.back package.json",
     "test": "mocha tests/*.js"
   },
   "keywords": [

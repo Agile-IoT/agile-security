@@ -21,15 +21,16 @@ HTTPIDMClient.prototype.registerEntity = function(entity, callbackRegisterEntity
 HTTPIDMClient.prototype.authenticateEntity = function(authentication_type, token, onAuthenticationFinished){
 
     var url =  this.url;
-    if(authentication_type && authentication_type !=null ){
+    /*if(authentication_type && authentication_type !=null ){
       url = url  +authentication_type;
-    }
+    }*/
     console.log(url + token);
   	var options = {
                           url: url,
-                          headers: {'Authorization': token,
-  				   "User-Agent": "user-agent",
-  				  'content-type': 'application/json'}
+                          headers: {'Authorization': "bearer "+ token,
+                  				   "User-Agent": "user-agent",
+                  				  'content-type': 'application/json'
+                          }
           };
   	function handleHttpResponse(onAuthenticationFinished, error, response, body) {
       			console.log("args from IDM url:  "+JSON.stringify(arguments));
