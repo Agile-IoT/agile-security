@@ -4,7 +4,7 @@ const  fs = require('fs');
 var dateUtils = require('../../util/date');
 var connectionPoolPromisse = require('../token-connection-pool');
 var conf = require('../../conf/agile-ui-conf');
-var TokenAuthentication = require("../../../agile-idm-commons/authentication.js")
+
 
 
 connectionPoolPromisse.then(function(storage){
@@ -62,7 +62,7 @@ connectionPoolPromisse.then(function(storage){
         });
     }
   ));
-
+  console.log('finished registering passport google strategy')
 }, function(error){
       console.log('cannot load database error'+JSON.stringify(error));
 })

@@ -19,6 +19,8 @@ connectionPoolPromisse.then(function(storage){
         });
       }
     ));
+    console.log('finished registering passport bearer strategy');
+
 }, function(error){
       console.log('cannot load database error'+JSON.stringify(error));
 })

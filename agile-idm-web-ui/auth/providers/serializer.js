@@ -3,7 +3,6 @@ var connectionPoolPromisse = require('../token-connection-pool');
 
 
 connectionPoolPromisse.then(function(storage){
-    console.log('setting up seralizer');
     passport.serializeUser(function(user, done) {
       console.log('serializeUser: ' + JSON.stringify(user));
       done(null, user["user_id"]);
@@ -17,6 +16,7 @@ connectionPoolPromisse.then(function(storage){
          }else done(err, null);
         });
     });
+    console.log('finished setting up passport seralizer');
 }, function(error){
       console.log('cannot load database error'+JSON.stringify(error));
 })

@@ -2,10 +2,10 @@ var passport = require('passport');
 var GithubStrategy = require('passport-github2').Strategy;
 var conf = require('../../conf/agile-ui-conf');
 var connectionPoolPromisse = require('../token-connection-pool');
-var TokenAuthentication = require("../../../agile-idm-commons/authentication.js")
 
 connectionPoolPromisse.then(function(storage){
   //strategy :)
+
   passport.use(new GithubStrategy({
     clientID: conf.auth.github.clientID,
     clientSecret: conf.auth.github.clientSecret,
@@ -53,7 +53,7 @@ connectionPoolPromisse.then(function(storage){
       });
     }
   ));
-
+  console.log('finished registering passport github strategy');
 }, function(error){
     console.log('cannot load database error'+JSON.stringify(error));
 })
