@@ -28,6 +28,5 @@ var Demo =  function (app){
               res.send({success:false,error:'cannot find authentication info'});
        }
     });
-    console.log('a');
 }
 module.exports = Demo;
