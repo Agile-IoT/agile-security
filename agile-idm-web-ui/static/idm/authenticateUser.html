@@ -20,8 +20,11 @@
 				else if(provider == "web_id"){
 					window.parent.location.assign(web_id_url)
 				}
+				else if(provider == "dropbox"){
+					window.parent.location.assign(dropbox_url)
+				}
 				else if (provider=="pam_unix"){
-					window.location.assign("pam-unix.html")
+					window.location.assign("local-auth.html")
 				}
 		  };
 	</script>
@@ -37,10 +40,11 @@
 					<td>
 					<select id="idp">
 
-					 <option value="web_id">web_id</option>
+					 <!--option value="web_id">web_id</option-->
 					 <option value="github">github</option>
 					 <option value="google">google</option>
-	 				 <option value="pam_unix">pam_unix</option>
+					 <option value="dropbox">dropbox</option>
+	 				 <option value="pam_unix">local authentication</option>
 					</select>
 				              </td>
 				</tr>

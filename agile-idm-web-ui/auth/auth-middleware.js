@@ -1,7 +1,7 @@
 const GithubOauth2 = require('./oauth2-github.js');
 //const DropboxOauth2 = require('./oauth2-dropbox.js');
 const GoogleOauth2 = require('./oauth2-google.js');
-const PamAuth = require('./pam-auth.js');
+
 const WebID = require('./web-id.js');
 const connectionPool = require('./token-connection-pool');
 var passport = require('passport');

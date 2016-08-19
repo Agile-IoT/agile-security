@@ -6,6 +6,18 @@ function RouterPassport(app){
 
   var router = express.Router();
 
+  router.route('/local').post(
+    passport.authenticate('local',
+      { failureRedirect: '/login',
+        usernameField: 'username',
+        passwordField: 'password',
+        passReqToCallback: false
+
+      }, function(req, res) {
+
+       }
+   ));
+
   //Github
   router.route('/github').get(
     passport.authenticate('github'),
@@ -19,16 +31,17 @@ function RouterPassport(app){
     });
 
   //Google
-  app.get('/google',
+  router.route('/google').get(
     passport.authenticate('google', {  }
   ));
-  app.get('/callback_google',
+  //TODO place into router later! Fix README first!
+  app.get/*router.route*/('/callback_google'/*).get(*/,
     passport.authenticate('google', { failureRedirect: '/' }),
     function(req, res) {
       console.log("session id"+req.session.id);
       console.log("session cookie"+JSON.stringify(req.session.cookie));
       res.redirect('/account');
-    });
+  });
   return router;
 }
 module.exports = RouterPassport;

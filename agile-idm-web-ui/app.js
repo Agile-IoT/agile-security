@@ -33,7 +33,7 @@ var app = express();
   require('./auth/providers/serializer')
   require('./auth/providers/strategies')
   var providersRouter = new RouterProviers(app);
-  app.use(providersRouter);
+  app.use("/auth",providersRouter);
 
   //set up authentication API
   require('./auth/api/bearer-strategy')

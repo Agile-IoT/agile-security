@@ -1,6 +1,7 @@
 {
   "name": "agile-idm",
   "version": "1.0.0",
+  "repository": "https://github.com/Agile-IoT/agile-IDM/",
   "description": "Generic Identity Management for the IoT",
   "main": "main.js",
   "directories": {
@@ -26,6 +27,7 @@
     "passport-github2": "^0.1.10",
     "passport-google-oauth2": "^0.1.6",
     "passport-http-bearer": "^1.0.1",
+    "passport-local": "^1.0.0",
     "request": "2.x",
     "simple-oauth2": "0.8.0",
     "sqlite3": "3.1.4",
