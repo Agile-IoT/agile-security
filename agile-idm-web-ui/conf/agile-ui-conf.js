@@ -9,20 +9,20 @@ module.exports = {
 	},
 	"auth":{
  			  "github":{
-					"clientID": "",
-					"clientSecret": "",
+					"clientID": "getGithubId",
+					"clientSecret": "getGithubSecret",
 					"redirect_path": "http://localhost:3000/callback_github",
 					"scope": ["notifications"]
        },
        "dropbox":{
-            "clientID":  "",
-            "clientSecret": "",
+            "clientID":  "getDropboxId",
+            "clientSecret": "getDropboxSecret",
             "redirect_path": "http://localhost:3000/callback_dropbox",
 						"scope": [""]
        },
        "google":{
-            "clientID": "",
-            "clientSecret": "",
+            "clientID": "getGoogleId",
+            "clientSecret": "getGoogleSecret",
 						"redirect_path": "http://localhost:3000/callback_google",
             "scope": ["https://www.googleapis.com/auth/drive","https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"]
        },
