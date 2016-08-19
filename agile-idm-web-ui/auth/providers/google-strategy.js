@@ -3,7 +3,7 @@ var GoogleStrategy = require('passport-google-oauth2').Strategy;
 const  fs = require('fs');
 var dateUtils = require('../../util/date');
 var connectionPoolPromisse = require('../token-connection-pool');
-
+var conf = require('../../conf/agile-ui-conf');
 var TokenAuthentication = require("../../../agile-idm-commons/authentication.js")
 
 
