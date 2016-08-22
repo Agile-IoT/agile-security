@@ -44,9 +44,10 @@
 
 	<h2 align="center" style="color: DarkBlue;">Authenticate User</h2>
 
-	<form method="get" action="">
+	<form method="post" action="/auth/local">
 
 		<table align="center">
+
 			<tr>
 				<td>User name:</td>
 				<td><input type="text" id="username" name="username" value="admin"/>
@@ -61,7 +62,7 @@
 
 			<tr>
 				<td><br>&nbsp;</td>
-				<td><a class="idmButton" onclick="authenticateUser()">Authent.</a>
+				<td><input type="submit" value="Submit"><!--a class="idmButton" onclick="authenticateUser()">Authent.</a-->
 					                </td>
 			</tr>
 

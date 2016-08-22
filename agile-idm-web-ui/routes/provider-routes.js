@@ -3,31 +3,35 @@ var passport = require('passport');
 var express = require('express');
 
 function RouterPassport(app){
-
+  var failUrl = '/static/error/error.html';
   var router = express.Router();
 
+    //local strategy (REST API JSON)
   router.route('/local').post(
-    passport.authenticate('local',
-      { failureRedirect: '/login',
+    passport.authenticate('local',{ failureRedirect: failUrl,
         usernameField: 'username',
         passwordField: 'password',
-        passReqToCallback: false
+        passReqToCallback: true
 
-      }, function(req, res) {
+      }),
+      function(req, res) {
+        console.log("session id"+req.session.id);
+        console.log("session cookie"+JSON.stringify(req.session.cookie));
+        res.redirect('/static/idm/authenticateUser.html');
+      }
 
-       }
-   ));
+  );
 
   //Github
   router.route('/github').get(
     passport.authenticate('github'),
     function(req, res){});
   router.route('/callback_github').get(
-    passport.authenticate('github', { failureRedirect: '/' }),
+    passport.authenticate('github', { failureRedirect: failUrl }),
     function(req, res) {
       console.log("session id"+req.session.id);
       console.log("session cookie"+JSON.stringify(req.session.cookie));
-      res.redirect('/account');
+      res.redirect('/static/index.html');
     });
 
   //Google
@@ -36,11 +40,11 @@ function RouterPassport(app){
   ));
   //TODO place into router later! Fix README first!
   app.get/*router.route*/('/callback_google'/*).get(*/,
-    passport.authenticate('google', { failureRedirect: '/' }),
+    passport.authenticate('google', { failureRedirect: failUrl }),
     function(req, res) {
       console.log("session id"+req.session.id);
       console.log("session cookie"+JSON.stringify(req.session.cookie));
-      res.redirect('/account');
+      res.redirect('/static/index.html');
   });
   return router;
 }
