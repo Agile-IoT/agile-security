@@ -136,19 +136,17 @@ TokenStorage.prototype.getTokenByUserId = function (userId,onStorageTokenFinishe
 // returns an object with success (false or true). and when success is true, an additional element in the obkect (data) is present with the selected row of the DB.
 TokenStorage.prototype.getTokenByToken = function (token,onStorageTokenFinishedCallback){
 
-
-
+        
         function onStorageFinished(onStorageTokenFinishedCallback, error, row){
-
-		if(error){
-			onStorageTokenFinishedCallback({"success":false,"error":JSON.stringify(error)});
-		}
-	        else if(!row){
-			onStorageTokenFinishedCallback({"success":false,"error":"no data found"});
-		}
-		else{
-			onStorageTokenFinishedCallback({"success":true, "data":row});
-		}
+            if(error){
+        			onStorageTokenFinishedCallback({"success":false,"error":JSON.stringify(error)});
+        		}
+        	  else if(!row){
+        			onStorageTokenFinishedCallback({"success":false,"error":"no data found"});
+        		}
+        		else{
+        			onStorageTokenFinishedCallback({"success":true, "data":row});
+        		}
 
 	}
 

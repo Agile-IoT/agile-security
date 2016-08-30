@@ -1,18 +1,17 @@
 // dependencies
 var express = require('express');
-//var routes = require('./routes');
 var path = require('path');
 var passport = require('passport');
-
+var fs = require('fs');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const logger = require('morgan');
 const methodOverride = require('method-override');
-const AuthenticationMiddleware = require('./auth/auth-middleware.js');
 const RouterProviers = require('./routes/provider-routes');
 const RouterApi = require('./routes/api-routes');
-
+var conf = require('./conf/agile-ui-conf');
+var https = require('https');
 var app = express();
 
 
@@ -45,10 +44,13 @@ var app = express();
   //TODO check this... https://github.com/expressjs/express/issues/2760
 
 
+
   var Demo = require('./demo');
   d= new Demo(app);
 
-
+app.get("/", function(req,res){
+    res.redirect("/static/index.html");
+});
   //app.use('/api', router);
 // routes
 //app.get('/', routes.index);
@@ -68,9 +70,13 @@ app.get('/account', ensureAuthenticated, function(req, res){
 
 
 
-
-// port
+var options = {
+  key: fs.readFileSync(conf.tls.key),
+  cert: fs.readFileSync(conf.tls.cert),
+  requestCert: true
+};
 app.listen(3000);
+https.createServer(options, app).listen(1443);
 
 // test authentication
 function ensureAuthenticated(req, res, next) {

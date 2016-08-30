@@ -11,13 +11,21 @@ function RouterApi(app){
   router.route('/').get(
           cors(),
           passport.authenticate('bearer', { session: false }),
+
           function(req, res) {
                //tell who the user is... remove tokens maybe later?
-               var user = clone(req.user);
-               if(user.hasOwnProperty("scope"))
-                 user.scope = JSON.parse(user.scope);
+               if(req.user){
+                   var user = clone(req.user);
+                   if(user.hasOwnProperty("scope")){
+                     //NOTE user scope must be a JSON.stringify of an array... otherwise this will break :(
+                     user.scope = JSON.parse(user.scope);
+                   }
+                   res.json(user);
+               }
+               else{
+                   res.status(401).json({"error":"not authenticated"})
+               }
 
-               res.json(user);
          }
   );
   return router;

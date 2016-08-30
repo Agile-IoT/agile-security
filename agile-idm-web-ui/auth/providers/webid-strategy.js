@@ -1,20 +1,18 @@
 var passport = require('passport');
-var GithubStrategy = require('passport-github2').Strategy;
+var WebIDStrategy = require('passport-webid').Strategy;
 var conf = require('../../conf/agile-ui-conf');
-var connectionPoolPromisse = require('../token-connection-pool');
+var dateUtils = require('../../util/date');
 var tokens = require('../../util/token-generator');
+var connectionPoolPromisse = require('../token-connection-pool');
 
 connectionPoolPromisse.then(function(storage){
   //strategy :)
   try{
-      passport.use(new GithubStrategy({
-        clientID: conf.auth.github.clientID,
-        clientSecret: conf.auth.github.clientSecret,
-        callbackURL: conf.auth.github.redirect_path,
-        scope: conf.auth.google.scope
-        },
-        function(accessToken, refreshToken, profile, done) {
-          storage.getTokenByUserId(profile.id,function(result){
+
+      passport.use(new WebIDStrategy(  { failureRedirect: '/fail', failureFlash: true },
+        function(webid, certificate, req, done) {
+
+          storage.getTokenByUserId(webid,function(result){
               if(result.success){
                       console.log("result from deserialize data"+ JSON.stringify(result.data));
                       done(null, result.data);
@@ -23,35 +21,37 @@ connectionPoolPromisse.then(function(storage){
               //console.log(JSON.stringify(profile));
               var cookie_id=tokens.generateCookie();
               var id=tokens.generateId();
+              var accessToken = tokens.generateToken();
+
               token={};
-              token["user_id"]= profile.username;
+              token["user_id"]= webid;
               //TODO fix date ... it doesn't expire
-              token["expiration"]= null;
-              token["scope"]=JSON.stringify(conf.auth.github.scope);
-              token["token_type"] = "bearer";
-              token["auth_type"] = "github";
+              var d = Date.parse(certificate.valid_to);
+              token["expiration"]=dateUtils.dateToSqlite(d);
+              token["scope"]=JSON.stringify(["web_id"]);
+              token["token_type"] = "webid";
+              token["auth_type"] = "webid";
               token['token'] = accessToken;
 
               //console.log('cookie '+cookie_id)
               //console.log('id '+id)
-              storage.storeToken(id, cookie_id, "github",token,function(result){
+              storage.storeToken(id, cookie_id, token["auth_type"], token,function(result){
                  if(result.hasOwnProperty("success") &&  result.success){
-                  console.log('github token stored '+ id)
-                  console.log('github user returned  '+ JSON.stringify(token));
-
+                  console.log('webid token stored '+ id)
+                  console.log('webid user returned  '+ JSON.stringify(token));
                    return done(null,token);
                  }
                  else{
                     console.log('cannot store token '+JSON.stringify(result));
                     return done(result.error);
-
                  }
               });
-            }
+             }
           });
-        }
-      ));
-      console.log('finished registering passport github strategy');
+
+      }
+     ));
+     console.log('finished registering passport webid strategy');
 
   }catch(e){
     console.log('FAIL TO register a strategy');

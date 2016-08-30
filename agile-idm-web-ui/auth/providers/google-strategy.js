@@ -2,6 +2,7 @@ var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth2').Strategy;
 const  fs = require('fs');
 var dateUtils = require('../../util/date');
+var tokens = require('../../util/token-generator');
 var connectionPoolPromisse = require('../token-connection-pool');
 var conf = require('../../conf/agile-ui-conf');
 
@@ -27,10 +28,8 @@ connectionPoolPromisse.then(function(storage){
               else {
 
                 //console.log(JSON.stringify(accessToken));
-                var cookie_id=Math.random().toString();
-               cookie_id=cookie_id.substring(2,cookie_id.length);
-                var id=Math.random().toString();
-               id=cookie_id.substring(2,cookie_id.length);
+                var cookie_id=tokens.generateCookie();
+                var id=tokens.generateId();
                 token={};
                 token["user_id"]= profile.email;
                 var exp = 1200;
@@ -48,7 +47,6 @@ connectionPoolPromisse.then(function(storage){
                 storage.storeToken(id, cookie_id, profile.provider, token,function(result){
                    if(result.hasOwnProperty("success")  && result.success){
                     console.log('google token stored '+ id)
-                    token.id = token["user_id"];
                     console.log('google user returned  '+ JSON.stringify(token));
                      return done(null,token);
                    }

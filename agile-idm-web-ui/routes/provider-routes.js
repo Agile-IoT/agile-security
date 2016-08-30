@@ -3,6 +3,7 @@ var passport = require('passport');
 var express = require('express');
 
 function RouterPassport(app){
+
   var failUrl = '/static/error/error.html';
   var router = express.Router();
 
@@ -46,6 +47,15 @@ function RouterPassport(app){
       console.log("session cookie"+JSON.stringify(req.session.cookie));
       res.redirect('/static/index.html');
   });
+
+  router.route('/web_id').get(
+     //TODO adjust to show errors with express properly
+     passport.authenticate('webid', { failureRedirect: '/failUrl', failureFlash: true  }),
+         function(req, res) {
+             res.redirect('/static/index.html');
+  });
+
   return router;
+
 }
 module.exports = RouterPassport;

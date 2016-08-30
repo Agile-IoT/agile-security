@@ -4,6 +4,7 @@ const  fs = require('fs');
 var dateUtils = require('../../util/date');
 var connectionPoolPromisse = require('../token-connection-pool');
 var conf = require('../../conf/agile-ui-conf');
+var tokens = require('../../util/token-generator');
 var user = null;
 var pam = null;
 
@@ -19,21 +20,19 @@ try {
 }
 
 function setToken(storage, username, auth_type, done){
-      var cookie_id=Math.random().toString();
-      cookie_id=cookie_id.substring(2,cookie_id.length);
-      var id=Math.random().toString();
-      id=cookie_id.substring(2,cookie_id.length);
+      var cookie_id=tokens.generateCookie();
+      var id=tokens.generateId();
+      var accessToken = tokens.generateToken();
       var token = {};
-      token["token"]=cookie_id;
-      token["scope"]="gateway_id";
+      token["token"]=accessToken;
+      token["scope"]=JSON.stringify([conf["gateway_id"]]);
       token["token_type"]="agile_unix_pam";
       token["auth_type"] = auth_type;
       token["user_id"] = username;
 
       storage.storeToken(id, cookie_id,token["auth_type"], token,function(result){
          if(result.hasOwnProperty("success")  && result.success){
-          console.log(auth_type+' token stored '+ id)
-          token.id = token["user_id"];
+            console.log(auth_type+' token stored '+ id)
             return done(null,token);
          }
          else{
@@ -59,7 +58,7 @@ connectionPoolPromisse.then(function(storage){
                   }
                   else{
                     if (password == user.password && username == user.username){
-                        setToken(storage, username, "fallback_)user_no_pam", done);
+                        setToken(storage, username, "fallback_user_no_pam", done);
                     }
                     else{
                         return done(null, false);

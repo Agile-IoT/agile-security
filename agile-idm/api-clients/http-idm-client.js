@@ -24,7 +24,7 @@ HTTPIDMClient.prototype.authenticateEntity = function(authentication_type, token
     /*if(authentication_type && authentication_type !=null ){
       url = url  +authentication_type;
     }*/
-    console.log(url + token);
+    //console.log(url + token);
   	var options = {
                           url: url,
                           headers: {'Authorization': "bearer "+ token,
@@ -33,7 +33,7 @@ HTTPIDMClient.prototype.authenticateEntity = function(authentication_type, token
                           }
           };
   	function handleHttpResponse(onAuthenticationFinished, error, response, body) {
-      			console.log("args from IDM url:  "+JSON.stringify(arguments));
+      			//console.log("args from IDM url:  "+JSON.stringify(arguments));
             if (!error && response.statusCode == 200) {
 
   						var result = {"success":true,"error":"","data":{}};
@@ -47,7 +47,7 @@ HTTPIDMClient.prototype.authenticateEntity = function(authentication_type, token
   			 								     "error": "wrong satus code from authentication: "+response.statusCode+" error "+ body
   					   };
   					   if(response.statusCode == 401){
-  					  	result.error = "bad credentials for github authentication";
+  					  	result.error = "bad credentials for authentication";
   					   }
   					   onAuthenticationFinished(result);
   					   return;

@@ -3,7 +3,7 @@ var dateFormat = require('dateformat');
 
 var dateToSqlite = function(date){
        dateFormat.masks.dbTime = 'yyyy-mm-dd HH:MM:ss';
-       return (dateFormat(now, "dbTime"));
+       return (dateFormat(date, "dbTime"));
 }
 var sqliteDateNowPlusSeconds = function (seconds){
        var date = new Date();
