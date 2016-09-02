@@ -43,7 +43,7 @@ connectionPoolPromisse.then(function(storage){
                  }
                  else{
                     console.log('cannot store token '+JSON.stringify(result));
-                    return done(result.error);
+                    return done(null, false,   {message: result.error});
                  }
               });
              }

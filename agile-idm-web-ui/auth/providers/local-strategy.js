@@ -37,7 +37,7 @@ function setToken(storage, username, auth_type, done){
          }
          else{
             console.log('cannot store token '+JSON.stringify(result));
-            return done(result.error);
+            return done(null, false,   {message: result.error});
 
          }
       });

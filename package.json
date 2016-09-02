@@ -1,8 +1,8 @@
 {
-  "name": "agile-idm",
-  "version": "1.0.0",
-  "repository": "https://github.com/Agile-IoT/agile-IDM/",
-  "description": "Generic Identity Management for the IoT",
+  "name": "agile-idm-web-ui",
+  "version": "1.0.1",
+  "repository": "https://github.com/Agile-IoT/agile-idm-web-ui",
+  "description": "Generic Identity Management for the IoT (Web Component)",
   "main": "main.js",
   "directories": {
     "test": "tests"
@@ -22,7 +22,6 @@
     "https": "^1.0.0",
     "method-override": "^2.3.6",
     "morgan": "^1.7.0",
-    "node-rsa": "0.3.x",
     "node-uuid": "1.4.7",
     "passport": "^0.3.2",
     "passport-github2": "^0.1.10",
@@ -31,9 +30,7 @@
     "passport-local": "^1.0.0",
     "passport-webid": "git+https://github.com/Agile-IoT/passport-webid",
     "request": "2.x",
-    "simple-oauth2": "0.8.0",
-    "sqlite3": "3.1.4",
-    "webid": "^0.3.7"
+    "sqlite3": "3.1.4"
   },
   "devDependencies": {
     "mocha": "2.4.5",

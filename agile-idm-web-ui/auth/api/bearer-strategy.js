@@ -12,8 +12,8 @@ connectionPoolPromisse.then(function(storage){
                return done(null, result.data);
             }
             else{
-               console.log('cannot store token '+JSON.stringify(result));
-               return done(result.error);
+               console.log('cannot find token '+JSON.stringify(result));
+               return done(null, false,   {message: result.error});
             }
 
           });

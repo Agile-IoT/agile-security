@@ -1,3 +1,7 @@
-conf/agile-ui-conf.js
-node_modules/**
-**~
+*node_modules*
+*.svn*
+*~
+*.sqlite3
+*npm-debug.log
+*/external-api/d-bus/resources/**
+*.conf
