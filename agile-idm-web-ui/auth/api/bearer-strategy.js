@@ -3,7 +3,7 @@ var BearerStrategy = require('passport-http-bearer').Strategy;
 var connectionPoolPromisse = require('../token-connection-pool');
 
 
-connectionPoolPromisse.then(function(storage){
+connectionPoolPromisse(conf).then(function(storage){
  try{
        passport.use(new BearerStrategy(
         function(token, done) {

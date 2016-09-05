@@ -37,7 +37,7 @@ module.exports = {
 		}
 	},
 	"tls":{
-		"key":"../certs/server.key",
-		"cert":"../certs/server.crt"
+		"key":"./certs/server.key",
+		"cert":"./certs/server.crt"
 	}
 }

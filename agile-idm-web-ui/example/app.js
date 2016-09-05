@@ -8,8 +8,8 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const logger = require('morgan');
 const methodOverride = require('method-override');
-const RouterProviers = require('./routes/provider-routes');
-const RouterApi = require('./routes/api-routes');
+const RouterProviers = require('../lib/routes/provider-routes');
+const RouterApi = require('../lib/routes/api-routes');
 var conf = require('./conf/agile-ui-conf');
 var https = require('https');
 var app = express();
@@ -29,18 +29,18 @@ var app = express();
   app.use(passport.session());
 
   //set up external providers with passport
-  require('./auth/providers/serializer')
-  require('./auth/providers/strategies')
-  var providersRouter = new RouterProviers(app);
+  require('../lib/auth/providers/serializer')(conf)
+  require('../lib/auth/providers/strategies')(conf)
+  var providersRouter = new RouterProviers(conf, app);
   app.use("/auth",providersRouter);
 
   //set up authentication API
-  require('./auth/api/bearer-strategy')
+  require('../lib/auth/api/bearer-strategy')(conf)
   var apiRouter = new RouterApi(app);
   app.use("/api",apiRouter);
 
   //set up static sites
-  app.use("/static",express.static(path.join(__dirname, './static')));
+  app.use("/static",express.static(path.join(__dirname, '../lib/static')));
   //TODO check this... https://github.com/expressjs/express/issues/2760
 
 

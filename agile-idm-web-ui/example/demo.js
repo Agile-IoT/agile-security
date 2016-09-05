@@ -1,8 +1,10 @@
 var passport = require('passport');
-const IDMClient = require('../agile-idm/api-clients/dbus-session-client.js');
-var client = new IDMClient();
+const IdmCore = require('agile-idm-core');
 var session = require('express-session')
 
+
+var conf = require("./conf/agile-idm-core-conf");
+var idmcore = new IdmCore(conf);
 
 var Demo =  function (app){
 
@@ -16,9 +18,12 @@ var Demo =  function (app){
         if(authData){
            if(req.body && req.body["name"]){
             //console.log('body:'+JSON.stringify(req.body));
-            client.registerEntity({"id":req.params.sensor_id,"auth_type":authData["auth_type"],"token":authData["token"],"entity_type":"sensor","name":req.body["name"]},function(result){
-              res.json(result);
-            });
+            var prom = idmcore.actionPromisse(authData["token"],"CREATE" , "/Sensor",req.params.sensor_id, {"name":req.body["name"]} );
+            prom.then(function(data){
+              res.send('data from api: '+JSON.stringify(data));
+            }, function(error){
+              res.json(error);
+            })
           }
           else{
             res.send({success:false,error:'not all parameters have been received.'});

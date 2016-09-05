@@ -2,7 +2,7 @@
 var passport = require('passport');
 var express = require('express');
 
-function RouterPassport(app){
+function RouterPassport(conf, app){
 
   var failUrl = '/static/error/error.html';
   var router = express.Router();

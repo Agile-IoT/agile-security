@@ -1,0 +1,54 @@
+{
+  "name": "agile-idm-web-ui",
+  "version": "1.0.1",
+  "repository": "https://github.com/Agile-IoT/agile-idm-web-ui",
+  "description": "Generic Identity Management for the IoT (Web Component)",
+  "main": "main.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "authenticate-pam": "1.0.2",
+    "body-parser": "1.x",
+    "clone": "1.0.2",
+    "cookie-parser": "1.4.3",
+    "cors": "2.7.1",
+    "dateformat": "^1.0.12",
+    "dbus-native": "0.2.0",
+    "escape-html": "1.0.3",
+    "express": "^4.13.4",
+    "express-session": "^1.14.0",
+    "googleapis": "8.x",
+    "https": "^1.0.0",
+    "method-override": "^2.3.6",
+    "morgan": "^1.7.0",
+    "node-uuid": "1.4.7",
+    "passport": "^0.3.2",
+    "passport-github2": "^0.1.10",
+    "passport-google-oauth2": "^0.1.6",
+    "passport-http-bearer": "^1.0.1",
+    "passport-local": "^1.0.0",
+    "passport-webid": "git+https://github.com/Agile-IoT/passport-webid",
+    "request": "2.x",
+    "sqlite3": "3.1.4"
+  },
+  "devDependencies": {
+    "mocha": "2.4.5",
+    "deep-diff": "0.3.3",
+    "assert": "1.4.1"
+  },
+  "scripts": {
+    "no-auth-install": "cp package.json package.json.back; cat package.json |grep -v authenticate-pam>package1.json; mv package1.json package.json;npm install;mv package.json.back package.json",
+    "test": "mocha tests/*.js"
+  },
+  "keywords": [
+    "Identity",
+    "Management",
+    "Internet",
+    "of",
+    "Things",
+    "Gateway"
+  ],
+  "author": "nopbyte",
+  "license": "Apache-2.0"
+}
