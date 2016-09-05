@@ -1,9 +1,0 @@
-{
-  "name": "dbus-agile-idm-api",
-  "version": "1.0.0",
-  "description": "api through dbus for agile gateway",
-  "main": "http-rest-api.js",
-  "dependencies":{
-       "dbus-native":"0.2.0"	  
-  }
-}

@@ -18,11 +18,14 @@ var Demo =  function (app){
         if(authData){
            if(req.body && req.body["name"]){
             //console.log('body:'+JSON.stringify(req.body));
-            var prom = idmcore.actionPromisse(authData["token"],"CREATE" , "/Sensor",req.params.sensor_id, {"name":req.body["name"]} );
+            console.log(JSON.stringify([authData["token"],"create","/Sensor",req.params.sensor_id, {"name":req.body["name"]}]));
+            var prom = idmcore.actionPromisse(authData["token"],"create" , "/Sensor",req.params.sensor_id, {"name":req.body["name"]} );
             prom.then(function(data){
-              res.send('data from api: '+JSON.stringify(data));
+              console.log('ok'+data);
+              res.json({result:success, data:data});
             }, function(error){
               res.json(error);
+              console.log('error'+error);
             })
           }
           else{
