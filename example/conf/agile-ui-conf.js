@@ -9,10 +9,10 @@ module.exports = {
 	},
 	"auth":{
  			  "github":{
-					"clientID": "getGithubId",
-					"clientSecret": "getGithubSecret",
-					"redirect_path": "http://localhost:3000/callback_github",
-					"scope": ["notifications"]
+						"clientID": "getGithubId",
+						"clientSecret": "getGithubSecret",
+						"redirect_path": "http://localhost:3000/callback_github",
+						"scope": ["notifications"]
        },
        "dropbox":{
             "clientID":  "getDropboxId",
@@ -21,19 +21,15 @@ module.exports = {
 						"scope": [""]
        },
        "google":{
-            "clientID": "getGoogleId",
-            "clientSecret": "getGoogleSecret",
-						"redirect_path": "http://localhost:3000/callback_google",
-            "scope": ["https://www.googleapis.com/auth/drive","https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"]
+						 "clientID": "getGoogleId",
+						 "clientSecret": "getGoogleSecret",
+						 "redirect_path": "http://localhost:3000/callback_google",
+						 "scope": ["https://www.googleapis.com/auth/drive","https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"]
        },
 		"pam":{
-			"initial_path":"/pam_unix",
-			"host_name": "http://localhost:3000"
+
 		},
 		"web-id":{
-			"initial_path":"/web_id",
-			"host_name": "http://localhost:3000",
-			"final_path":"/static/index.html"
 		}
 	},
 	"tls":{
