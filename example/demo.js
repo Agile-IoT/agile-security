@@ -22,10 +22,11 @@ var Demo =  function (app){
             var prom = idmcore.actionPromisse(authData["token"],"create" , "/Sensor",req.params.sensor_id, {"name":req.body["name"]} );
             prom.then(function(data){
               console.log('ok'+data);
-              res.json({result:success, data:data});
-            }, function(error){
-              res.json(error);
-              console.log('error'+error);
+              res.json({success:true, data:data});
+            }).catch(function(error){
+              console.log('something went wrong')
+              console.warn('error'+error.toString());
+              res.json({"success":false, "error":error.toString()});
             })
           }
           else{

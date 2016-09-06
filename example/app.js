@@ -3,20 +3,21 @@ var express = require('express');
 var path = require('path');
 var passport = require('passport');
 var fs = require('fs');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const session = require('express-session');
-const logger = require('morgan');
-const methodOverride = require('method-override');
-const RouterProviers = require('../lib/routes/provider-routes');
-const RouterApi = require('../lib/routes/api-routes');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var session = require('express-session');
+var logger = require('morgan');
+var methodOverride = require('method-override');
+var idmWeb = require('../index');
+
+const RouterProviers = idmWeb.RouterProviers;
+const RouterApi = idmWeb.RouterApi;
 var conf = require('./conf/agile-ui-conf');
 var https = require('https');
 var app = express();
 
 
-  ///app.set('views', __dirname + '/views');
-  //app.set('view engine', 'jade');
+
   app.use(logger('dev'));
   app.use(cookieParser());
   app.use(bodyParser());
@@ -29,42 +30,33 @@ var app = express();
   app.use(passport.session());
 
   //set up external providers with passport
-  require('../lib/auth/providers/serializer')(conf)
-  require('../lib/auth/providers/strategies')(conf)
+  idmWeb.serializer(conf)
+  idmWeb.authStrategies(conf)
   var providersRouter = new RouterProviers(conf, app);
   app.use("/auth",providersRouter);
 
   //set up authentication API
-  require('../lib/auth/api/bearer-strategy')(conf)
+  idmWeb.apiStrategies(conf)
   var apiRouter = new RouterApi(app);
   app.use("/api",apiRouter);
 
   //set up static sites
   app.use("/static",express.static(path.join(__dirname, '../lib/static')));
-  //TODO check this... https://github.com/expressjs/express/issues/2760
 
 
-
+  //NOTE this demo registers a sensor based on the request coming from the browser (authenticating through cookies with passport)
+  //also this example uses idm-core for the registration
   var Demo = require('./demo');
   d= new Demo(app);
 
 app.get("/", function(req,res){
     res.redirect("/static/index.html");
 });
-  //app.use('/api', router);
-// routes
-//app.get('/', routes.index);
-//app.get('/ping', routes.ping);
+
+//NOTE example on how to access authentication info in express... :)
 app.get('/account', ensureAuthenticated, function(req, res){
   console.log(req.session.passport.user);
   res.send(req.session.passport.user);
-  /*User.findById(req.session.passport.user, function(err, user) {
-    if(err) {
-      console.log(err);  // handle errors
-    } else {
-      res.render('account', { user: user});
-    }
-  });*/
 });
 
 
