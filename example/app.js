@@ -8,8 +8,12 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var logger = require('morgan');
 var methodOverride = require('method-override');
+var idmWeb = require('agile-idm-web-ui');
+/*
+Otherwise use
 var idmWeb = require('../index');
-
+and keep in mind this requires npm install on the root folder.
+*/
 const RouterProviers = idmWeb.RouterProviers;
 const RouterApi = idmWeb.RouterApi;
 var conf = require('./conf/agile-ui-conf');
