@@ -314,16 +314,20 @@ IDM also offers a local authentication component (not using external IDPs and wh
 
 # Installing
 
-## with PAM (pam branch)
+## with PAM
 
-libpam0g-dev is a library required to perform PAM authentication, i.e. native linux authentication. This allows users to provide usernames and passwords to authenticate themselves with the underlying operating system. Therefore, we keep a branch called pam in which the npm install will install the node js library (but not the OS library).
+libpam0g-dev is a library required to perform PAM authentication, i.e. native linux authentication. This allows users to provide usernames and passwords to authenticate themselves with the underlying operating system. Since we don't want to force everyone to run this on Linux... by default IDM doesn't install pam authentication.
 
 To use PAM you need to install libpam0g-dev in your linux OS. For instance, in debian or ubuntu you can do:
+
 ```
 sudo apt-get install libpam0g-dev
 ```
 
+Afterwards you can install IDM with PAM by typing (if you need to revert the changes to recover the original package json just do git checkout :) ):
+
 ```
+mv package-pam.json package.json
 npm install
 ```
 
@@ -339,11 +343,7 @@ In this case the username and password will be the one provided in the configura
 
 # Including IDM-web in your package.json
 
-If you want to include the version without PAM, just add "agile-idm-web-ui": "https://github.com/Agile-IoT/agile-idm-web-ui" to your dependencies.
-
-If you want to use PAM (and have installed the OS library, and are running linux) add "agile-idm-web-ui": "https://github.com/Agile-IoT/agile-idm-web-ui#pam" to your dependencies.
-
-The only difference between the two branch will be the package json.
+If you want to include the version without PAM, just add "agile-idm-web-ui": "https://github.com/Agile-IoT/agile-idm-web-ui" to your dependencies. However, keep in mind this installation doesn't integrate PAM. If you have a good idea on how to support this (through npm pacakage.json script or any other way, an issue describint how or a pull request with the change would be welcome).
 
 ## Run the Example
 
