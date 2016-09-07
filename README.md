@@ -312,21 +312,18 @@ IDM also offers a local authentication component (not using external IDPs and wh
 * Compares username and passowrd to the one provided in the configuration (see the configuration example property auth.local.fallback-user-no-pam. This makes sure that IDM runs out of the box.
 * Uses the Linux PAM module to authenticate with users that are registered in the linux machine where IDM is running. Since this requires 1) a linux machine and 2) additional libraries in the OS level, this needs to be configured properly.
 
-# Installing with PAM
+# Installing
 
+## with PAM (pam branch)
 
-libpam0g-dev is a library required to perform PAM authentication, i.e. native linux authentication. This allows users to provide usernames and passwords to authenticate themselves with the underlying operating system.
+libpam0g-dev is a library required to perform PAM authentication, i.e. native linux authentication. This allows users to provide usernames and passwords to authenticate themselves with the underlying operating system. Therefore, we keep a branch called pam in which the npm install will install the node js library (but not the OS library).
 
 To use PAM you need to install libpam0g-dev in your linux OS. For instance, in debian or ubuntu you can do:
-
 ```
 sudo apt-get install libpam0g-dev
 ```
 
-Afterwards you can install IDM with PAM by typing (if you need to revert the changes to recover the original package json just do git checkout :) ):
-
 ```
-mv package-pam.json package.json
 npm install
 ```
 
@@ -339,6 +336,14 @@ npm install
 ```
 
 In this case the username and password will be the one provided in the configuration.
+
+# Including IDM-web in your package.json
+
+If you want to include the version without PAM, just add "agile-idm-web-ui": "https://github.com/Agile-IoT/agile-idm-web-ui" to your dependencies.
+
+If you want to use PAM (and have installed the OS library, and are running linux) add "agile-idm-web-ui": "https://github.com/Agile-IoT/agile-idm-web-ui#pam" to your dependencies.
+
+The only difference between the two branch will be the package json.
 
 ## Run the Example
 
