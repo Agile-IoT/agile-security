@@ -9,10 +9,13 @@ var session = require('express-session');
 var logger = require('morgan');
 var methodOverride = require('method-override');
 var idmWeb = require('agile-idm-web-ui');
+//var idmWeb = require('../index');
 /*
-Otherwise use
+ use during development
 var idmWeb = require('../index');
-and keep in mind this requires npm install on the root folder.
+otherwise use
+var idmWeb = require('agile-idm-web-ui'); to bring the module from github
+
 */
 const RouterProviers = idmWeb.RouterProviers;
 const RouterApi = idmWeb.RouterApi;
@@ -31,6 +34,10 @@ var app = express();
     saveUninitialized: false
   }));
   app.use(passport.initialize());
+  //NOTE: could help for error handling
+  //var flash = require('connect-flash');
+  //app.use(flash());
+  //also enable failureFlash in the proper part of  routes/provider-routes.js
   app.use(passport.session());
 
   //set up external providers with passport
