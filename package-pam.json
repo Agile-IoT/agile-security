@@ -8,6 +8,7 @@
     "test": "tests"
   },
   "dependencies": {
+    "authenticate-pam": "1.0.2",
     "body-parser": "1.x",
     "clone": "1.0.2",
     "cookie-parser": "1.4.3",
@@ -37,6 +38,7 @@
     "assert": "1.4.1"
   },
   "scripts": {
+    "no-auth-install": "cp package.json package.json.back; cat package.json |grep -v authenticate-pam>package1.json; mv package1.json package.json;npm install;mv package.json.back package.json",
     "test": "mocha tests/*.js"
   },
   "keywords": [
