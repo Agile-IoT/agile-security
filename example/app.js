@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var logger = require('morgan');
 var methodOverride = require('method-override');
-var idmWeb = require('agile-idm-web-ui');
+var idmWeb = require('../index');
 
 const RouterProviers = idmWeb.RouterProviers;
 const RouterApi = idmWeb.RouterApi;
