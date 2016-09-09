@@ -17,7 +17,7 @@ module.exports = {
       "github":{
          "clientID":"getGithubId",
          "clientSecret":"getGithubSecret",
-         "redirect_path":"http://localhost:3000/callback_github",
+         "redirect_path":"http://localhost:3000/auth/callback_github",
          "scope":[
             "notifications"
          ]
@@ -25,7 +25,7 @@ module.exports = {
       "dropbox":{
          "clientID":"getDropboxId",
          "clientSecret":"getDropboxSecret",
-         "redirect_path":"http://localhost:3000/callback_dropbox",
+         "redirect_path":"http://localhost:3000/auth/callback_dropbox",
          "scope":[
             ""
          ]
@@ -33,7 +33,7 @@ module.exports = {
       "google":{
          "clientID":"getGoogleId",
          "clientSecret":"getGoogleSecret",
-         "redirect_path":"http://localhost:3000/callback_google",
+         "redirect_path":"http://localhost:3000/auth/callback_google",
          "scope":[
             "https://www.googleapis.com/auth/drive",
             "https://www.googleapis.com/auth/userinfo.profile",
