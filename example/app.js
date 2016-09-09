@@ -8,13 +8,16 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var logger = require('morgan');
 var methodOverride = require('method-override');
-var idmWeb = require('agile-idm-web-ui');
-//var idmWeb = require('../index');
+var idmWeb =  require('../index');
+
 /*
- use during development
-var idmWeb = require('../index');
-otherwise use
-var idmWeb = require('agile-idm-web-ui'); to bring the module from github
+ use during development:
+ -  var idmWeb = require('../index');
+ -  & make sure that you use the package.json without requiring passport!! use package.json
+
+for production:
+- var idmWeb = require('agile-idm-web-ui'); to bring the module from github
+- use the package-prod.json with passport!
 
 */
 const RouterProviers = idmWeb.RouterProviers;
