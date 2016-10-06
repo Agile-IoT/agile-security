@@ -22,7 +22,7 @@ for production:
 */
 const RouterProviers = idmWeb.RouterProviers;
 const RouterApi = idmWeb.RouterApi;
-var conf = require('/etc/idm/agile-ui-conf');
+var conf = require('/etc/idm/agile-ui-conf-demo-osjs');
 var https = require('https');
 var app = express();
 
