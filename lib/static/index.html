@@ -26,7 +26,22 @@
 							window.location = (google_url)
 						}
 						else if(provider == "web_id"){
-							window.location = (web_id_url)
+							  console.log('webid');
+                var port = webidPort;
+                var str = window.location.href;
+                var res = str.split("://");
+                var parts = res[1].split(":");
+                var host = parts[0];
+                var paths = [];
+                if(parts.length>1){
+	                 paths = parts[1].split("/");
+                }
+                else{
+	                 paths = parts[0].split("/");
+	                 host = paths[0];
+                }
+                var url = "https://"+host+":"+port+web_id_url;
+						 	  window.location = url;
 						}
 						else if(provider == "dropbox"){
 							window.location = (dropbox_url)
