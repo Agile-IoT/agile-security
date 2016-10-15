@@ -1,6 +1,6 @@
 {
   "name": "agile-idm-web-ui",
-  "version": "1.0-alpha",
+  "version": "1.0",
   "repository": "https://github.com/Agile-IoT/agile-idm-web-ui",
   "description": "Generic Identity Management for the IoT (Web Component)",
   "main": "main.js",
@@ -27,7 +27,7 @@
     "passport-google-oauth2": "^0.1.6",
     "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0",
-    "passport-webid": "git+https://github.com/Agile-IoT/passport-webid#v1.0-alpha",
+    "passport-webid": "git+https://github.com/Agile-IoT/passport-webid#v1.0",
     "request": "2.x",
     "sqlite3": "3.1.4"
   },
