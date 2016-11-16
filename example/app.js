@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var logger = require('morgan');
 var methodOverride = require('method-override');
-var idmWeb =  require('../index');
+var idmWeb = require('../index');
 
 /*
  use during development:
@@ -20,61 +20,56 @@ for production:
 - use the package-prod.json with passport!
 
 */
-const RouterProviers = idmWeb.RouterProviers;
-const RouterApi = idmWeb.RouterApi;
+var RouterProviers = idmWeb.RouterProviers;
+var RouterApi = idmWeb.RouterApi;
 var conf = require('./conf/agile-ui-conf');
 var https = require('https');
 var app = express();
 
+app.use(logger('dev'));
+app.use(cookieParser());
+app.use(bodyParser());
+app.use(methodOverride());
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+//NOTE: could help for error handling
+//var flash = require('connect-flash');
+//app.use(flash());
+//also enable failureFlash in the proper part of  routes/provider-routes.js
+app.use(passport.session());
 
+//set up external providers with passport
+idmWeb.serializer(conf);
+idmWeb.authStrategies(conf);
+var providersRouter = new RouterProviers(conf, app);
+app.use("/auth", providersRouter);
 
-  app.use(logger('dev'));
-  app.use(cookieParser());
-  app.use(bodyParser());
-  app.use(methodOverride());
-  app.use(session({  secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: false
-  }));
-  app.use(passport.initialize());
-  //NOTE: could help for error handling
-  //var flash = require('connect-flash');
-  //app.use(flash());
-  //also enable failureFlash in the proper part of  routes/provider-routes.js
-  app.use(passport.session());
+//set up authentication API
+idmWeb.apiStrategies(conf);
+var apiRouter = new RouterApi(app);
+app.use("/api", apiRouter);
 
-  //set up external providers with passport
-  idmWeb.serializer(conf)
-  idmWeb.authStrategies(conf)
-  var providersRouter = new RouterProviers(conf, app);
-  app.use("/auth",providersRouter);
+//set up static sites
+app.use("/static", express.static(path.join(__dirname, '../lib/static')));
 
-  //set up authentication API
-  idmWeb.apiStrategies(conf)
-  var apiRouter = new RouterApi(app);
-  app.use("/api",apiRouter);
+//NOTE this demo registers a sensor based on the request coming from the browser (authenticating through cookies with passport)
+//also this example uses idm-core for the registration
+var Demo = require('./demo');
+d = new Demo(app);
 
-  //set up static sites
-  app.use("/static",express.static(path.join(__dirname, '../lib/static')));
-
-
-  //NOTE this demo registers a sensor based on the request coming from the browser (authenticating through cookies with passport)
-  //also this example uses idm-core for the registration
-  var Demo = require('./demo');
-  d= new Demo(app);
-
-app.get("/", function(req,res){
-    res.redirect("/static/index.html");
+app.get("/", function (req, res) {
+  res.redirect("/static/index.html");
 });
 
 //NOTE example on how to access authentication info in express... :)
-app.get('/account', ensureAuthenticated, function(req, res){
+app.get('/account', ensureAuthenticated, function (req, res) {
   console.log(req.session.passport.user);
   res.send(req.session.passport.user);
 });
-
-
-
 
 var options = {
   key: fs.readFileSync(conf.tls.key),
@@ -86,7 +81,9 @@ https.createServer(options, app).listen(1443);
 
 // test authentication
 function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
+  if (req.isAuthenticated()) {
+    return next();
+  }
   res.redirect('/');
 }
 
