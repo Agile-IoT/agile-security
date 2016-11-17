@@ -10,11 +10,11 @@ var dbName = "./database_";
 //var rmdir = require('rmdir');
 var conf = {
 
-    "dbName": dbName
+  "dbName": dbName
 };
 
-function cleanDb(done){
-   done();
+function cleanDb(done) {
+  done();
 }
 describe('Level Token Storage', function () {
 
@@ -26,7 +26,7 @@ describe('Level Token Storage', function () {
 
     it('should reject with 404 error when data is not there', function (done) {
 
-            done();
+      done();
     });
 
   });

@@ -5,13 +5,13 @@ module.exports = function (grunt) {
     pkg: grunt.file.readJSON('package.json'),
     jsbeautifier: {
       modify: {
-        src: ['Gruntfile.js', 'lib/**.js', 'tests/**.js', 'example/*.js'],
+        src: ['Gruntfile.js', 'lib/**/*.js', 'tests/**.js', 'example/*.js'],
         options: {
           config: '.jsbeautifyrc'
         }
       },
       verify: {
-        src: ['Gruntfile.js', 'lib/**.js', 'tests/**.js', 'example/*.js'],
+        src: ['Gruntfile.js', 'lib/**/*.js', 'tests/**.js', 'example/*.js'],
         options: {
           mode: 'VERIFY_ONLY',
           config: '.jsbeautifyrc'
@@ -19,7 +19,7 @@ module.exports = function (grunt) {
       }
     },
     jshint: {
-      all: ['Gruntfile.js', 'lib/**.js', 'test/**.js', 'example/*.js']
+      all: ['Gruntfile.js', 'lib/**/*.js', 'test/**.js', 'example/*.js']
     }
   });
 
