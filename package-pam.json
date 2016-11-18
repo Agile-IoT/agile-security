@@ -1,6 +1,6 @@
 {
   "name": "agile-idm-web-ui",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "repository": "https://github.com/Agile-IoT/agile-idm-web-ui",
   "description": "Generic Identity Management for the IoT (Web Component)",
   "main": "main.js",
@@ -8,18 +8,19 @@
     "test": "tests"
   },
   "dependencies": {
-    "authenticate-pam": "1.0.2",
     "body-parser": "1.x",
     "clone": "1.0.2",
     "cookie-parser": "1.4.3",
     "cors": "2.7.1",
     "dateformat": "^1.0.12",
-    "dbus-native": "0.2.0",
     "escape-html": "1.0.3",
     "express": "^4.13.4",
     "express-session": "^1.14.0",
     "googleapis": "8.x",
+    "http-errors": "^1.5.1",
     "https": "^1.0.0",
+    "level": "^1.5.0",
+    "level-transactions": "^2.1.4",
     "method-override": "^2.3.6",
     "morgan": "^1.7.0",
     "node-uuid": "1.4.7",
@@ -29,16 +30,17 @@
     "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0",
     "passport-webid": "git+https://github.com/Agile-IoT/passport-webid#v1.0.0",
-    "request": "2.x",
-    "sqlite3": "3.1.4"
+    "request": "2.x"
   },
   "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-jsbeautifier": "^0.2.13",
     "mocha": "2.4.5",
     "deep-diff": "0.3.3",
     "assert": "1.4.1"
   },
   "scripts": {
-    "no-auth-install": "cp package.json package.json.back; cat package.json |grep -v authenticate-pam>package1.json; mv package1.json package.json;npm install;mv package.json.back package.json",
     "test": "mocha tests/*.js"
   },
   "keywords": [

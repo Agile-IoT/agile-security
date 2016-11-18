@@ -8,12 +8,12 @@
     "test": "tests"
   },
   "dependencies": {
+    "authenticate-pam": "1.0.2",
     "body-parser": "1.x",
     "clone": "1.0.2",
     "cookie-parser": "1.4.3",
     "cors": "2.7.1",
     "dateformat": "^1.0.12",
-    "dbus-native": "0.2.0",
     "escape-html": "1.0.3",
     "express": "^4.13.4",
     "express-session": "^1.14.0",
