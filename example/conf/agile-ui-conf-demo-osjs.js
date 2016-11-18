@@ -1,7 +1,7 @@
 module.exports = {
 	"gateway_id":"1",
    "token-storage":{
-      "dbName":"./tokens.sqlite3",
+      "dbName":"./database_",
       "createTables":true
    },
    "auth":{
