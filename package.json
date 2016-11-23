@@ -8,8 +8,11 @@
     "test": "tests"
   },
   "dependencies": {
+    "agile-idm-entity-storage": "git+https://github.com/Agile-IoT/agile-idm-entity-storage",
     "body-parser": "1.x",
     "clone": "1.0.2",
+    "command-line-args": "^3.0.3",
+    "command-line-usage": "^3.0.7",
     "cookie-parser": "1.4.3",
     "cors": "2.7.1",
     "dateformat": "^1.0.12",
