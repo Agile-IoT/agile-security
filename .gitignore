@@ -4,4 +4,4 @@
 *.sqlite3
 *npm-debug.log
 */external-api/d-bus/resources/**
-*agile-ui-conf.js
+agile-ui-conf.js
