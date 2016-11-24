@@ -22,7 +22,15 @@ for production:
 */
 
 //load configurations
-var conf = require('./conf/agile-ui-conf');
+var conf;
+try{
+  //this one is ignored safely... where you can have your own tokens for Oauth2 :)
+  conf = require('./conf/my-agile-ui-conf');
+}
+catch(error){
+  conf = require('./conf/agile-ui-conf');
+}
+
 var core_conf = require('./conf/agile-idm-core-conf');
 
 var https = require('https');
