@@ -1,7 +1,7 @@
 var passport = require('passport');
 var express = require('express');
 
-function RouterPassport(conf, app) {
+function RouterPassport(conf) {
 
   var failUrl = conf["auth"]["response"]["fail"]["url"];
   var successUrl = conf["auth"]["response"]["success"]["url"];
@@ -57,12 +57,11 @@ function RouterPassport(conf, app) {
   //Google
   router.route('/google').get(
     passport.authenticate('google', {}));
-  //TODO place into router later! Fix README first!
-  app.get /*router.route*/ ('/callback_google' /*).get(*/ ,
-    passport.authenticate('google', {
-      failureRedirect: failUrl
-    }),
-    handleRedirect.bind(this, "google")
+    router.route('/callback_google').get(
+      passport.authenticate('google', {
+        failureRedirect: failUrl
+      }),
+      handleRedirect.bind(this, "google")
   );
 
   router.route('/web_id').get(
