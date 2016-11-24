@@ -59,7 +59,7 @@ idmWeb.apiStrategies(conf);
 app.use("/api", idmWeb.routerApi(app));
 
 //set up static sites
-app.use("/static", express.static(path.join(__dirname, './lib/static')));
+app.use("/static", express.static(path.join(__dirname, './static')));
 
 //oauth2orize server (this allows IDM to work as an Oauth2 provider to apps)
 var oauth2 = idmWeb.oauth2orizeServer(conf,core_conf);
@@ -92,7 +92,7 @@ function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.redirect('/');
+  res.redirect('/login');
 }
 
 module.exports = app;
