@@ -36,5 +36,5 @@ module.exports = {
       "key":"./certs/server.key",
       "cert":"./certs/server.crt"
    },
-	 "enabledStrategies":["agile-local","github"]
+	 "enabledStrategies":["agile-local","github","webid"]
 }
