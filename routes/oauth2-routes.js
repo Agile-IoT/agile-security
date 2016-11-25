@@ -124,7 +124,7 @@ function oauth2Router(tokenconf,entityStorageConf) {
       // `BearerStrategy`.  It is typically used to indicate scope of the token,
       // and used in access control checks.  For illustrative purposes, this
       // example simply returns the scope in the response.
-      res.json({ user_id: req.user.id, name: req.user.name, scope: req.authInfo.scope })
+      res.json({ id: req.user.id, user_name: req.user.user_name, auth_type:req.user.auth_type, scope: req.authInfo.scope })
     }
   ];
 
@@ -136,7 +136,7 @@ function oauth2Router(tokenconf,entityStorageConf) {
           // `BearerStrategy`.  It is typically used to indicate scope of the token,
           // and used in access control checks.  For illustrative purposes, this
           // example simply returns the scope in the response.
-          res.json({ client_id: req.user.id, name: req.user.name, scope: req.authInfo.scope })
+          res.json({ client_id: req.authInfo.clientId, auth_type: req.authInfo.auth_type, scope: req.authInfo.scope /*req.user is also there*/})
       }
   ];
 
