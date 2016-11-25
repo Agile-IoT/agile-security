@@ -12,15 +12,16 @@ function siteRouter() {
   });
 
   router.route('/login').get(function(req, res) {
-    res.render('login');
+    res.render('index');
   });
 
-  router.route('/login').post(
-     passport.authenticate('agile-local', { successReturnToOrRedirect: '/', failureRedirect: '/login' })
-  );
+  //router.route('/login').post(
+  //   passport.authenticate('agile-local'/*'github'*/, { successReturnToOrRedirect: '/', failureRedirect: '/login', failureFlash: true  })
+  //);
 
   router.route('/logout').get(function(req, res) {
     req.logout();
+    //TODO update to delete tokens here?
     res.redirect('/');
   });
 

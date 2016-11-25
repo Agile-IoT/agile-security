@@ -3,43 +3,9 @@ var express = require('express');
 
 function RouterPassport(conf) {
 
-  var failUrl = conf["auth"]["response"]["fail"]["url"];
-  var successUrl = conf["auth"]["response"]["success"]["url"];
 
   var router = express.Router();
 
-  function redirectToConfig(config, req, res) {
-    console.log(JSON.stringify(config));
-    //TODO check if token should be as query param
-    var url = config.url;
-    if (config["token"] && req.user.token) {
-      if (config["token"] == "query-params")
-        url = url + "?token=" + encodeURIComponent(req.user.token);
-    }
-    return res.redirect(url);
-  }
-
-  function handleRedirect(routeType, req, res) {
-    console.log("session id" + req.session.id);
-    console.log("session cookie" + JSON.stringify(req.session.cookie));
-    if (conf["auth"][routeType] && conf["auth"][routeType]["response"] && conf["auth"][routeType]["response"]["success"] && conf["auth"][routeType]["response"]["success"]["url"])
-      return redirectToConfig(conf["auth"][routeType]["response"]["success"], req, res);
-    else
-      return redirectToConfig(conf["auth"]["response"]["success"], req, res);
-
-  }
-
-  //local strategy (REST API JSON)
-  router.route('/local').post(
-    passport.authenticate('agile-local', {
-      failureRedirect: failUrl,
-      usernameField: 'username',
-      passwordField: 'password',
-      passReqToCallback: true
-
-    }),
-    handleRedirect.bind(this, "local")
-  );
 
   //Github
   router.route('/github').get(
@@ -49,29 +15,55 @@ function RouterPassport(conf) {
 
   router.route('/callback_github').get(
     passport.authenticate('github', {
-      failureRedirect: failUrl
-    }),
-    handleRedirect.bind(this, "github")
+      successReturnToOrRedirect: '/', failureRedirect: '/login'
+    })
+    //handleRedirect.bind(this, "github")
   );
+
+  router.route('/local').get(function(req, res) {
+    res.render('local');
+  });
+  router.route('/local').post(
+     passport.authenticate('agile-local'/*'github'*/, { successReturnToOrRedirect: '/', failureRedirect: '/login', failureFlash: true  })
+  );
+  //local strategy (REST API JSON)
+  /*router.route('/local').post(
+    passport.authenticate('agile-local', {
+      successReturnToOrRedirect: '/',
+      failureRedirect: '/login',
+      //usernameField: 'username',
+      //passwordField: 'password',
+      //<passReqToCallback: true,
+      //failureFlash: true
+
+    })//,
+    //function(req, res) {
+    //   res.render('login');
+    //}
+  );*/
+
+  router.route('/pam').post(
+    passport.authenticate('pam', {
+      successReturnToOrRedirect: '/', failureRedirect: '/login'
+    })
+  );
+
 
   //Google
   router.route('/google').get(
     passport.authenticate('google', {}));
     router.route('/callback_google').get(
       passport.authenticate('google', {
-        failureRedirect: failUrl
-      }),
-      handleRedirect.bind(this, "google")
+        successReturnToOrRedirect: '/', failureRedirect: '/login'
+      })
   );
 
   router.route('/web_id').get(
-    //TODO adjust to show errors with express properly. check example in the webid passport (Agile-IoT) it handles errors with ejs and failureFlash true
     passport.authenticate('webid', {
-      failureRedirect: failUrl,
-      passReqToCallback: true,
-      failureFlash: false
-    }),
-    handleRedirect.bind(this, "webid")
+      successReturnToOrRedirect: '/', failureRedirect: '/login',
+      passReqToCallback: true
+      //failureFlash: false
+    })
   );
 
   return router;

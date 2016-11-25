@@ -49,8 +49,8 @@ app.use(session({
 }));
 app.use(passport.initialize());
 //NOTE: could help for error handling
-//var flash = require('connect-flash');
-//app.use(flash());
+var flash = require('connect-flash');
+app.use(flash());
 //also enable failureFlash in the proper part of  routes/provider-routes.js
 app.use(passport.session());
 

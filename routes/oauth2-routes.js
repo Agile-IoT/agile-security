@@ -35,30 +35,6 @@ function oauth2Router(tokenconf,entityStorageConf) {
   //to see the routes go to the bottom...
   var db = require('../lib/db/')(tokenconf,entityStorageConf);
 
-  // User info
-  var user_info = [
-    passport.authenticate('bearer', { session: false }),
-    function(req, res) {
-      // req.authInfo is set using the `info` argument supplied by
-      // `BearerStrategy`.  It is typically used to indicate scope of the token,
-      // and used in access control checks.  For illustrative purposes, this
-      // example simply returns the scope in the response.
-      res.json({ user_id: req.user.id, name: req.user.name, scope: req.authInfo.scope })
-    }
-  ]
-  //client info
-  var client_info = [
-      passport.authenticate('bearer', { session: false }),
-      function(req, res) {
-          // req.authInfo is set using the `info` argument supplied by
-          // `BearerStrategy`.  It is typically used to indicate scope of the token,
-          // and used in access control checks.  For illustrative purposes, this
-          // example simply returns the scope in the response.
-          res.json({ client_id: req.user.id, name: req.user.name, scope: req.authInfo.scope })
-      }
-  ]
-
-  //Oauth2 PROTOCOL
   //we load first the oauth2orize server
   var server = require('../lib/auth/oauth2/oauth2orize')(tokenconf, entityStorageConf);
   // user authorization endpoint
@@ -81,6 +57,7 @@ function oauth2Router(tokenconf,entityStorageConf) {
       server.authorization(function(clientID, redirectURI, done) {
         db.clients.findByClientId(clientID, function(err, client) {
           if (err) { return done(err); }
+          console.log('client '+JSON.stringify(client));
           if(redirectURI === client.redirectURI){
             return done(null, client, redirectURI);
           }
@@ -89,10 +66,13 @@ function oauth2Router(tokenconf,entityStorageConf) {
           }
         });
       }, function (client, user, done) {
+        console.log("authorization endpoint is called with client Id "+client.id+" for user id "+user.id+". We always accept as long as client url matches");
+        //TODO fix this..... have a PDP at some point here?
         return done(null, true);
+        // If we want to ask the user...  This then shows the dialog, and then the decision goes with post to   router.route('/dialog/authorize/decision').post(decision);
+        //return done(null,false);
 
-        //TODO fix this.....
-
+        /*old code
         // Check if grant request qualifies for immediate approval
         if (user.has_token(client)) {
           // Auto-approve
@@ -103,7 +83,7 @@ function oauth2Router(tokenconf,entityStorageConf) {
           return done(null, true);
         }
         // Otherwise ask user
-        done(null, false);
+        done(null, false);*/
       }),
       function(req, res){
         res.render('dialog', { transactionID: req.oauth2.transactionID, user: req.user, client: req.oauth2.client });
@@ -120,7 +100,7 @@ function oauth2Router(tokenconf,entityStorageConf) {
 
   var decision = [
     login.ensureLoggedIn(),
-    server.decision()
+    server.decision()//probably the PDP should have to be placed here (receive request and verify what the PDP says. Just get the post...)
   ];
 
 
@@ -137,6 +117,28 @@ function oauth2Router(tokenconf,entityStorageConf) {
     server.errorHandler()
   ];
 
+  var user_info = [
+    passport.authenticate('bearer', { session: false }),
+    function(req, res) {
+      // req.authInfo is set using the `info` argument supplied by
+      // `BearerStrategy`.  It is typically used to indicate scope of the token,
+      // and used in access control checks.  For illustrative purposes, this
+      // example simply returns the scope in the response.
+      res.json({ user_id: req.user.id, name: req.user.name, scope: req.authInfo.scope })
+    }
+  ];
+
+  //client info
+  var client_info = [
+      passport.authenticate('bearer', { session: false }),
+      function(req, res) {
+          // req.authInfo is set using the `info` argument supplied by
+          // `BearerStrategy`.  It is typically used to indicate scope of the token,
+          // and used in access control checks.  For illustrative purposes, this
+          // example simply returns the scope in the response.
+          res.json({ client_id: req.user.id, name: req.user.name, scope: req.authInfo.scope })
+      }
+  ];
 
   var router = express.Router();
   //oauth2 protocol

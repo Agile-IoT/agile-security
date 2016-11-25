@@ -1,15 +1,19 @@
 var commandLineArgs = require('command-line-args');
 var getUsage = require('command-line-usage');
 var Storage = require('agile-idm-entity-storage').Storage;
-
+var ids =  require('../lib/util/id');
 
 /*
-Parameter descriptions
+Examples of usage:
+  To create a local user wit username bob and password secret:
+  node createUser.js --username=bob --password=secret  --auth=agile-local
+  To create a user wit username abc that will authenticate using github:
+  node createUser.js --username=abc --auth=github
 */
 var sections = [
   {
     header: 'AGILE IDM User Setup Script',
-    content: 'Creates local [italic]{users} which are administrators for IDM. This script is meant to be used during bootstrap of AGILE IDM'
+    content: 'Creates  [italic]{users} which are administrators for IDM. This script is meant to be used during bootstrap of AGILE IDM'
   },
   {
     header: 'User info',
@@ -21,11 +25,18 @@ var sections = [
         description: 'username.'
       },
       {
-        name: 'password',
+        name: 'auth',
         alias:'p',
         typeLabel: '[underline]{String}',
-        description: 'Local password for this administrator'
+        description: 'this can be any authentication_type supported by AGILE-IDM. i.e.  "agile-local","github","google","webid"'
+      },
+      {
+        name: 'password (optional)',
+        alias:'p',
+        typeLabel: '[underline]{String}',
+        description: 'This argument is the password used for the user, and it MUST be passed when  auth is "agile-local".'
       }
+
     ]
   },
   {
@@ -51,17 +62,20 @@ var sections = [
 
 var optionDefinitions = [
   { name: 'username', alias: 'u', type: String },
+  { name: 'auth', alias: 'a', type: String },
   { name: 'password', alias: 'p', type: String },
   { name: 'config', alias: 'c', type: String },
   { name: 'help', alias: 'h', type: String },
 ];
 
-function help(){
+function help(err){
+  if(err)
+    console.log(err);
   console.log(getUsage(sections));
 }
 var args;
 var config;
-var auth_type = "local";
+
 var entity_type = "/User";
 var db_location = {"storage":{"dbName":"../database_"}};
 try{
@@ -69,12 +83,16 @@ try{
   if(args.hasOwnProperty("help"))
     help();
   else{
-    if(args.username && args.password){
+    if(args.auth ==="agile-local" && !args.passord)
+        help(new Error("When local authentication is used a password is required!"));
+
+
+    if(args.username && args.auth){
       if(args.config)
         db_location.storage.dbName = args.config;
 
       var storage = new Storage(db_location);
-      var user_id =  args.username+"!@!"+auth_type;
+      var user_id =  ids.buildId(args.username,args.auth);
       var storage_id = {
          id: user_id,
          entity_type: entity_type
@@ -82,8 +100,11 @@ try{
 
       var user = {
         user_name: args.username,
-        auth_type : auth_type,
-        password : args.password
+        auth_type : args.auth
+
+      }
+      if(args.password){
+        user.password = args.password;
       }
       storage.createEntity(user_id, entity_type, user_id, user).then(function(result){
         console.log("SUCCESS: User created "+JSON.stringify(result));
@@ -98,7 +119,6 @@ try{
   }
 }
 catch(err){
-  console.log(getUsage(sections));
-}
+  help(err);
 
-//node createUser.js --username=bob --password=secret --config=../example/oauth2orize-examples/database_
+}

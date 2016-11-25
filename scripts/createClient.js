@@ -1,11 +1,13 @@
 var commandLineArgs = require('command-line-args');
 var getUsage = require('command-line-usage');
 var Storage = require('agile-idm-entity-storage').Storage;
-/*var optionDefinitions = [
-  { name: 'verbose', alias: 'v', type: Boolean },
-  { name: 'src', type: String, multiple: true, defaultOption: true },
-  { name: 'timeout', alias: 't', type: Number }
-]*/
+/*
+Usage examples:
+Creates a client called Example Comsumer App with secret.
+node createClient.js --client=ward-steward-2 --name="Example Consumer App" --secret="something truly secret" --owner=bob --auth_type=agile-local --uri=http://localhost:3002/auth/example-oauth2orize/callback
+
+Optionally one could add something like  --config=../example/oauth2orize-examples/database_   to store the entities in a different lcoation
+*/
 
 var sections = [
   {
@@ -49,7 +51,7 @@ var sections = [
         name: 'auth_type (optional)',
         alias:'k',
         typeLabel: '[underline]{String}',
-        description: 'authentication type for the owner. In the case of a local user created through the createUser.js scripts this value is "local". If no value is passed the default value used is "local"'
+        description: 'authentication type for the owner. In the case of a local user created through the createUser.js scripts this value is "agile-local". If no value is passed the default value used is "agile-local"'
       }
     ]
   },
@@ -91,9 +93,9 @@ function help(){
 }
 
 var args;
-var auth_type = "local";
+var auth_type = "agile-local";
 var entity_type = "/Client";
-var owner_auth_type = "local";
+var owner_auth_type = "agile-local";
 var db_location = {"storage":{"dbName":"../database_"}};
 try{
    args = commandLineArgs(optionDefinitions);
@@ -134,5 +136,3 @@ catch(err){
   console.log(err);
   console.log(getUsage(sections));
 }
-
-//node createClient.js --client=ward-steward-2 --name="Example Consumer App" --secret="something truly secret" --owner=bob --config=../example/oauth2orize-examples/database_ --auth_type=local --uri=http://localhost:3002/auth/example-oauth2orize/callback

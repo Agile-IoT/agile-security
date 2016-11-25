@@ -5,15 +5,6 @@ module.exports = {
       "createTables":true
    },
    "auth":{
-      "response":{
-         "success":{
-            "url":"/static/index.html",
-            "token":"query-params"
-         },
-         "fail":{
-            "url":"/static/error/error.html"
-         }
-      },
       "github":{
          "clientID":"getGithubId",
          "clientSecret":"getGithubSecret",
@@ -39,24 +30,11 @@ module.exports = {
             "https://www.googleapis.com/auth/userinfo.profile",
             "https://www.googleapis.com/auth/userinfo.email"
          ]
-      },
-      "local":{
-         "response":{
-            "success":{
-               "url":"/static/idm/authenticateUser.html"
-            }
-         },
-         "fallback-user-no-pam":{
-            "username":"admin",
-            "password":"correcthorsebatterystaple"
-         }
-      },
-      "web-id":{
-
       }
    },
    "tls":{
       "key":"./certs/server.key",
       "cert":"./certs/server.crt"
-   }
+   },
+	 "enabledStrategies":["agile-local","github"]
 }
