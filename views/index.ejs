@@ -19,31 +19,8 @@
 			//	else{
 			//		  document.getElementById("loginLocal").style.visibility="hidden";
 						var provider = combo.options[combo.selectedIndex].value;
-						if(provider == "local"){
-								window.location = "/auth/local";
-						}
-						if(provider == "github" || provider == "google" ){
-							window.location = "/auth/"+provider;
-						}
-						else if(provider == "web_id"){
-							  console.log('webid');
-                var port = webidPort;
-                var str = window.location.href;
-                var res = str.split("://");
-                var parts = res[1].split(":");
-                var host = parts[0];
-                var paths = [];
-                if(parts.length>1){
-	                 paths = parts[1].split("/");
-                }
-                else{
-	                 paths = parts[0].split("/");
-	                 host = paths[0];
-                }
-                var url = "https://"+host+":"+port+web_id_url;
-						 	  window.location = url;
-						}
-					
+						window.location = "/auth/"+provider;
+
 				//}
 		});
 	}
@@ -68,10 +45,10 @@
 					<select id="idp">
 					<option value="">choose one</option>
 					<option value="local">local authentication</option>
-					<option value="pam_unix">Pam</option>
+					<option value="pam">Pam</option>
 					 <option value="github">github</option>
 					 <option value="google">google</option>
-					 <option value="web_id">web_id</option>
+					 <option value="webid">webid</option>
 					 <!--option value="dropbox">dropbox</option-->
 					</select>
 											</td>

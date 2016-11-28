@@ -41,7 +41,10 @@ function RouterPassport(conf) {
     //   res.render('login');
     //}
   );*/
-
+  router.route('/pam').get(function(req, res) {
+    res.render('pam');
+  });
+  
   router.route('/pam').post(
     passport.authenticate('pam', {
       successReturnToOrRedirect: '/', failureRedirect: '/login'
@@ -52,13 +55,13 @@ function RouterPassport(conf) {
   //Google
   router.route('/google').get(
     passport.authenticate('google', {}));
-    router.route('/callback_google').get(
+  router.route('/callback_google').get(
       passport.authenticate('google', {
         successReturnToOrRedirect: '/', failureRedirect: '/login'
       })
   );
 
-  router.route('/web_id').get(
+  router.route('/webid').get(
     passport.authenticate('webid', {
       successReturnToOrRedirect: '/', failureRedirect: '/login',
       passReqToCallback: true
