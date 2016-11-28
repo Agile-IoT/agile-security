@@ -57,10 +57,10 @@ app.use(passport.session());
 //set serializer for users and clients
 idmWeb.serializer(conf,core_conf);
 //set up external providers with passport
-idmWeb.authStrategies(conf,core_conf);
+var strategies = idmWeb.authStrategies(conf,core_conf);
 
 //set ahentication endpoints to authenticate with different means (webid, oauth2, etc)
-app.use("/auth", idmWeb.routerProviers(conf));
+app.use("/auth", idmWeb.routerProviers(conf,strategies));
 
 //set up entities API
 app.use("/api", idmWeb.routerApi(app));

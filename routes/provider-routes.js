@@ -1,7 +1,9 @@
 var passport = require('passport');
 var express = require('express');
 
-function RouterPassport(conf) {
+function RouterPassport(conf,strategies) {
+
+  console.log("registering the following strategies with express paths "+JSON.stringify(strategies));
 
 
   var router = express.Router();
@@ -44,7 +46,7 @@ function RouterPassport(conf) {
   router.route('/pam').get(function(req, res) {
     res.render('pam');
   });
-  
+
   router.route('/pam').post(
     passport.authenticate('pam', {
       successReturnToOrRedirect: '/', failureRedirect: '/login'
