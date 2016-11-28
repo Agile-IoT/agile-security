@@ -9,6 +9,9 @@ Examples of usage:
   node createUser.js --username=bob --password=secret  --auth=agile-local
   To create a user wit username abc that will authenticate using github:
   node createUser.js --username=abc --auth=github
+  node createUser.js --username=https://dp.databox.me/profile/card#me --auth=webid
+
+
 */
 var sections = [
   {
