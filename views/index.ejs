@@ -19,7 +19,7 @@
 			//	else{
 			//		  document.getElementById("loginLocal").style.visibility="hidden";
 						var provider = combo.options[combo.selectedIndex].value;
-						window.location = "/auth/"+provider;
+						window.location = provider;
 
 				//}
 		});
@@ -43,15 +43,14 @@
 				<td>Authentication type:</td>
 					<td>
 					<select id="idp">
-					<option value="">choose one</option>
-					<option value="local">local authentication</option>
-					<option value="pam">Pam</option>
-					 <option value="github">github</option>
-					 <option value="google">google</option>
-					 <option value="webid">webid</option>
-					 <!--option value="dropbox">dropbox</option-->
+						<option value="">choose one</option>
+						<% for(var i=0; i<auth.length; i++) { %>
+
+									  <option value="auth/<%= auth[i] %>"><%= auth[i] %></option>
+
+						<% } %>
 					</select>
-											</td>
+					</td>
 				</tr>
 				<tr>
 					<td><br>&nbsp;</td>

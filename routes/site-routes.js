@@ -4,7 +4,7 @@ var clone = require('clone');
 var login = require('connect-ensure-login');
 
 
-function siteRouter() {
+function siteRouter(stategies) {
   var router = express.Router();
 
   router.route('/').get(function(req, res) {
@@ -12,7 +12,14 @@ function siteRouter() {
   });
 
   router.route('/login').get(function(req, res) {
-    res.render('index');
+    var auth = [];
+    stategies.forEach(function(str){
+      var n = str.lastIndexOf(".js");
+      if(n>0)
+       auth.push(str.substr(0,n));
+    });
+    console.log('paths: '+JSON.stringify(auth));
+    res.render('index',{"auth":auth});
   });
 
   //router.route('/login').post(
