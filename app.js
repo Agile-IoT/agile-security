@@ -49,8 +49,8 @@ app.use(session({
 }));
 app.use(passport.initialize());
 //NOTE: could help for error handling
-var flash = require('connect-flash');
-app.use(flash());
+/*var flash = require('connect-flash');
+app.use(flash());*/
 //also enable failureFlash in the proper part of  routes/provider-routes.js
 app.use(passport.session());
 
@@ -60,7 +60,7 @@ idmWeb.serializer(conf,core_conf);
 var strategies = idmWeb.authStrategies(conf,core_conf);
 
 //set ahentication endpoints to authenticate with different means (webid, oauth2, etc)
-app.use("/auth", idmWeb.routerProviers(conf,strategies));
+app.use("/auth", idmWeb.routerProviers(strategies));
 
 //set up entities API
 app.use("/api", idmWeb.routerApi(app));
@@ -91,8 +91,11 @@ var options = {
   cert: fs.readFileSync(conf.tls.cert),
   requestCert: true
 };
-app.listen(3000);
-https.createServer(options, app).listen(1443);
+app.listen(conf.http_port);
+https.createServer(options, app).listen(conf.https_port);
+
+console.log("listening on port "+conf.http_port+ " for http ");
+console.log("listening on port "+conf.https_port+ " for https ");
 
 // test authentication
 function ensureAuthenticated(req, res, next) {

@@ -1,4 +1,4 @@
-var RouterProviers = require('./routes/provider-routes');
+var RouterProviers = require('./routes/providers/');
 var RouterApi = require('./routes/api-routes');
 var routerOauth2 = require('./routes/oauth2-routes');
 var routerSite = require('./routes/site-routes');

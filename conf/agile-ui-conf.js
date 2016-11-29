@@ -36,5 +36,7 @@ module.exports = {
       "key":"./certs/server.key",
       "cert":"./certs/server.crt"
    },
-	 "enabledStrategies":["agile-local","github","webid"]
+	 "http_port":3000,
+	 "https_port":1443,
+	 "enabledStrategies":["agile-local","github","google","webid"]
 }
