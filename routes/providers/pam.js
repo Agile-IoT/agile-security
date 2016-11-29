@@ -5,7 +5,7 @@ function RouterPassport(router) {
 
   //pam
   router.route('/pam').get(function(req, res) {
-    res.render('pam');
+    res.render('local');
   });
 
   router.route('/pam').post(
