@@ -31,11 +31,9 @@ var login = require('connect-ensure-login');
 var utils = require('../lib/util/tokens');
 var oauth2orize = require('oauth2orize');
 
-
-
-function oauth2Router(tokenconf,entityStorageConf) {
+function oauth2Router(tokenconf, entityStorageConf) {
   //to see the routes go to the bottom...
-  var db = require('../lib/db/')(tokenconf,entityStorageConf);
+  var db = require('../lib/db/')(tokenconf, entityStorageConf);
 
   //we load first the oauth2orize server
   var server = require('../lib/auth/oauth2/oauth2orize')(tokenconf, entityStorageConf);
@@ -54,44 +52,48 @@ function oauth2Router(tokenconf,entityStorageConf) {
   // to obtain their approval (displaying details about the client requesting
   // authorization).  We accomplish that here by routing through `ensureLoggedIn()`
   // first, and rendering the `dialog` view.
-  var  authorization = [
-      login.ensureLoggedIn(),
-      server.authorization(function(clientID, redirectURI, done) {
-        db.clients.findByClientId(clientID, function(err, client) {
-          if (err) { return done(err); }
-          console.log('client '+JSON.stringify(client));
-          if(redirectURI === client.redirectURI){
-            return done(null, client, redirectURI);
-          }
-          else{
-            return done(new Error("client URL doesn't match what was expected. Provided: "+redirectURI+" expected "+client.redirectURI),null);
-          }
-        });
-      }, function (client, user, done) {
-        console.log("authorization endpoint is called with client Id "+client.id+" for user id "+user.id+". We always accept as long as client url matches");
-        //TODO fix this..... have a PDP at some point here?
+  var authorization = [
+    login.ensureLoggedIn(),
+    server.authorization(function (clientID, redirectURI, done) {
+      db.clients.findByClientId(clientID, function (err, client) {
+        if (err) {
+          return done(err);
+        }
+        console.log('client ' + JSON.stringify(client));
+        if (redirectURI === client.redirectURI) {
+          return done(null, client, redirectURI);
+        } else {
+          return done(new Error("client URL doesn't match what was expected. Provided: " + redirectURI + " expected " + client.redirectURI), null);
+        }
+      });
+    }, function (client, user, done) {
+      console.log("authorization endpoint is called with client Id " + client.id + " for user id " + user.id + ". We always accept as long as client url matches");
+      //TODO fix this..... have a PDP at some point here?
+      return done(null, true);
+      // If we want to ask the user...  This then shows the dialog, and then the decision goes with post to   router.route('/dialog/authorize/decision').post(decision);
+      //return done(null,false);
+
+      /*old code
+      // Check if grant request qualifies for immediate approval
+      if (user.has_token(client)) {
+        // Auto-approve
         return done(null, true);
-        // If we want to ask the user...  This then shows the dialog, and then the decision goes with post to   router.route('/dialog/authorize/decision').post(decision);
-        //return done(null,false);
-
-        /*old code
-        // Check if grant request qualifies for immediate approval
-        if (user.has_token(client)) {
-          // Auto-approve
-          return done(null, true);
-        }
-        if (client.isTrusted()) {
-          // Auto-approve
-          return done(null, true);
-        }
-        // Otherwise ask user
-        done(null, false);*/
-      }),
-      function(req, res){
-        res.render('dialog', { transactionID: req.oauth2.transactionID, user: req.user, client: req.oauth2.client });
       }
+      if (client.isTrusted()) {
+        // Auto-approve
+        return done(null, true);
+      }
+      // Otherwise ask user
+      done(null, false);*/
+    }),
+    function (req, res) {
+      res.render('dialog', {
+        transactionID: req.oauth2.transactionID,
+        user: req.user,
+        client: req.oauth2.client
+      });
+    }
   ];
-
 
   // user decision endpoint
   //
@@ -102,9 +104,8 @@ function oauth2Router(tokenconf,entityStorageConf) {
 
   var decision = [
     login.ensureLoggedIn(),
-    server.decision()//probably the PDP should have to be placed here (receive request and verify what the PDP says. Just get the post...)
+    server.decision() //probably the PDP should have to be placed here (receive request and verify what the PDP says. Just get the post...)
   ];
-
 
   // token endpoint
   //
@@ -114,32 +115,47 @@ function oauth2Router(tokenconf,entityStorageConf) {
   // authenticate when making requests to this endpoint.
 
   var token = [
-    passport.authenticate(['oauth2-basic', 'oauth2-client-password'], { session: false }),
+    passport.authenticate(['oauth2-basic', 'oauth2-client-password'], {
+      session: false
+    }),
     server.token(),
     server.errorHandler()
   ];
 
   var user_info = [
-    passport.authenticate('bearer', { session: false }),
-    function(req, res) {
+    passport.authenticate('bearer', {
+      session: false
+    }),
+    function (req, res) {
       // req.authInfo is set using the `info` argument supplied by
       // `BearerStrategy`.  It is typically used to indicate scope of the token,
       // and used in access control checks.  For illustrative purposes, this
       // example simply returns the scope in the response.
-      res.json({ id: req.user.id, user_name: req.user.user_name, auth_type:req.user.auth_type, scope: req.authInfo.scope })
+      res.json({
+        id: req.user.id,
+        user_name: req.user.user_name,
+        auth_type: req.user.auth_type,
+        scope: req.authInfo.scope
+      })
     }
   ];
 
   //client info
   var client_info = [
-      passport.authenticate('bearer', { session: false }),
-      function(req, res) {
-          // req.authInfo is set using the `info` argument supplied by
-          // `BearerStrategy`.  It is typically used to indicate scope of the token,
-          // and used in access control checks.  For illustrative purposes, this
-          // example simply returns the scope in the response.
-          res.json({ client_id: req.authInfo.clientId, auth_type: req.authInfo.auth_type, scope: req.authInfo.scope /*req.user is also there*/})
-      }
+    passport.authenticate('bearer', {
+      session: false
+    }),
+    function (req, res) {
+      // req.authInfo is set using the `info` argument supplied by
+      // `BearerStrategy`.  It is typically used to indicate scope of the token,
+      // and used in access control checks.  For illustrative purposes, this
+      // example simply returns the scope in the response.
+      res.json({
+        client_id: req.authInfo.clientId,
+        auth_type: req.authInfo.auth_type,
+        scope: req.authInfo.scope /*req.user is also there*/
+      })
+    }
   ];
 
   var router = express.Router();
