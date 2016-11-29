@@ -5,7 +5,16 @@ function RouterPassport(router) {
 
   //pam
   router.route('/pam').get(function(req, res) {
-    res.render('local');
+    var options = [{ "name":"username",
+                     "type":"text",
+                     "label":"username"
+                    },
+                    { "name":"password",
+                      "type":"password",
+                      "label":"password"
+                    }
+                  ];
+    res.render('local',{auth_type:'pam',fields:options});
   });
 
   router.route('/pam').post(
