@@ -83,7 +83,7 @@ function help(err) {
 var args;
 var config;
 
-var entity_type = "/User";
+var entity_type = "/user";
 var db_location = {
   "storage": {
     "dbName": "../database_"
