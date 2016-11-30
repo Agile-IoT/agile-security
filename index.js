@@ -1,4 +1,4 @@
-var RouterProviers = require('./routes/providers/');
+var RouterProviders = require('./routes/providers/');
 var RouterApi = require('./routes/api/');
 var routerOauth2 = require('./routes/oauth2-routes');
 var routerSite = require('./routes/site-routes');
@@ -8,7 +8,7 @@ var oauth2ServerStrategies = require('./lib/auth/oauth2/strategies');
 var oauth2orizeServer = require('./lib/auth/oauth2/oauth2orize');
 
 module.exports = {
-	 routerProviers : RouterProviers,
+	 routerProviders : RouterProviders,
 	 routerApi :RouterApi,
 	 routerOauth2 : routerOauth2,
 	 routerSite : routerSite,

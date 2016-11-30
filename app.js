@@ -60,7 +60,7 @@ idmWeb.serializer(conf,core_conf);
 var strategies = idmWeb.authStrategies(conf,core_conf);
 
 //set ahentication endpoints to authenticate with different means (webid, oauth2, etc)
-app.use("/auth", idmWeb.routerProviers(strategies));
+app.use("/auth", idmWeb.routerProviders(strategies));
 
 //set up entities API
 app.use("/api/v1", idmWeb.routerApi(core_conf));
