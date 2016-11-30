@@ -7,27 +7,23 @@ module.exports = {
 
   },"schema-validation":[
     {
-      "id": "/Sensor",
+      "id": "/sensor",
       "type": "object",
       "properties": {
-        "name": {"type": "string"},
-        "token": {"type": "string"}
+        "name": {"type": "string"}
+
       },
       "required": ["name"]
     },
     {
-      "id": "/SimpleAddress",
+      "id": "/user",
       "type": "object",
       "properties": {
-        "lines": {
-          "type": "array",
-          "items": {"type": "string"}
-        },
-        "zip": {"type": "string"},
-        "city": {"type": "string"},
-        "country": {"type": "string"}
+        "user_name": {"type": "string"},
+        "auth_type": {"type": "string"},
+        "password": {"type": "string"}
       },
-      "required": ["country","lines"]
+      "required": ["user_name","auth_type"]
     },
     {
       "id": "/SimplePerson",

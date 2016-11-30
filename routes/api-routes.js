@@ -3,7 +3,7 @@ var passport = require('passport');
 var express = require('express');
 var clone = require('clone');
 var IdmCore = require('agile-idm-core');
-
+var bodyParser = require('body-parser');
 var idmcore;
 
 function RouterApi(conf) {
@@ -18,7 +18,6 @@ function RouterApi(conf) {
       session: false
     }),
     function (req, res) {
-      console.log(req.params);
       var entity_type = "/"+req.params.entity_type;
       var entity_id =  req.params.entity_id;
       idmcore.readEntity(req.user,entity_id, entity_type)
@@ -28,19 +27,31 @@ function RouterApi(conf) {
          res.statusCode = error.statusCode;
          res.json(error);
        });
-
-      //tell who the user is... remove tokens maybe later?
-      /*if (req.user) {
-        var user = clone(req.user);
-        res.json(user);
-      } else {
-        res.status(401).json({
-          "error": "not authenticated"
-        })
-      }*/
-
     }
   );
-  return router;
+ // curl -H "Content-type: application/json" -H "Authorization: bearer nNGNryDDZ4zQYeWYGYcnOdxJ90k9s6" -u "{'user_name':'bob', 'auth_type':'agile-local'}" 'http://localhost:3000/api/entity/User/bob!@!agile-local'
+
+ router.route('/entity/:entity_type/:entity_id').post(
+   cors(),
+   bodyParser.json(),
+   passport.authenticate('bearer', {
+     session: false
+   }),
+   function (req, res) {
+     var user = req.body;
+     var entity_type = "/"+req.params.entity_type;
+     var entity_id =  req.params.entity_id;
+     console.log("body "+JSON.stringify(user));
+     idmcore.createEntity(req.user,entity_id, entity_type,user)
+      .then(function (read) {
+        res.json(read);
+      }).catch(function (error) {
+        console.log("error when posting entity "+error);
+        res.statusCode = error.statusCode;
+        res.json(error);
+      });
+   }
+ );
+ return router;
 }
 module.exports = RouterApi;
