@@ -128,7 +128,7 @@ try {
         redirectURI: args.uri
       };
       var owner_id = args.owner + "!@!" + owner_auth_type;
-      storage.readEntity(owner_id, "/User").then(function (u) {
+      storage.readEntity(owner_id, "/user").then(function (u) {
           //u.owner is equivalent to its own id as a string since every user "owns" himself
           return storage.createEntity(client_id, entity_type, u.owner, client);
         })
