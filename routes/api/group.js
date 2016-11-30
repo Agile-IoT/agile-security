@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var ids = require('../../lib/util/id');
 var idmcore;
 
-function RouterApi(idmcore,router) {
+function RouterApi(idmcore, router) {
   //example to call tthis one
   //  returns 200 and the group, or 401 or 403, in case of security issues. 500 in case of unexpected situations
   //this line returns the group with name me, owned by bob who is authenticated with agile-local authentication type
@@ -20,17 +20,17 @@ function RouterApi(idmcore,router) {
     }),
     function (req, res) {
 
-        idmcore.readGroup(req.user, req.params.name, req.params.owner)
-          .then(function (read) {
-            res.json(read);
-          }).catch(function (error) {
-            res.statusCode = error.statusCode;
-            res.json({
-              "error": error.message
-            });
+      idmcore.readGroup(req.user, req.params.name, req.params.owner)
+        .then(function (read) {
+          res.json(read);
+        }).catch(function (error) {
+          res.statusCode = error.statusCode;
+          res.json({
+            "error": error.message
           });
+        });
 
-  });
+    });
 
   //returns 200 and the group, or 401 or 403, in case of security issues, or 409 if the group already exists, 400 if parameters are missing. 500 in case of unexpected situations
   //curl -H "Content-type: application/json" -H "Authorization: bearer ypr24DKllIbKlV3Ph8oWmZ7Pml3Wku" -d '{"group_name":"me", "owner":"nopbyte@github"}' 'http://localhost:3000/api/v1/group/'
@@ -52,14 +52,14 @@ function RouterApi(idmcore,router) {
           .then(function (read) {
             res.json(read);
           }).catch(function (error) {
-            console.log("error when posting entity " + error);
+            console.log("error when posting group " + error);
             res.statusCode = error.statusCode;
             res.json({
               "error": error.message
             });
           });
       }
-  });
+    });
 
   //returns 200 and the group, or 401 or 403, in case of security issues, or 409 if the entity is  already in the group. or 404 in case the entity or the group are not found. 400 if parameters are missing. 500 in case of unexpected situations
   //this line adds the entity of type sensor and id 1, to the group called me and owned by bob who is authenticated with agile-local
@@ -72,17 +72,17 @@ function RouterApi(idmcore,router) {
     bodyParser.json(),
     function (req, res) {
 
-        idmcore.addEntityToGroup(req.user, req.params.name, req.params.owner, req.params.id, "/"+req.params.entity_type)
-          .then(function (read) {
-            res.json(read);
-          }).catch(function (error) {
-            console.log("error when posting entity " + error);
-            res.statusCode = error.statusCode;
-            res.json({
-              "error": error.message
-            });
+      idmcore.addEntityToGroup(req.user, req.params.name, req.params.owner, req.params.id, "/" + req.params.entity_type)
+        .then(function (read) {
+          res.json(read);
+        }).catch(function (error) {
+          console.log("error when adding membership to a  group " + error);
+          res.statusCode = error.statusCode;
+          res.json({
+            "error": error.message
           });
-  });
+        });
+    });
 
   //returns 200 and the group, or 401 or 403, in case of security issues, or 409 if the entity is not  in the group. or 404 in case the entity or the group are not found. 400 if parameters are missing. 500 in case of unexpected situations
   //this line adds the entity of type sensor and id 1, to the group called me and owned by bob who is authenticated with agile-local
@@ -95,17 +95,17 @@ function RouterApi(idmcore,router) {
     bodyParser.json(),
     function (req, res) {
 
-        idmcore.removeEntityFromGroup(req.user, req.params.name, req.params.owner, req.params.id, "/"+req.params.entity_type)
-          .then(function (read) {
-            res.json(read);
-          }).catch(function (error) {
-            console.log("error when posting entity " + error);
-            res.statusCode = error.statusCode;
-            res.json({
-              "error": error.message
-            });
+      idmcore.removeEntityFromGroup(req.user, req.params.name, req.params.owner, req.params.id, "/" + req.params.entity_type)
+        .then(function (read) {
+          res.json(read);
+        }).catch(function (error) {
+          console.log("error when deleting membership from group " + error);
+          res.statusCode = error.statusCode;
+          res.json({
+            "error": error.message
           });
-  });
+        });
+    });
 
 }
 module.exports = RouterApi;

@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var ids = require('../../lib/util/id');
 var idmcore;
 
-function RouterApi(idmcore,router) {
+function RouterApi(idmcore, router) {
 
   //returns 400 if a field of the body is missing. returns 200 and the entity, or 401 or 403, in case of security issues, 422 in case a user is attempted to be created through this API, or 409 if entity already exists, 500 in case of unexpected situations
   //curl -H "Content-type: application/json" -H "Authorization: bearer HeTxINCpXD0U6g27D7AIxc2CvfFNaZ" -X POST -d '{"user_name":"a", "auth_type":"github"}' 'http://localhost:3000/api/v1/user'
@@ -50,7 +50,7 @@ function RouterApi(idmcore,router) {
     bodyParser.json(),
     function (req, res) {
       var entity_type = "/user";
-      if(!req.query.user_name || !req.query.auth_type){
+      if (!req.query.user_name || !req.query.auth_type) {
         res.statusCode = 400;
         return res.json({
           "error": "provide user_name and auth_type at least as query parameters"

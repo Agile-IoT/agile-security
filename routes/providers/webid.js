@@ -6,9 +6,10 @@ function RouterPassport(router) {
   //webid
   router.route('/webid').get(
     passport.authenticate('webid', {
-      successReturnToOrRedirect: '/', failureRedirect: '/login',
+      successReturnToOrRedirect: '/',
+      failureRedirect: '/login',
       passReqToCallback: true
-      //failureFlash: false
+        //failureFlash: false
     })
   );
   return router;

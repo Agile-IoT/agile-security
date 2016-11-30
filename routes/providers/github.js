@@ -11,7 +11,8 @@ function RouterPassport(router) {
 
   router.route('/callback_github').get(
     passport.authenticate('github', {
-      successReturnToOrRedirect: '/', failureRedirect: '/login'
+      successReturnToOrRedirect: '/',
+      failureRedirect: '/login'
     })
     //handleRedirect.bind(this, "github")
   );
