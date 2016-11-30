@@ -4,7 +4,9 @@ var Storage = require('agile-idm-entity-storage').Storage;
 /*
 Usage examples:
 Creates a client called Example Comsumer App with secret.
+node createClient.js --client=MyAgileClient2 --name="My first example as IDM client" --secret="Ultrasecretstuff" --owner=bob --auth_type=agile-local --uri=http://localhost:3002/auth/example/callback
 node createClient.js --client=ward-steward-2 --name="Example Consumer App" --secret="something truly secret" --owner=bob --auth_type=agile-local --uri=http://localhost:3002/auth/example-oauth2orize/callback
+
 
 Optionally one could add something like  --config=../example/oauth2orize-examples/database_   to store the entities in a different lcoation
 */
