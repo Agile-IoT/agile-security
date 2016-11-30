@@ -83,16 +83,16 @@ function RouterApi(idmcore, router) {
           "error": "provide value in the body"
         });
       } else {
-      idmcore.setEntityAttribute(req.user, entity_id, entity_type, req.params.attribute_name, req.body.value)
-        .then(function (read) {
-          res.json(read);
-        }).catch(function (error) {
-          console.log("error when updating  entity attribute " + error);
-          res.statusCode = error.statusCode;
-          res.json({
-            "error": error.message
+        idmcore.setEntityAttribute(req.user, entity_id, entity_type, req.params.attribute_name, req.body.value)
+          .then(function (read) {
+            res.json(read);
+          }).catch(function (error) {
+            console.log("error when updating  entity attribute " + error);
+            res.statusCode = error.statusCode;
+            res.json({
+              "error": error.message
+            });
           });
-        });
       }
 
     }

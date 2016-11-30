@@ -6,9 +6,15 @@ var bodyParser = require('body-parser');
 var ids = require('../../lib/util/id');
 var idmcore;
 
-function RouterApi(idmcore, router) {
+function RouterApi(idmcore, router, strategies) {
 
-  //returns 400 if a field of the body is missing. returns 200 and the entity, or 401 or 403, in case of security issues, 422 in case a user is attempted to be created through this API, or 409 if entity already exists, 500 in case of unexpected situations
+  var stripped_strategies = strategies.map(function (value) {
+    var n = value.lastIndexOf(".js");
+    if (n > 0)
+      return (value.substr(0, n));
+  });
+
+  //returns 400 if a field of the body is missing or if wrong authentication type is provided. returns 200 and the entity, or 401 or 403, in case of security issues, 422 in case a user is attempted to be created through this API, or 409 if entity already exists, 500 in case of unexpected situations
   //curl -H "Content-type: application/json" -H "Authorization: bearer HeTxINCpXD0U6g27D7AIxc2CvfFNaZ" -X POST -d '{"user_name":"a", "auth_type":"github"}' 'http://localhost:3000/api/v1/user'
   router.route('/user/').post(
     cors(),
@@ -23,6 +29,15 @@ function RouterApi(idmcore, router) {
           "error": "provide user_name and auth_type at least"
         });
       } else {
+        var is = stripped_strategies.filter(function (v) {
+          return (v === req.body.auth_type);
+        })
+        if (is.length <= 0) {
+          res.statusCode = 400;
+          return res.json({
+            "error": "wrong authentication type"
+          });
+        }
         var user = req.body;
         var entity_type = "/user";
         var entity_id = ids.buildId(req.body.user_name, req.body.auth_type);
