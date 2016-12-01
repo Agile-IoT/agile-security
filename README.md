@@ -373,6 +373,15 @@ As always... things could go wrong. So, here are a couple of common errors you m
 
 
 
+#Debug mode
+
+If you define the following variable (to be 1) this module will print debugging information. 
+
+export DEBUG_IDM_WEB=1
+
+If no variable is set, or if any other value different than 1 is set, this component runs in quiet mode.
+
+
 ## Developer Documentation
 
 To integrate AGILE IDM with an appliaction, please have a look at the ui-server.js.
