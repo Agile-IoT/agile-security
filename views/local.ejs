@@ -1,15 +1,22 @@
-<form method="post">
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>AGILE-IDM</title>
+<link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+<div id="content">
+	<haeder><h1>Authenticating user with <%= auth_type %></h1></haeder>
 	<div>
-		<h2 align="center" style="color: DarkBlue;">Authenticating user with <%= auth_type %></h2>
-
-	</div>
-	<div align="center">
-	<% for(var i=0; i<fields.length; i++) { %>
-    <label><%= fields[i].label %></label>
-
-		<input type="<%= fields[i].type %>" name="<%= fields[i].name %>"/><br/>
-
-	<% } %>
-	<input type="submit" value="Submit" />
-	</div>
-</form>
+		<form method="post">
+	   <% for(var i=0; i<fields.length; i++) { %>
+       <label><%= fields[i].label %></label>
+		   <input type="<%= fields[i].type %>" name="<%= fields[i].name %>"/><br/>
+		 <% } %>
+	     <input type="submit" value="Submit" />
+	</form>
+ </div>
+ </div>
+</body>
+</html>

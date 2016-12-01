@@ -3,89 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <title>AGILE-IDM</title>
-<link href="css/style.css" rel="stylesheet">
+<link href="/static/css/style.css" rel="stylesheet">
 <script type="text/javascript"
 	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-<script type="text/javascript" src="javascript/util.js"></script>
 <script type="text/javascript">
   function addListeners(){
-		document.getElementById("loginLocal").style.visibility="hidden";
      var combo = document.getElementById("idp");
 		 combo.addEventListener("change", function() {
-    		//if(combo.value == "pam_unix")
-    		//{
-				//	  document.getElementById("loginLocal").style.visibility="visible";
-    	 //}
-			//	else{
-			//		  document.getElementById("loginLocal").style.visibility="hidden";
 						var provider = combo.options[combo.selectedIndex].value;
 						window.location = provider;
-
-				//}
 		});
 	}
 </script>
 </head>
 <body onload="addListeners()">
+<div id="content" >
+	<div id="logo">
+  </div>
+	<div id="info">
+		<header><h1>Authenticate User</h1></header>
 
-	<div id="container">
-		<div id="header">
+					Authentication type:
+ 					<select id="idp">
+ 						<option value="">choose one</option>
+ 						<% for(var i=0; i<auth.length; i++) { %>
+ 									  <option value="auth/<%= auth[i] %>"><%= auth[i] %></option>
+ 						<% } %>
+ 					</select>
+ 		<div id="resultDivContainer" ></div>
+</div>
+</div>
 
-		</div>
-
-
-	</div>
-	<div id="content" align="center">
-		<h2 align="center" style="color: DarkBlue;">Authenticate User</h2>
-
-			        
-			<table align="center">
-				<td>Authentication type:</td>
-					<td>
-					<select id="idp">
-						<option value="">choose one</option>
-						<% for(var i=0; i<auth.length; i++) { %>
-
-									  <option value="auth/<%= auth[i] %>"><%= auth[i] %></option>
-
-						<% } %>
-					</select>
-					</td>
-				</tr>
-				<tr>
-					<td><br>&nbsp;</td>
-
-				</tr>
-
-			</table>
-			    
-			<form method="post" id="loginLocal" action="/auth/local">
-
-				<table align="center">
-
-					<tr>
-						<td>User name:</td>
-						<td><input type="text" id="username" name="username" value="admin"/>
-															</td>
-					</tr>
-
-					<tr>
-						<td>Password:</td>
-						<td><input type="password" id="password" name="password" value="correcthorsebatterystaple"/>
-															</td>
-					</tr>
-
-					<tr>
-						<td><br>&nbsp;</td>
-						<td><input type="submit" value="Submit"><!--a class="idmButton" onclick="authenticateUser()">Authent.</a-->
-															</td>
-					</tr>
-
-				</table>
-
-			</form>
-		<div id="resultDivContainer" align="center"></div>
-	</div>
 
 </body>
 </html>
