@@ -94,8 +94,8 @@ try {
   if (args.hasOwnProperty("help"))
     help();
   else {
-    if (args.auth === "agile-local" && !args.passord)
-      help(new Error("When local authentication is used a password is required!"));
+    if (args.auth === "agile-local" && !args.password)
+      return help(new Error("When local authentication is used a password is required!"));
 
     if (args.username && args.auth) {
       if (args.config)
