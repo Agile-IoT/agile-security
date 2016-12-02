@@ -61,6 +61,30 @@ function RouterApi(idmcore, router) {
       }
     });
 
+  //example to call tthis one
+  //  returns 200 if the group os de;eted, or 401 or 403, in case of security issues. 500 in case of unexpected situations
+  //this line returns the group with name me, owned by bob who is authenticated with agile-local authentication type
+  // curl -H "Content-type: application/json" -H "Authorization: bearer FWrt4MRCEoravyzF1LkPoWzWvKfVBc" '-X DELETE http://localhost:3000/api/v1/user/bob!@!agile-local/group/me/'
+  //returns entity with 200 if OK, else, it can return 404 if the entity is not found, 401 or 403 in case of security errors or 500 in case of unexpected situations
+  router.route('/user/:owner/group/:name').delete(
+    cors(),
+    passport.authenticate('bearer', {
+      session: false
+    }),
+    function (req, res) {
+
+      idmcore.deleteGroup(req.user, req.params.name, req.params.owner)
+        .then(function (read) {
+          res.json(read);
+        }).catch(function (error) {
+          res.statusCode = error.statusCode;
+          res.json({
+            "error": error.message
+          });
+        });
+
+    });
+
   //returns 200 and the group, or 401 or 403, in case of security issues, or 409 if the entity is  already in the group. or 404 in case the entity or the group are not found. 400 if parameters are missing. 500 in case of unexpected situations
   //this line adds the entity of type sensor and id 1, to the group called me and owned by bob who is authenticated with agile-local
   //curl -H "Content-type: application/json" -H "Authorization: bearer ypr24DKllIbKlV3Ph8oWmZ7Pml3Wku" -X POST 'http://localhost:3000/api/v1/user/bob!@!agile-local/group/me/entities/sensor/1'

@@ -83,7 +83,37 @@ function RouterApi(idmcore, router, strategies) {
           });
         });
 
-    }
-  );
+    });
+
+
+    //returns 200 if the user is deleted, or 401 or 403, in case of security issues, 400 in case there is not enough parameters. or 409 if entity already exists, 500 in case of unexpected situations
+    //curl -H "Authorization: bearer ypr24DKllIbKlV3Ph8oWmZ7Pml3Wku"  -X DELETE 'http://localhost:3000/api/v1/user/?user_name=bob&auth_type=agile-local'
+    router.route('/user/').delete(
+      cors(),
+      passport.authenticate('bearer', {
+        session: false
+      }),
+      bodyParser.json(),
+      function (req, res) {
+        var entity_type = "/user";
+        if (!req.query.user_name || !req.query.auth_type) {
+          res.statusCode = 400;
+          return res.json({
+            "error": "provide user_name and auth_type at least as query parameters"
+          });
+        }
+        var entity_id = req.params.entity_id;
+        idmcore.deleteEntity(req.user, ids.buildId(req.query.user_name, req.query.auth_type), entity_type)
+          .then(function (read) {
+            res.json(read);
+          }).catch(function (error) {
+            console.log("error when reading user " + error);
+            res.statusCode = error.statusCode;
+            res.json({
+              "error": error.message
+            });
+          });
+
+      });
 }
 module.exports = RouterApi;
