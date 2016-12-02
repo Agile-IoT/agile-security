@@ -42,4 +42,4 @@ module.exports = {
       "required": ["name","clientSecret","redirectURI"]
     }
   ]
-}
+};
