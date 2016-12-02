@@ -23,7 +23,7 @@ function RouterApi(idmcore, router) {
         .then(function (read) {
           res.json(read);
         }).catch(function (error) {
-          res.statusCode = error.statusCode||500;
+          res.statusCode = error.statusCode || 500;
           res.json({
             "error": error.message
           });
@@ -56,7 +56,7 @@ function RouterApi(idmcore, router) {
             res.json(read);
           }).catch(function (error) {
             console.log("error when posting entity " + error);
-            res.statusCode = error.statusCode||500;
+            res.statusCode = error.statusCode || 500;
             res.json({
               "error": error.message
             });
@@ -80,7 +80,7 @@ function RouterApi(idmcore, router) {
         .then(function (read) {
           res.json(read);
         }).catch(function (error) {
-          res.statusCode = error.statusCode||500;
+          res.statusCode = error.statusCode || 500;
           res.json({
             "error": error.message
           });
@@ -112,7 +112,7 @@ function RouterApi(idmcore, router) {
             res.json(read);
           }).catch(function (error) {
             console.log("error when updating  entity attribute " + error);
-            res.statusCode = error.statusCode||500;
+            res.statusCode = error.statusCode || 500;
             res.json({
               "error": error.message
             });
@@ -125,7 +125,6 @@ function RouterApi(idmcore, router) {
   /*
       Query for entity attribute and types
   */
-
 
   //returns 200 and the entity, or 401 or 403, in case of security issues, 422 in case a user is attempted to be created through this API, or 409 if entity already exists, 500 in case of unexpected situations
   //if no entities are found it returns an empty array and status code 200.
@@ -149,13 +148,13 @@ function RouterApi(idmcore, router) {
             res.json(read);
           }).catch(function (error) {
             console.log("error when searching by attribute values and types " + error);
-            res.statusCode = error.statusCode||500;
+            res.statusCode = error.statusCode || 500;
             res.json({
               "error": error.message
             });
           });
       }
-   });
+    });
 
   return router;
 }

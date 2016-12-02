@@ -24,7 +24,7 @@ function RouterApi(idmcore, router) {
         .then(function (read) {
           res.json(read);
         }).catch(function (error) {
-          res.statusCode = error.statusCode||500;
+          res.statusCode = error.statusCode || 500;
           res.json({
             "error": error.message
           });
@@ -53,7 +53,7 @@ function RouterApi(idmcore, router) {
             res.json(read);
           }).catch(function (error) {
             console.log("error when posting group " + error);
-            res.statusCode = error.statusCode||500;
+            res.statusCode = error.statusCode || 500;
             res.json({
               "error": error.message
             });
@@ -77,7 +77,7 @@ function RouterApi(idmcore, router) {
         .then(function (read) {
           res.json(read);
         }).catch(function (error) {
-          res.statusCode = error.statusCode||500;
+          res.statusCode = error.statusCode || 500;
           res.json({
             "error": error.message
           });
@@ -101,7 +101,7 @@ function RouterApi(idmcore, router) {
           res.json(read);
         }).catch(function (error) {
           console.log("error when adding membership to a  group " + error);
-          res.statusCode = error.statusCode||500;
+          res.statusCode = error.statusCode || 500;
           res.json({
             "error": error.message
           });
@@ -124,7 +124,7 @@ function RouterApi(idmcore, router) {
           res.json(read);
         }).catch(function (error) {
           console.log("error when deleting membership from group " + error);
-          res.statusCode = error.statusCode||500;
+          res.statusCode = error.statusCode || 500;
           res.json({
             "error": error.message
           });
