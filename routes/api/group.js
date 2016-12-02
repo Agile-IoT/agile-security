@@ -24,7 +24,7 @@ function RouterApi(idmcore, router) {
         .then(function (read) {
           res.json(read);
         }).catch(function (error) {
-          res.statusCode = error.statusCode;
+          res.statusCode = error.statusCode||500;
           res.json({
             "error": error.message
           });
@@ -53,7 +53,7 @@ function RouterApi(idmcore, router) {
             res.json(read);
           }).catch(function (error) {
             console.log("error when posting group " + error);
-            res.statusCode = error.statusCode;
+            res.statusCode = error.statusCode||500;
             res.json({
               "error": error.message
             });
@@ -62,7 +62,7 @@ function RouterApi(idmcore, router) {
     });
 
   //example to call tthis one
-  //  returns 200 if the group os de;eted, or 401 or 403, in case of security issues. 500 in case of unexpected situations
+  //  returns 200 if the group os deleted, or 401 or 403, in case of security issues. 500 in case of unexpected situations
   //this line returns the group with name me, owned by bob who is authenticated with agile-local authentication type
   // curl -H "Content-type: application/json" -H "Authorization: bearer FWrt4MRCEoravyzF1LkPoWzWvKfVBc" '-X DELETE http://localhost:3000/api/v1/user/bob!@!agile-local/group/me/'
   //returns entity with 200 if OK, else, it can return 404 if the entity is not found, 401 or 403 in case of security errors or 500 in case of unexpected situations
@@ -77,7 +77,7 @@ function RouterApi(idmcore, router) {
         .then(function (read) {
           res.json(read);
         }).catch(function (error) {
-          res.statusCode = error.statusCode;
+          res.statusCode = error.statusCode||500;
           res.json({
             "error": error.message
           });
@@ -101,7 +101,7 @@ function RouterApi(idmcore, router) {
           res.json(read);
         }).catch(function (error) {
           console.log("error when adding membership to a  group " + error);
-          res.statusCode = error.statusCode;
+          res.statusCode = error.statusCode||500;
           res.json({
             "error": error.message
           });
@@ -124,7 +124,7 @@ function RouterApi(idmcore, router) {
           res.json(read);
         }).catch(function (error) {
           console.log("error when deleting membership from group " + error);
-          res.statusCode = error.statusCode;
+          res.statusCode = error.statusCode||500;
           res.json({
             "error": error.message
           });

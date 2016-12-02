@@ -104,7 +104,7 @@ function help() {
 
 var args;
 var auth_type = "agile-local";
-var entity_type = "/Client";
+var entity_type = "/client";
 var owner_auth_type = "agile-local";
 var db_location = {
   "storage": {

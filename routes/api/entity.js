@@ -23,7 +23,7 @@ function RouterApi(idmcore, router) {
         .then(function (read) {
           res.json(read);
         }).catch(function (error) {
-          res.statusCode = error.statusCode;
+          res.statusCode = error.statusCode||500;
           res.json({
             "error": error.message
           });
@@ -56,7 +56,7 @@ function RouterApi(idmcore, router) {
             res.json(read);
           }).catch(function (error) {
             console.log("error when posting entity " + error);
-            res.statusCode = error.statusCode;
+            res.statusCode = error.statusCode||500;
             res.json({
               "error": error.message
             });
@@ -80,7 +80,7 @@ function RouterApi(idmcore, router) {
         .then(function (read) {
           res.json(read);
         }).catch(function (error) {
-          res.statusCode = error.statusCode;
+          res.statusCode = error.statusCode||500;
           res.json({
             "error": error.message
           });
@@ -112,7 +112,7 @@ function RouterApi(idmcore, router) {
             res.json(read);
           }).catch(function (error) {
             console.log("error when updating  entity attribute " + error);
-            res.statusCode = error.statusCode;
+            res.statusCode = error.statusCode||500;
             res.json({
               "error": error.message
             });
@@ -121,6 +121,41 @@ function RouterApi(idmcore, router) {
 
     }
   );
+
+  /*
+      Query for entity attribute and types
+  */
+
+
+  //returns 200 and the entity, or 401 or 403, in case of security issues, 422 in case a user is attempted to be created through this API, or 409 if entity already exists, 500 in case of unexpected situations
+  //if no entities are found it returns an empty array and status code 200.
+  //in the body the critieria specifying attribute type and value must be provided, it is an array of any size >1
+  //curl -H "Content-type: application/json" -H "Authorization: bearer 67LwTkbmAYEVHrNUzWCslonPK2VDGj"  -X POST -d '{"criteria":[{"attribute_type":"owner", "attribute_value":"bob!@!agile-local"},{"attribute_type":"name","attribute_value":"Example Consumer App"}]}' 'http://localhost:3000/api/v1/entity/search'
+  router.route('/entity/search/').post(
+    cors(),
+    passport.authenticate('bearer', {
+      session: false
+    }),
+    bodyParser.json(),
+    function (req, res) {
+      if (!req.body.criteria) {
+        res.statusCode = 400;
+        res.json({
+          "error": "pass an array of objects with attribute_type and attribute_value strings in the criteria field of the body"
+        });
+      } else {
+        idmcore.listEntitiesByAttributeValueAndType(req.user, req.body.criteria)
+          .then(function (read) {
+            res.json(read);
+          }).catch(function (error) {
+            console.log("error when searching by attribute values and types " + error);
+            res.statusCode = error.statusCode||500;
+            res.json({
+              "error": error.message
+            });
+          });
+      }
+   });
 
   return router;
 }

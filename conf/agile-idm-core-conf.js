@@ -11,7 +11,16 @@ module.exports = {
       "type": "object",
       "properties": {
         "name": {"type": "string"}
-
+      },
+      "credentials": {
+        "type": "array",
+        "items": {
+            "type": "object",
+            "properties": {
+               "system":{"type": "string"},
+               "value" :{"type": "string"}
+            }
+        }
       },
       "required": ["name"]
     },
@@ -26,15 +35,14 @@ module.exports = {
       "required": ["user_name","auth_type"]
     },
     {
-      "id": "/SimplePerson",
+      "id": "/client",
       "type": "object",
       "properties": {
         "name": {"type": "string"},
-        "address": {"$ref": "/SimpleAddress"},
-        "votes": {"type": "integer", "minimum": 1}
+        "clientSecret": {"type": "string"},
+        "redirectURI": {"type": "string"}
       },
-      "required":["address"]
-
+      "required": ["name","clientSecret","redirectURI"]
     }
   ]
 }

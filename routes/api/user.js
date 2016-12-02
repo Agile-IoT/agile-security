@@ -46,7 +46,7 @@ function RouterApi(idmcore, router, strategies) {
             res.json(read);
           }).catch(function (error) {
             console.log("error when posting entity " + error);
-            res.statusCode = error.statusCode;
+            res.statusCode = error.statusCode||500;
             res.json({
               "error": error.message
             });
@@ -77,7 +77,7 @@ function RouterApi(idmcore, router, strategies) {
           res.json(read);
         }).catch(function (error) {
           console.log("error when reading user " + error);
-          res.statusCode = error.statusCode;
+          res.statusCode = error.statusCode||500;
           res.json({
             "error": error.message
           });
@@ -108,7 +108,7 @@ function RouterApi(idmcore, router, strategies) {
             res.json(read);
           }).catch(function (error) {
             console.log("error when reading user " + error);
-            res.statusCode = error.statusCode;
+            res.statusCode = error.statusCode||500;
             res.json({
               "error": error.message
             });
