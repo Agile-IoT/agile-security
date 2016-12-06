@@ -45,8 +45,8 @@ To get the client credentials from github, go to github homepage, log in and cli
 
 <table align="center">
 	<tr>
-		<td><img src="docs/images/tutorialGithub1.PNG" /></td>
-		<td><img src="docs/images/tutorialGithub2.PNG" /></td>
+		<td><img src="images/tutorialGithub1.PNG" /></td>
+		<td><img src="images/tutorialGithub2.PNG" /></td>
 	</tr>
 	<tr align="center">
 		<td>
@@ -63,8 +63,8 @@ By default, this option opens the **Authorized applications** site (see image 3)
 
 <table align="center">
 	<tr>
-		<td><img src="docs/images/tutorialGithub3.PNG" /></td>
-		<td><img src="docs/images/tutorialGithub4.PNG" /></td>
+		<td><img src="images/tutorialGithub3.PNG" /></td>
+		<td><img src="images/tutorialGithub4.PNG" /></td>
 	</tr>
 	<tr align="center">
 		<td>
@@ -85,8 +85,8 @@ After filling the form click the **Register application** button.
 
 <table align="center">
 	<tr>
-		<td><img src="docs/images/tutorialGithub5.PNG" /></td>
-		<td><img src="docs/images/tutorialGithub6.PNG" /></td>
+		<td><img src="images/tutorialGithub5.PNG" /></td>
+		<td><img src="images/tutorialGithub6.PNG" /></td>
 	</tr>
 	<tr align="center">
 		<td>
@@ -108,8 +108,8 @@ To use the Google OAuth2 authentication for IDM you have to enable **Drive API**
 
 <table align="center">
 	<tr>
-		<td><img src="docs/images/tutorialGoogle1.PNG" /></td>
-		<td><img src="docs/images/tutorialGoogle2.PNG" /></td>
+		<td><img src="images/tutorialGoogle1.PNG" /></td>
+		<td><img src="images/tutorialGoogle2.PNG" /></td>
 	</tr>
 	<tr align="center">
 		<td>
@@ -126,8 +126,8 @@ In the following dialog click onto the **Create a project** button.
 Enter the name of the project to be created and chose the options you like (see image 3).
 <table align="center">
 	<tr>
-		<td><img src="docs/images/tutorialGoogle3.PNG" /></td>
-		<td><img src="docs/images/tutorialGoogle4.PNG" /></td>
+		<td><img src="images/tutorialGoogle3.PNG" /></td>
+		<td><img src="images/tutorialGoogle4.PNG" /></td>
 	</tr>
 	<tr align="center">
 		<td>
@@ -148,8 +148,8 @@ First you are asked to create a consent screen which is shown whenever a user is
 Here you can put some information (see image 5). The only required fields are the **Email address** and the **Product name** ones. Fill out the formfields and click the **Save** button.
 <table align="center">
 	<tr>
-		<td><img src="docs/images/tutorialGoogle5.PNG" /></td>
-		<td><img src="docs/images/tutorialGoogle6.PNG" /></td>
+		<td><img src="images/tutorialGoogle5.PNG" /></td>
+		<td><img src="images/tutorialGoogle6.PNG" /></td>
 	</tr>
 	<tr align="center">
 		<td>
@@ -205,8 +205,8 @@ There you can create the application for the IDM authentication by clicking the 
 
 <table align="center">
 	<tr>
-		<td><img src="docs/images/tutorialDropbox1.PNG" /></td>
-		<td><img src="docs/images/tutorialDropbox2.PNG" /></td>
+		<td><img src="images/tutorialDropbox1.PNG" /></td>
+		<td><img src="images/tutorialDropbox2.PNG" /></td>
 	</tr>
 	<tr align="center">
 		<td>
@@ -226,7 +226,7 @@ Now your application will be created and you are redirected to its overview (see
 
 <table align="center">
 	<tr>
-		<td><img src="docs/images/tutorialDropbox3.PNG" width="600px" /></td>
+		<td><img src="images/tutorialDropbox3.PNG" width="600px" /></td>
 	</tr>
 	<tr align="center">
 		<td>
