@@ -205,7 +205,7 @@ Assuming that you have retrieved a **client Id** 5y4rye1946, and a **clientSecre
 	}		
 }
 ```
-####Dropbox step by step####
+<!-- ####Dropbox step by step####
 To get the needed credentials from dropbox go to the [Dropbox App Console](https://www.dropbox.com/developers/apps) and log in.  
 By default you will be directed to the **My apps** page (see image 1).  
 There you can create the application for the IDM authentication by clicking the **Create App** Button.
@@ -275,7 +275,7 @@ Assuming that you have retrieved a **client Id** 5y4rye1946, and a **clientSecre
 	}
 }
 ```
-
+-->
 ### TLS Certificate and WebID
 
 web-ID relies on a TLS handshake, therefore IDM needs a certificate for the server side. We have included a self-signed certificate in the certs folder and it is configured by default. But, should place your own certificate (please do!) please change the tls attribute of the configuration object in agile-idm-web-ui/conf/agile-ui.conf.
