@@ -4,7 +4,7 @@ AGILE IDM is comprised of several modules (some of them are available as stand a
 
 <table align="center">
 	<tr>
-		<td><img src="images/idm-architecture.png" /></td>
+		<td><img src="images/idm-architecture.jpg" /></td>
 	</tr>
 	<tr align="center">
 		<td>
