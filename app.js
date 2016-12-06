@@ -82,9 +82,13 @@ var options = {
   requestCert: true
 };
 app.listen(conf.http_port);
+https.createServer(options, app).listen(conf.https_port_with_client);
+options.requestCert = false;
 https.createServer(options, app).listen(conf.https_port);
 
 console.log("listening on port "+conf.http_port+ " for http ");
 console.log("listening on port "+conf.https_port+ " for https ");
+console.log("listening on port "+conf.https_port_client+ " for https and client certificate request for webid ");
+
 
 module.exports = app;
