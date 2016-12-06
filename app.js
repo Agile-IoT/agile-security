@@ -9,7 +9,7 @@ var session = require('express-session');
 var logger = require('morgan');
 var methodOverride = require('method-override');
 var idmWeb = require('./index');
-
+var errorHandler = require('./routes/errorHandler');
 /*
  use during development:
  -  var idmWeb = require('../index');
@@ -73,18 +73,8 @@ var oauth2 = idmWeb.oauth2orizeServer(conf,core_conf);
 idmWeb.oauth2ServerStrategies(conf,core_conf);
 app.use("/oauth2",idmWeb.routerOauth2(conf,core_conf));
 app.use("/",idmWeb.routerSite(strategies));
+app.use(errorHandler);
 
-
-/*app.get("/", function (req, res) {
-  res.redirect("/static/index.html");
-});*/
-
-
-//NOTE example on how to access authentication info in express... :)
-app.get('/account', ensureAuthenticated, function (req, res) {
-  console.log(req.session.passport.user);
-  res.send(req.session.passport.user);
-});
 
 var options = {
   key: fs.readFileSync(conf.tls.key),
@@ -96,13 +86,5 @@ https.createServer(options, app).listen(conf.https_port);
 
 console.log("listening on port "+conf.http_port+ " for http ");
 console.log("listening on port "+conf.https_port+ " for https ");
-
-// test authentication
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect('/login');
-}
 
 module.exports = app;
