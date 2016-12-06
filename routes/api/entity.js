@@ -33,6 +33,8 @@ function RouterApi(idmcore, router) {
   );
   //returns 200 and the entity, or 401 or 403, in case of security issues, 422 in case a user is attempted to be created through this API, or 409 if entity already exists, 500 in case of unexpected situations
   //curl -H "Content-type: application/json" -H "Authorization: bearer HeTxINCpXD0U6g27D7AIxc2CvfFNaZ" -X POST -d '{"name":"my BLE thingy"}' 'http://localhost:3000/api/v1/entity/sensor/1'
+  // curl -X POST -H "Content-type: application/json" -H "Authorization: bearer sDRzowStzB4W0KC57fhUXeX0edhfVE" -d '{"name":"two2","credentials":[{"sytem":"dropbox","value":"xyzsometoken"}]}' 'http://localhost:3000/api/v1/entity/sensor/2'
+
   router.route('/entity/:entity_type/:entity_id').post(
     cors(),
     passport.authenticate('bearer', {
