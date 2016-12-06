@@ -1,20 +1,34 @@
+## Identity Providers Configuration
+
+**although the configurations in this example and the repositories for agile use http for easy testing, you should always use https in production environments to interact with IDM since it sends and receives authorization codes an tokens**
+
+This chapter covers the configuration of AGILE IDM, depending on which IdPs are used in a particular installation.
+
+Many IdPs can be configured for AGILE-IDM; however, they are only attempted to be loaded when their name is in the list called "enabledStrategies" in the configuration file:
+At the moment, the following strategy names are possible:
+
+  * agile-local
+  * github
+  * google
+  * webid
+  * pam
+
+Since AGILE-IDM should not let just any user with a valid account in github, google, etc log in in every gateway, the users which are allowed to log in in a particular gateway need to be registered previously, providing username and authentication type. For this the scripts in the folder scripts can be used.
+
+ By default all Oauth2 providers (and all provider strategies) are available in "/auth/$strategy", i.e. pam authentication is available in /auth/pam, or google authentication is available in /auth/google.
 
 
-## Configuration
+### OAuth2 Providers  
 
-To configure the two IDM components, a JSON object is stored in a file within the conf folder. For every subsection, mention whether they are required for the IDM to execute properly or not.
-To make this component available as a module. You need to install and run the app in the example folder. This application loads the configuration and starts the web server.
+Since AGILE-IDM (Web component) behaves as an OAuth2 client towards IdPs such as google and github, it needs to be configured with the proper credentials to act as a relying party in the protocol.
 
-### OAuth2 Configuration  (Mandatory for the use of external IdPs)
-
-Since AGILE-IDM (Web component) behaves as an OAuth2 client, it needs to be configured with the proper credentials to act as a relying party in the protocol.
+Every Oauth2 provider needs to redirect the user to the original relying party (in this case Identity Management). As a result, the IdP (Google, Github, etc) needs to know the url used for this callback. Similarly to the initial URL used to start the authentication of the user, the authorization code callbacks are always in /auth/callback_$oauth2provider. For example, google's callback is in /auth/callback_google, github's callback is in /auth/callback_github. Keep in mind that when the callback is configured in the **redirect_path** property, you also need to include the host and the port used.
 
 For each IdP (that will be used by the AGILE gateway owner), a clientID, and a clientSecret are required. To configure them properly, open the conf/agile-ui-conf.js
 Then, the following attributes of the configuration need to be updated:
 
 * clientID: OAuth2 client
 * clientSecret: OAuth2 secret
-
 
 Assuming that you have retrieved a **client Id** 5y4rye1946, and a **clientSecret** vz20g6010oxttt0gyqv2, and that the gateway is running in localhost:3000 the github configuration should look like this:
 
@@ -23,13 +37,8 @@ Assuming that you have retrieved a **client Id** 5y4rye1946, and a **clientSecre
 	"github":{
 		"clientID": "5y4rye1946",
 		"clientSecret": "vz20g6010oxttt0gyqv2",
-		"host_name": "http://localhost:3000",
-		"redirect_path": "/callback_github",
-		"initial_path": "/github",
-		"final_path":"/static/index.html",
-		"site": "https://github.com/login",
-		"tokenPath": "/oauth/access_token",
-		"scope": "notifications"
+		"redirect_path": "http://localhost:3000/auth/callback_github",
+		"scope": ["notifications"]
 	},
  	"google":{
 			...
@@ -79,8 +88,8 @@ By default, this option opens the **Authorized applications** site (see image 3)
 There you can register a new application. To do so, click on the **Register a new application** button.  
 On the next site you have to fill three required fields (see image 5):  
 With the first one "**Application name**" you can name your application.
-The second flield named **Homepage URL** place the combination of $host_name+$initial_path (http://localhost:3000/github according to the example above).  
-For the last field "**Authorization callback URL**", you should place $host_name+$redirect_path (http://localhost:3000/callback_github in the example above).  
+The second field named **Homepage URL** place the following path (http://localhost:3000/auth/github according to the example above).  
+For the last field "**Authorization callback URL**", you should place the value in $redirect_path (http://localhost:3000/auth/callback_github in the example above).  
 After filling the form click the **Register application** button.
 
 <table align="center">
@@ -165,14 +174,14 @@ Now back on the Credentials site choose **Web application** and fill out the two
 In the first one named **Authorized JavaScript origins** you have to put the website that asks the user to authenticate.
 As paths are not allowed here you have to use the base URI $host_name (http://localhost:3000 according to the example below).  
 With the second field named **Authorized redirect URIs** you specify the url to wich the user will be redirected after authentication.
-You should use $host_name+$redirect_path (http://localhost:3000/callback_google in the example below).  
+You should use redirect_path (http://localhost:3000/auth/callback_google in the example below).  
 Click the **Create** button and you will receive the needed client Id and client secret.  
 Later you can always view the credentials again by clicking on the name of your product on the credentials site.
 Use the client Id and client secret and update the following fields in the configuration file:
 
 * clientID: OAuth2 client
 * clientSecret: OAuth2 secret
-* host_name: host and port where the AGILE gateway is running.
+
 
 Assuming that you have retrieved a **client Id** 5y4rye1946, and a **clientSecret** vz20g6010oxttt0gyqv2, and that the gateway is running in localhost:3000 the google configuration should look like this:
 
@@ -184,14 +193,12 @@ Assuming that you have retrieved a **client Id** 5y4rye1946, and a **clientSecre
 	"google":{
 		"clientID": "5y4rye1946",
 		"clientSecret": "vz20g6010oxttt0gyqv2",
-		"host_name": "http://localhost:3000",
-		"redirect_path": "/callback_google",
-		"initial_path": "/google",
-		"final_path":"/static/index.html",
-		"site": "https://accounts.google.com",
-		"authorizationPath": "/o/oauth2/auth",
-		"tokenPath": "/o/oauth2/token",
-		"scope": "https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
+		"redirect_path": "http://localhost:3000/auth/callback_google",
+		"scope": [
+       "https://www.googleapis.com/auth/drive",
+       "https://www.googleapis.com/auth/userinfo.profile",
+       "https://www.googleapis.com/auth/userinfo.email"
+    ]
 	},
 	"dropbox":{
 			...
@@ -269,9 +276,9 @@ Assuming that you have retrieved a **client Id** 5y4rye1946, and a **clientSecre
 }
 ```
 
-### Web-ID TLS Certificate Configuration  (Optional)
+### TLS Certificate and WebID
 
-web-ID relies on a TLS handshake, therefore IDM needs a certificate for the server side. We have included a self-signed certificate in the certs folder and it is configured by default. But, should you want to place your own certificate (please do!) please change the tls attribute of the configuration object in agile-idm-web-ui/conf/agile-ui.conf.
+web-ID relies on a TLS handshake, therefore IDM needs a certificate for the server side. We have included a self-signed certificate in the certs folder and it is configured by default. But, should place your own certificate (please do!) please change the tls attribute of the configuration object in agile-idm-web-ui/conf/agile-ui.conf.
 
 ```
 "tls":{
@@ -279,21 +286,18 @@ web-ID relies on a TLS handshake, therefore IDM needs a certificate for the serv
      "cert":"../certs/server.crt"
 }
 ```
-
 In this object you can place the path to your own server key and certificate.  However, if you don't update this, you would use the self-signed certificates by default. Which would work, as long as you instruct your browser to do this security exception...
 
-## Local authentication
 
-IDM also offers a local authentication component (not using external IDPs and which does not require a client-side certificate). This component prompts the user for a unsername and password. Depending on your configuration, local authentication works in two ways:
+### Agile-local authentication
 
-* Compares username and passowrd to the one provided in the configuration (see the configuration example property auth.local.fallback-user-no-pam. This makes sure that IDM runs out of the box.
-* Uses the Linux PAM module to authenticate with users that are registered in the linux machine where IDM is running. Since this requires 1) a linux machine and 2) additional libraries in the OS level, this needs to be configured properly.
+IDM also offers a local authentication component. This component prompts the user for a unsername and password. The agile-local authentication relies on the entity storage, where all the entities are placed, to find entities of type user. They need to include a password.
 
-# Installing
+### PAM authentication
 
-## with PAM
+IDM can also use the unerlying Linux PAM modules to authenticate with users that are registered in the linux machine where IDM is running. Since this requires 1) a linux machine and 2) additional libraries in the OS level, this needs to be configured properly.
 
-libpam0g-dev is a library required to perform PAM authentication, i.e. native linux authentication. This allows users to provide usernames and passwords to authenticate themselves with the underlying operating system. Since we don't want to force everyone to run this on Linux... by default IDM doesn't install pam authentication.
+to configure with PAM, the libpam0g-dev is a library required to perform PAM authentication, i.e. native linux authentication. This allows users to provide usernames and passwords to authenticate themselves with the underlying operating system.
 
 To use PAM you need to install libpam0g-dev in your linux OS. For instance, in debian or ubuntu you can do:
 
@@ -301,42 +305,8 @@ To use PAM you need to install libpam0g-dev in your linux OS. For instance, in d
 sudo apt-get install libpam0g-dev
 ```
 
-Afterwards you can install IDM with PAM by typing (if you need to revert the changes to recover the original package json just do git checkout :) ):
+Afterwards you need to  install the pam node js authentication module by typing (if you need to revert the changes to recover the original package json just do git checkout.
 
 ```
-mv package-pam.json package.json
-npm install
+npm install --save authenticate-pam
 ```
-
-# Installing without PAM
-
-This is easier:
-
-```
-npm install
-```
-
-In this case the username and password will be the one provided in the configuration.
-
-# Including IDM-web in your package.json
-
-If you want to include the version without PAM, just add "agile-idm-web-ui": "https://github.com/Agile-IoT/agile-idm-web-ui" to your dependencies. However, keep in mind this installation doesn't integrate PAM. If you have a good idea on how to support this (through npm pacakage.json script or any other way, an issue describint how or a pull request with the change would be welcome).
-
-## Run the Example
-
-Just go to the example folder and run app (after doing npm install there...)
-
-## Try it out
-
-
-At the moment we have a simple demo that lets you authenticate using different identity providers (github, your linux operating system, a Web-ID certificate) and register an entity (sensor with a name). This registration is just valid for IDM. Soon, we shall do this registration from the AGILE device manager.
-
-To test the demo follow this actions:
-
-* Download and clone this repository
-* Configure the components as needed. If you don't want to do any configuration, you can use the Web-ID authentication, or the PAM module out of the box. Otherwise, OAuth2 authentication requires to place the proper client id and secret in the configuration file as described previously.
-* Run the components (as already described).
-* go to your browser to http://localhost:3000/static/index.html
-* authenticate with any mechanism you like
-* click on the menu Sensors>Create
-* write any name and any id, and then click on create
