@@ -12,7 +12,7 @@ As a result, every application acting as a relying party (using AGILE IDM as ide
 Assuming that an oauth client has been registered in AGILE IDM, the flow to obtain an access token for any AGILE user is depicted in the following picture:
 <table align="center">
 	<tr>
-		<td><img src="images/idm-architecture.jpg" /></td>
+		<td><img src="docs/images/idm-oauth2-client.jpg" /></td>
 	</tr>
 	<tr align="center">
 		<td>
