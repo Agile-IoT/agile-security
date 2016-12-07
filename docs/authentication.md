@@ -24,7 +24,7 @@ In the case of WebID, a user must be created, for which the  user_name matches t
 
 ## Bootstrapping
 
-register clients and users with the command line.
+Given that AGILE IDM works as an Oauth2 identity provider, an oauth client and a valid user must be registered before any action can be performed with identity management. To this end, the scripts createClient and createUser available in the scripts folder of agile-idm-web-ui should be used. More information on this is available in the tutorial to start a simple oauth2 client example in node js here: https://github.com/Agile-IoT/agile-idm-oauth2-client-example
 
 
 ## Configuration
