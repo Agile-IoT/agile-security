@@ -29,3 +29,11 @@ From step 1 to 4, the authentication between IDM and the Oauth2 client occurs; h
 3. On succesful user authentication, IDM redirects the user with an authorization code (valid only for this client) to the client callback endoint.
 
 4. Once the Oauth2 client application has received the authorization code, it calls IDM providing the authorization token along with its client id and client secret, in order to exchange the authorization code for a valid access token for this user. Once IDM returns a token (if id and secret are valid), it will delete the authorization code afterwards. From this point on, the application can use this token to interact with IDM, or with any other AGILE component that has been integrated with AGILE IDM.
+
+#Debug mode
+
+If you define the following variable (to be 1) this module will print debugging information to stdout, and in case of exceptions, it will print the stack trace in the browser. 
+
+export DEBUG_IDM_WEB=1
+
+If no variable is set, or if any other value different than 1 is set, this component runs in quiet mode.
