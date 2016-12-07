@@ -2,16 +2,16 @@
 
 AGILE IDM behaves as an Identity Provider for applications (Oauth2 clients). In its current state AGILE IDM supports the authorization code flow of Oauth2, and it can use the following authentication mechanisms:
 
-* Local username and password
-* PAM (Pluggable authentication modules) UNIX authentication
-* WebID
-* Google
-* Github
+* **agile-local**: Local username and password 
+* **pam**: PAM (Pluggable authentication modules) UNIX authentication
+* **webid**: WebID protocol (https://www.w3.org/2011/identity-ws/papers/idbrowser2011_submission_22/webid.html)
+* **google**: Google Oauth2 
+* **github**: Github Oauth2
 
 Every user has an id composed of the username and authentication type. During the login process, every strategy verifies
 that a user with the particular username and authentication type has been registered in oder to allow the user to log in. This ensures that only allowed users log into the gateway; otherwise, anyone with a Github or Google account would log in.
 
-Every strategy offered as part of agile-idm-web-ui is represented by an authentication type name. The authentication type name is comprised of the lowercase letters corresponding to the strategy (e.g., google, webid, github, pam, agile-local). Also, a file with the passport stragy calls name needs to be placed in the folder lib/auth/providers. Likewise a file with the same name needs to be locade in the routes/providers folder. In the latter, the proper routes required for the authentication type are mounted in the authentication express router.
+Every strategy offered as part of agile-idm-web-ui is represented by an authentication type name. The authentication type name is comprised of the lowercase letters corresponding to the strategy as shown in bold characters in the aforementioned list (e.g., google, webid, github, pam, agile-local). Also, a file with the passport stragy calls name needs to be placed in the folder lib/auth/providers. Likewise a file with the same name needs to be locade in the routes/providers folder. In the latter, the proper routes required for the authentication type are mounted in the authentication express router.
 
 ## Authentication Types
 
