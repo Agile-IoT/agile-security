@@ -36,7 +36,7 @@ From step 1 to 4, the authentication between IDM and the Oauth2 client occurs; h
 Given that a client is required, we provide two examples that can be used to build upon and get started using AGILE IDM. 
 To get a minimalistic example running with IDM, it is required to clone the "client" branch of the oauth2-example of idm located here (https://github.com/Agile-IoT/agile-idm-oauth2-client-example).
 
-Another option is to not only use AGILE IDM as an identity provider, but also to use its capabilities to manage and register entities. For developers interested in this, the master branch of the oauth2-example contains an express web application, with a demo graphical user interface, that executes the REST calls to the REST Entity API when the user uses the browser to do basic operations on identities, such as reading, creation of entities, updating attributes, etc.
+Another option is to not only use AGILE IDM as an identity provider, but also to use its capabilities to manage and register entities. For developers interested in this, the "api-client" branch of the oauth2-example contains an express web application, with a demo graphical user interface, that executes the REST calls to the REST Entity API when the user uses the browser to do basic operations on identities, such as reading, creation of entities, updating attributes, etc.
 
 ## Debug mode
 
