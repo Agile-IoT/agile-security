@@ -11,7 +11,7 @@ The main functionalities of AGILE IDM are the following:
 * **Entity lookup**:  AGILE IDM allows users to lookup entities. To this end, users can provide a set of constraints specifying attribute name and value.
 * **Entity attribute declasification**: AGILE IDM also declasifies attributes that are not readable by users that query IDM. For example, there may be certain attributes that can only be read by the entity owner, but not by the rest of the users. 
 * **Credential Management**: Thanks to the entity declasification functionality of AGILE IDM, it could configured to allow entities to store credentials (that are used to connect to external clouds or systems for example). Provided that the right policies are configured, IDM would only return this information to the entities allowed to read this information, e.g. the owner of the entity.
-
+* **Group Management**: To simplify the policy definition for developers, users can define groups and add entities to them. This can provide an easy way to handle entities and to define security policies for them by referencing the group directly.
 
 ## Setting up a Running Example
 
