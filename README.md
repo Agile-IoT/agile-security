@@ -4,8 +4,9 @@
 
 This component offers an oauth2 server which in turn can rely on third party Identity Providers (IdPs) to authenticate users in AGILE.
 Currently, AGILE IDM supports the authorization code flow of Oauth2.
-As a result, every application acting as a relying party (using AGILE IDM as identity provider), must be first registered with AGILE IDM. For more information please see the user authentication chapter (https://github.com/Agile-IoT/agile-idm-web-ui/blob/master/docs/authentication.md)
+As a result, every application acting as a relying party (using AGILE IDM as identity provider), must be first registered with AGILE IDM. For more information please see the user authentication chapter (https://github.com/Agile-IoT/agile-idm-web-ui/blob/master/docs/authentication.md).
 
+Given that AGILE IDM behaves as an Oauth2 provider (for authorization code grants), we will cover two topics to introduce how user authentication works. Fist of all, we clarify how the authorization grant, and sencond.
 
 ## Authorization Code and Access Token Flow
 
@@ -29,6 +30,13 @@ From step 1 to 4, the authentication between IDM and the Oauth2 client occurs; h
 3. On succesful user authentication, IDM redirects the user with an authorization code (valid only for this client) to the client callback endoint.
 
 4. Once the Oauth2 client application has received the authorization code, it calls IDM providing the authorization token along with its client id and client secret, in order to exchange the authorization code for a valid access token for this user. Once IDM returns a token (if id and secret are valid), it will delete the authorization code afterwards. From this point on, the application can use this token to interact with IDM, or with any other AGILE component that has been integrated with AGILE IDM.
+
+## Setting up a Running Example
+
+Given that a client is required, we provide two examples that can be used to build upon and get started using AGILE IDM. 
+To get a minimalistic example running with IDM, it is required to clone the "client" branch of the oauth2-example of idm located here (https://github.com/Agile-IoT/agile-idm-oauth2-client-example).
+
+Another option is to not only use AGILE IDM as an identity provider, but also to use its capabilities to manage and register entities. For developers interested in this, the master branch of the oauth2-example contains an express web application, with a demo graphical user interface, that executes the REST calls to the REST Entity API when the user uses the browser to do basic operations on identities, such as reading, creation of entities, updating attributes, etc.
 
 ## Debug mode
 
