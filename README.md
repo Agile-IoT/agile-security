@@ -23,4 +23,4 @@ export DEBUG_IDM_WEB=1
 
 If no variable is set, or if any other value different than 1 is set, this component runs in quiet mode.
 
-To debug the agile-idm-core or the agile-idm-storage components that are within agile-idm-web-ui please set the environment variables DEBUG_IDM_CORE  or DEBUG_IDM_STORAGE to 1 respectively.
+To debug the agile-idm-core or the agile-idm-storage components that are within agile-idm-web-ui please set the environment variables DEBUG_IDM_CORE  or DEBUG_IDM_STORAGE to 1 respectively. These two components will log to stdout debugging information.
