@@ -38,7 +38,7 @@ To debug the agile-idm-core or the agile-idm-storage components that are within 
 
 [Architecture](https://github.com/Agile-IoT/agile-idm-web-ui/blob/master/docs/architecture.md)
 [User Authentication](https://github.com/Agile-IoT/agile-idm-web-ui/blob/master/docs/authentication.md)
-[Identity Model]https://github.com/Agile-IoT/agile-idm-web-ui/blob/master/docs/identity-model.md)
+[Identity Model] (https://github.com/Agile-IoT/agile-idm-web-ui/blob/master/docs/identity-model.md)
 [Configuration of Identity Providers (such as google, github, pam authentication, etc)](https://github.com/Agile-IoT/agile-idm-web-ui/blob/master/docs/idps-configuration.md)
 
 ## Main open source projects used by AGILE IDM
