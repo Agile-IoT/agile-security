@@ -59,6 +59,9 @@ function oauth2Router(tokenconf, entityStorageConf) {
         if (err) {
           return done(err);
         }
+        if (!client) {
+          return done(null, false);
+        }
         console.log('client ' + JSON.stringify(client));
         if (redirectURI === client.redirectURI) {
           return done(null, client, redirectURI);
