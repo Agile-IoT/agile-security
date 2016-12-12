@@ -41,7 +41,8 @@ function RouterApi(idmcore, router, strategies) {
         var user = req.body;
         var entity_type = "/user";
         var entity_id = ids.buildId(req.body.user_name, req.body.auth_type);
-        idmcore.createEntity(req.user, entity_id, entity_type, user)
+        //for consistency in owner policy lock evaluation, users own themselves.
+        idmcore.createEntityAndSetOwner(req.user, entity_id, entity_type, user, entity_id)
           .then(function (read) {
             res.json(read);
           }).catch(function (error) {
