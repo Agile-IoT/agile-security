@@ -1,12 +1,12 @@
 var commandLineArgs = require('command-line-args');
 var getUsage = require('command-line-usage');
-var Storage = require('agile-idm-entity-storage').Storage;
 var ids = require('../lib/util/id');
+var IdmCore = require('agile-idm-core');
 
 /*
 Examples of usage:
   To create a local user wit username bob and password secret:
-  node createUser.js --username=bob --password=secret  --auth=agile-local
+  node createUser.js --username=bob --password=secret  --auth=agile-local --role=admin
   To create a user wit username abc that will authenticate using github:
   node createUser.js --username=abc --auth=github
   node createUser.js --username=dp --auth=pam
@@ -15,8 +15,8 @@ Examples of usage:
 
 */
 var sections = [{
-  header: 'AGILE IDM User Setup Script',
-  content: 'Creates  [italic]{users} which are administrators for IDM. This script is meant to be used during bootstrap of AGILE IDM'
+  header: 'AGILE IDM User Setup Script (FOR ADMIN USERS MAINLY!!)',
+  content: ' Creates  [italic]{users} which are administrators for IDM. This script is meant to be used during bootstrap of AGILE IDM [undeline]{Be careful when using this script. It bypasses security checks (to enable the creation of the first user) It is meant to create only admin users. Afterwards admin users can create other users}'
 }, {
   header: 'User info',
   optionList: [{
@@ -34,7 +34,14 @@ var sections = [{
       alias: 'p',
       typeLabel: '[underline]{String}',
       description: 'This argument is the password used for the user, and it MUST be passed when  auth is "agile-local".'
+    },
+    {
+      name: 'role (optional)',
+      alias: 'r',
+      typeLabel: '[underline]{String}',
+      description: 'This argument specifies the role of the user, by default this is set to admin".'
     }
+
 
   ]
 }, {
@@ -42,7 +49,7 @@ var sections = [{
   optionList: [{
     name: "config",
     alias: "c",
-    description: "location of the database. By default '../database_' executed relative to this script's path is used"
+    description: "location of the agile-idm-core configuration file. By default it takes the value from the configuration file in ../conf/agile-idm-core-conf.js, which should be '../database_' normally. This path is interpreted as relative to the parent folder"
   }]
 }, {
   header: "Help",
@@ -73,7 +80,74 @@ var optionDefinitions = [{
   name: 'help',
   alias: 'h',
   type: String
-}, ];
+},
+{
+  name: 'role',
+  alias: 'r',
+  type: String
+} ];
+
+
+var pepMockOk = {
+  declassify: function (userInfo, entityInfo) {
+    return new Promise(function (resolve, reject) {
+      resolve(entityInfo);
+    });
+  },
+  declassifyArray: function (userInfo, array) {
+    return new Promise(function (resolve, reject) {
+      resolve(array);
+    });
+  }
+};
+
+var PdpMockOk = {
+  canRead: function (userInfo, entityInfo) {
+    return new Promise(function (resolve, reject) {
+      resolve(entityInfo);
+    });
+  },
+  canDelete: function (userInfo, entityInfo) {
+    return new Promise(function (resolve, reject) {
+      resolve(entityInfo);
+    });
+  },
+  canReadArray: function (userInfo, entities) {
+    return new Promise(function (resolve, reject) {
+      //console.log('resolving with entities '+JSON.stringify(entities));
+      resolve(entities);
+    });
+  },
+  canWriteToAttribute: function (userInfo, entities, attributeName, attributeValue) {
+    return new Promise(function (resolve, reject) {
+      //console.log('resolving with entities '+JSON.stringify(entities));
+      resolve();
+    });
+  },
+  canUpdate: function (userInfo, entityInfo) {
+    return new Promise(function (resolve, reject) {
+      //console.log('resolving with entities '+JSON.stringify(entities));
+      resolve(entityInfo);
+    });
+  },
+  canWriteToAllAttributes: function (userInfo, entityInfo) {
+    return new Promise(function (resolve, reject) {
+      //console.log('resolving with entities '+JSON.stringify(entities));
+      resolve();
+    });
+  }
+
+};
+
+var admin = {
+  "id":"root!@!agile-local",
+  "type":"user",
+  "user_name": "root",
+  "auth_type": "agile-local",
+  "password": "secret",
+  "role": "admin",
+  "owner": "root!@!agile-local"
+};
 
 function help(err) {
   if (err)
@@ -81,27 +155,36 @@ function help(err) {
   console.log(getUsage(sections));
 }
 var args;
-var config;
-
+var conf;
 var entity_type = "/user";
-var db_location = {
-  "storage": {
-    "dbName": "../database_"
-  }
-};
+
 try {
   args = commandLineArgs(optionDefinitions);
   if (args.hasOwnProperty("help"))
     help();
   else {
+    if(args.config){
+        conf = require(args.config);
+    }
+    else{
+      conf = require('../conf/agile-idm-core-conf');
+
+    }
+    //hack to execute relative to the upper directory
+    if(conf.storage.dbName.indexOf("/")!=0){
+      conf.storage.dbName = "../"+conf.storage.dbName;
+    }
+
+    if(conf.policies.dbName.indexOf("/")!=0){
+      conf.policies.dbName = "../"+conf.policies.dbName;
+    }
+
     if (args.auth === "agile-local" && !args.password)
       return help(new Error("When local authentication is used a password is required!"));
 
     if (args.username && args.auth) {
-      if (args.config)
-        db_location.storage.dbName = args.config;
 
-      var storage = new Storage(db_location);
+
       var user_id = ids.buildId(args.username, args.auth);
       var storage_id = {
         id: user_id,
@@ -113,10 +196,22 @@ try {
         auth_type: args.auth
 
       }
+      if(args.role){
+        user.role =args.role;
+      }
       if (args.password) {
         user.password = args.password;
       }
-      storage.createEntity(user_id, entity_type, user_id, user).then(function (result) {
+      var idmcore = new IdmCore(conf);
+      idmcore.setMocks(null, null, PdpMockOk, null, pepMockOk);
+      console.log(JSON.stringify(admin))
+      console.log(JSON.stringify(user_id))
+      console.log(JSON.stringify(entity_type))
+      console.log(JSON.stringify(user_id))
+      console.log(JSON.stringify(admin))
+      console.log(JSON.stringify(admin))
+      idmcore.createEntityAndSetOwner(admin, user_id, entity_type, user, user_id).then(function(result){
+
         console.log("SUCCESS: User created " + JSON.stringify(result));
       }, function fail(err) {
         console.warn("FAILURE: User cannot be created " + err);
