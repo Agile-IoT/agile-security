@@ -52,3 +52,4 @@ Although AGILE IDM has more dependencies, the key open source components used ar
 * **Passport**: Passport is an authentication framework with a live ecosystem of pluggins contributed by the open source community. It has been used to implement the athentication mechanisms used by AGILE IDM.
 * **Oauth2-orize**: This framework uses passport to facilitate the construction of an Oauth2 server.
 * **LevelDB**: LevelDB provides a lightweight key value database used by AGILE IDM and its submodules to store tokens, antities and groups.
+* **UPFROnt**: the ULock Policy FRamewOrk (UPFRont) is used to support usage locks to apply enforcement to write and read actions on attributes.
