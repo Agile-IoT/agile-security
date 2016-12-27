@@ -1,0 +1,623 @@
+swagger: '2.0'
+info:
+  title: Agile IDM (Entity) HTTP API
+  description: The Agile HTTP API to interact with AGILE IDM through http(s)
+  version: 1.0.0
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+# the domain of the service
+host: localhost:3000
+# array of all schemes that your API supports
+schemes:
+  - http
+# will be prefixed to all paths
+basePath: /api/v1
+consumes:
+  - application/json
+produces:
+  - application/json
+
+externalDocs:
+  url: http://agile-iot.github.io/agile-api-spec
+  description: AGILE IDM spec
+
+tags:
+  - name: User
+    description: User Management API
+  - name: Entity
+    description: Entity Management API
+  - name: Group
+    description: Group Management API
+
+securityDefinitions:
+  Oauth2AuthCode:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: /oauth2/dialog/authorize
+    tokenUrl: /oauth/token
+  Oauth2Implicit:
+    type: oauth2
+    flow: implicit
+    authorizationUrl: /oauth2/dialog/authorize
+  Oauth2ClientCred:
+    type: oauth2
+    flow: application
+    tokenUrl: /oauth2/token
+
+paths:
+  '/user/':
+
+    get:
+      security:
+      -  Oauth2AuthCode: []
+      - Oauth2Implicit: []
+      - Oauth2ClientCred: []
+      parameters:
+      -
+        name: auth_type
+        in: query
+        description: 'Authentication type, i.e. agile-local, github, google'
+        required: true
+        type: string
+      -
+        name: user_name
+        in: query
+        description: 'username'
+        required: true
+        type: string
+      operationId: ReadUser
+      tags:
+        - User
+      description: 'Return a given user  by authentication type and username.'
+      responses:
+        '200':
+          description: 'User read done'
+          schema:
+            $ref: '#/definitions/User'
+          examples:
+            application/json:
+              id: bob!@!agile-local
+              type: /user
+              owner: bob!@!agile-local
+              user_name: bob
+              auth_type: agile-local
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'No user found'
+        '500':
+          description: 'Unexpected error'
+
+    post:
+      security:
+      - Oauth2AuthCode: []
+      - Oauth2Implicit: []
+      - Oauth2ClientCred: []
+      operationId: StoreUser
+      tags:
+        - User
+      description: 'Store a given user'
+      parameters:
+        -
+          name: entity
+          in: body
+          description: 'the user to be stored'
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+
+      responses:
+        '200':
+          description: 'Usertored successfully'
+          schema:
+             $ref: '#/definitions/User'
+          examples:
+            application/json:
+              id: bob!@!agile-local
+              type: /user
+              owner: bob!@!agile-local
+              user_name: bob
+              auth_type: agile-local
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '409':
+          description: 'Conflict. This can happen when entities already exist for example'
+        '422':
+          description: 'This is returned when users are attempted to be created through this API, for this there is a user api.'
+        '500':
+          description: 'Unexpected error'
+
+    delete:
+      security:
+      -  Oauth2AuthCode: []
+      - Oauth2Implicit: []
+      - Oauth2ClientCred: []
+      parameters:
+      -
+        name: auth_type
+        in: query
+        description: 'Authentication type, i.e. agile-local, github, google'
+        required: true
+        type: string
+      -
+        name: user_name
+        in: query
+        description: 'username'
+        required: true
+        type: string
+      operationId: DeleteUser
+      tags:
+        - User
+      description: 'Delete given user  by authentication type and username.'
+      responses:
+        '200':
+          description: 'User delete done'
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'No user found'
+        '500':
+          description: 'Unexpected error'
+
+  '/entity/{entityType}/{entityId}':
+    parameters:
+      -
+        name: entityType
+        in: path
+        description: 'Entity type'
+        required: true
+        type: string
+      -
+        name: entityId
+        in: path
+        description: 'Entity id. This id is only unique for a certain entity type'
+        required: true
+        type: string
+    get:
+      security:
+      -  Oauth2AuthCode: []
+      - Oauth2Implicit: []
+      - Oauth2ClientCred: []
+
+      operationId: ReadEntity
+      tags:
+        - Entity
+      description: 'Return a given entity by type and id.'
+      responses:
+        '200':
+          description: 'Entity read done'
+          schema:
+            $ref: '#/definitions/Entity'
+          examples:
+            application/json:
+              id: bleA0E6F8B62304
+              type: /user
+              owner: bob!@!agile-local
+              user_name: bob
+              auth_type: agile-local
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'No entity found'
+        '500':
+          description: 'Unexpected error'
+    post:
+      security:
+      - Oauth2AuthCode: []
+      - Oauth2Implicit: []
+      - Oauth2ClientCred: []
+      operationId: StoreEntity
+      tags:
+        - Entity
+      description: 'Store a given entity under an id and type.'
+      parameters:
+        -
+          name: entity
+          in: body
+          description: 'the entity to be stored'
+          required: true
+          schema:
+            type: object
+
+      responses:
+        '200':
+          description: 'Entity stored successfully'
+          schema:
+            type: object
+          examples:
+            application/json:
+              id: bleA0E6F8B62304
+              type: /user
+              owner: bob!@!agile-local
+              user_name: bob
+              auth_type: agile-local
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '409':
+          description: 'Conflict. This can happen when entities already exist for example'
+        '422':
+          description: 'This is returned when users are attempted to be created through this API, for this there is a user api.'
+        '500':
+          description: 'Unexpected error'
+    delete:
+      security:
+        -  Oauth2AuthCode: []
+        - Oauth2Implicit: []
+        - Oauth2ClientCred: []
+      operationId: DeleteEntity
+      tags:
+        - Entity
+      description: 'Delete a given entity under an id and type.'
+      responses:
+        '200':
+          description: 'Entity deleted successfully'
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'Entity not found'
+        '500':
+          description: 'Unexpected error'
+
+  '/entity/{entityType}/{entityId}/attribute/{attributeName}':
+    parameters:
+      -
+        name: entityType
+        in: path
+        description: 'Entity type'
+        required: true
+        type: string
+      -
+        name: entityId
+        in: path
+        description: 'Entity id. This id is only unique for a certain entity type'
+        required: true
+        type: string
+      -
+        name: attributeName
+        in: path
+        description: 'Attribute name'
+        required: true
+        type: string
+    put:
+      security:
+        -  Oauth2AuthCode: []
+        - Oauth2Implicit: []
+        - Oauth2ClientCred: []
+      operationId: UpdateAttributeEntity
+      tags:
+        - Entity
+      description: 'update attribute value for an entity'
+      responses:
+        '200':
+          description: 'attribute updated'
+          schema:
+            $ref: '#/definitions/Entity'
+          examples:
+            application/json:
+              id: bleA0E6F8B62304
+              type: /user
+              owner: bob!@!agile-local
+              user_name: bob
+              auth_type: agile-local
+
+  '/entity/search':
+    post:
+      security:
+        -  Oauth2AuthCode: []
+        - Oauth2Implicit: []
+        - Oauth2ClientCred: []
+      operationId: searchEntitiesByAttributes
+      tags:
+        - Entity
+      description: 'update attribute value for an entity'
+      parameters:
+        -
+          name: Constraint
+          in: body
+          description: 'Constraints for finding entities'
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AttributeConstraint'
+      responses:
+        '200':
+          description: 'attribute updated'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Entity'
+          examples:
+            application/json:
+              -
+                id: bob!@!agile-local
+                type: /user
+                owner: bob!@!agile-local
+                user_name: bob
+                auth_type: agile-local
+              -
+                id: alice!@!github
+                type: /user
+                owner: alice!@!github
+                user_name: alice
+                auth_type: github
+
+
+
+  '/user/{owner}/group/{groupName}':
+    parameters:
+      -
+        name: owner
+        in: path
+        description: 'Owner of the gruop'
+        required: true
+        type: string
+      -
+        name: groupName
+        in: path
+        description: 'Group name'
+        required: true
+        type: string
+    get:
+      security:
+      -  Oauth2AuthCode: []
+      - Oauth2Implicit: []
+      - Oauth2ClientCred: []
+
+      operationId: readGroup
+      tags:
+        - Group
+      description: 'Return a given group by owner and name'
+      responses:
+        '200':
+          description: 'Group read done'
+          schema:
+            $ref: '#/definitions/Group'
+          examples:
+            application/json:
+              owner: bob!@!agile-local
+              group_name: family
+              entities:
+              -
+                id: bob!@!agile-local
+                type: /user
+                owner: bob!@!agile-local
+                user_name: bob
+                auth_type: agile-local
+              -
+                id: fbd142fd2312
+                type: /sensor
+                owner: alice!@!github
+                name: living room humidity
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'No Group found'
+        '500':
+          description: 'Unexpected error'
+
+    delete:
+      security:
+        -  Oauth2AuthCode: []
+        - Oauth2Implicit: []
+        - Oauth2ClientCred: []
+      operationId: DeleteGroup
+      tags:
+        - Group
+      description: 'Delete a given group.'
+      responses:
+        '200':
+          description: 'Entity deleted successfully'
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'Group not found'
+        '500':
+          description: 'Unexpected error'
+
+  '/group/':
+    post:
+      security:
+        -  Oauth2AuthCode: []
+        - Oauth2Implicit: []
+        - Oauth2ClientCred: []
+      operationId: storeGroup
+      tags:
+        - Group
+      description: 'Store a group owned by the user for which the Oauth2 token has been obtained'
+      parameters:
+        -
+          name: Group
+          in: body
+          description: 'The Group to be stored'
+          required: true
+          schema:
+            $ref: '#/definitions/Group'
+
+      responses:
+        '200':
+          description: 'Entity stored successfully'
+          schema:
+            $ref: '#/definitions/Group'
+          examples:
+            application/json:
+              owner: bob!@!agile-local
+              group_name: family
+              entities: []
+
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '409':
+          description: 'Conflict. This can happen when Groups already exist for example'
+        '500':
+          description: 'Unexpected error'
+
+  '/user/{owner}/group/{groupName}/entities/{entityType}/{entityId}':
+    parameters:
+      -
+        name: owner
+        in: path
+        description: 'Owner of the gruop'
+        required: true
+        type: string
+      -
+        name: groupName
+        in: path
+        description: 'Group name'
+        required: true
+        type: string
+      -
+        name: entityType
+        in: path
+        description: 'Entity type'
+        required: true
+        type: string
+      -
+        name: entityId
+        in: path
+        description: 'Entity id. This id is only unique for a certain entity type'
+        required: true
+        type: string
+    post:
+      security:
+        -  Oauth2AuthCode: []
+        - Oauth2Implicit: []
+        - Oauth2ClientCred: []
+      operationId: addEntityToGroup
+      tags:
+        - Group
+      description: 'Add entity to a group'
+      responses:
+        '200':
+          description: 'Entity added to group  successfully'
+          schema:
+            $ref: '#/definitions/Group'
+          examples:
+            application/json:
+              owner: bob!@!agile-local
+              group_name: family
+              entities:
+              -
+                id: bob!@!agile-local
+                type: /user
+                owner: bob!@!agile-local
+                user_name: bob
+                auth_type: agile-local
+              -
+                id: fbd142fd2312
+                type: /sensor
+                owner: alice!@!github
+                name: living room humidity
+
+        '401':
+          description: 'Not authenticated'
+        '404':
+          description: 'Entity owner or group not found'
+        '403':
+          description: Forbidden
+        '409':
+          description: 'Conflict. This can happen when Groups already exist for example'
+        '500':
+          description: 'Unexpected error'
+    delete:
+      security:
+        - Oauth2AuthCode: []
+        - Oauth2Implicit: []
+        - Oauth2ClientCred: []
+      operationId: deleteEntityToGroup
+      tags:
+        - Group
+      description: 'Delete entity from a group'
+      responses:
+        '200':
+          description: 'Entity removed from group  successfully'
+          schema:
+            $ref: '#/definitions/Group'
+          examples:
+            application/json:
+              owner: bob!@!agile-local
+              group_name: family
+              entities:
+              -
+                id: bob!@!agile-local
+                type: /user
+                owner: bob!@!agile-local
+                user_name: bob
+                auth_type: agile-local
+
+        '401':
+          description: 'Not authenticated'
+        '404':
+          description: 'Entity owner or group not found'
+        '403':
+          description: Forbidden
+        '409':
+          description: 'Conflict. This can happen when the entity was not in the group.'
+        '500':
+          description: 'Unexpected error'
+
+definitions:
+
+  AttributeConstraint:
+    type: object
+    properties:
+      attribute_type:
+        type: string
+      attribute_value:
+        type: string
+  Entity:
+    description: 'An AGILE IDM Entity. This model shows only fields placed in the entity by AGILE. In addition to these fields, each object will have the attributes provided when the entity was created.'
+    type: object
+    properties:
+      id:
+        type: string
+      type:
+        type: string
+      owner:
+        type: string
+
+  Group:
+    description: Group object
+    type: object
+    properties:
+      group_name:
+        type: string
+      owner:
+        type: string
+      entities:
+        type: array
+        items:
+          $ref: '#/definitions/Entity'
+
+
+  User:
+    description: 'An AGILE User is also an Entity. This model shows the mandatory fields in a user, but this can be extended via the entity definition in the configuration file'
+    type: object
+    properties:
+      id:
+        type: string
+      auth_type:
+        type: string
+      user_name:
+        type: string
+      owner:
+        type: string
