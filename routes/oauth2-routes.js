@@ -53,7 +53,7 @@ function oauth2Router(tokenconf, entityStorageConf) {
   // authorization).  We accomplish that here by routing through `ensureLoggedIn()`
   // first, and rendering the `dialog` view.
   var authorization = [
-    login.ensureLoggedIn(),
+    login.ensureLoggedIn(tokenconf && tokenconf.failureRedirect ? tokenconf.failureRedirect : undefined),
     server.authorization(function (clientID, redirectURI, done) {
       db.clients.findByClientId(clientID, function (err, client) {
         if (err) {
@@ -106,7 +106,7 @@ function oauth2Router(tokenconf, entityStorageConf) {
   // a response.
 
   var decision = [
-    login.ensureLoggedIn(),
+    login.ensureLoggedIn(tokenconf && tokenconf.failureRedirect ? tokenconf.failureRedirect : undefined),
     server.decision() //probably the PDP should have to be placed here (receive request and verify what the PDP says. Just get the post...)
   ];
 
