@@ -3,7 +3,7 @@ var express = require('express');
 var clone = require('clone');
 var login = require('connect-ensure-login');
 
-function siteRouter(stategies) {
+function siteRouter(stategies, tokenconf) {
   var router = express.Router();
 
   router.route('/').get(function (req, res) {
@@ -32,13 +32,6 @@ function siteRouter(stategies) {
     //TODO update to delete tokens here?
     res.redirect('/');
   });
-
-  router.route('/account').get(login.ensureLoggedIn(),
-    function (req, res) {
-      res.render('account', {
-        user: req.user
-      });
-    });
 
   return router;
 }

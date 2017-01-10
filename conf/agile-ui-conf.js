@@ -4,6 +4,7 @@ module.exports = {
     "dbName": "./database_web",
     "createTables": true
   },
+  "failureRedirect": "/login",
   "auth": {
     "github": {
       "clientID": "getGithubId",
