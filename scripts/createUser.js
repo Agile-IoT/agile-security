@@ -139,15 +139,6 @@ var PdpMockOk = {
 
 };
 
-var admin = {
-  "id":"root!@!agile-local",
-  "type":"user",
-  "user_name": "root",
-  "auth_type": "agile-local",
-  "password": "secret",
-  "role": "admin",
-  "owner": "root!@!agile-local"
-};
 
 function help(err) {
   if (err)
@@ -193,8 +184,8 @@ try {
 
       var user = {
         user_name: args.username,
-        auth_type: args.auth
-
+        auth_type: args.auth,
+        role: "admin"
       }
       if(args.role){
         user.role =args.role;
@@ -204,13 +195,11 @@ try {
       }
       var idmcore = new IdmCore(conf);
       idmcore.setMocks(null, null, PdpMockOk, null, pepMockOk);
-      console.log(JSON.stringify(admin))
+      console.log(JSON.stringify(user))
       console.log(JSON.stringify(user_id))
       console.log(JSON.stringify(entity_type))
       console.log(JSON.stringify(user_id))
-      console.log(JSON.stringify(admin))
-      console.log(JSON.stringify(admin))
-      idmcore.createEntityAndSetOwner(admin, user_id, entity_type, user, user_id).then(function(result){
+      idmcore.createEntityAndSetOwner(user, user_id, entity_type, user, user_id).then(function(result){
 
         console.log("SUCCESS: User created " + JSON.stringify(result));
       }, function fail(err) {
