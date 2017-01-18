@@ -15,7 +15,7 @@ function RouterApi(idmcore, router) {
   //returns entity with 200 if OK, else, it can return 404 if the entity is not found, 401 or 403 in case of security errors or 500 in case of unexpected situations
   router.route('/user/:owner/group/:name').get(
     cors(),
-    passport.authenticate('bearer', {
+    passport.authenticate('agile-bearer', {
       session: false
     }),
     function (req, res) {
@@ -36,7 +36,7 @@ function RouterApi(idmcore, router) {
   //curl -H "Content-type: application/json" -H "Authorization: bearer ypr24DKllIbKlV3Ph8oWmZ7Pml3Wku" -d '{"group_name":"me", "owner":"nopbyte@github"}' 'http://localhost:3000/api/v1/group/'
   router.route('/group/').post(
     cors(),
-    passport.authenticate('bearer', {
+    passport.authenticate('agile-bearer', {
       session: false
     }),
     bodyParser.json(),
@@ -68,7 +68,7 @@ function RouterApi(idmcore, router) {
   //returns entity with 200 if OK, else, it can return 404 if the entity is not found, 401 or 403 in case of security errors or 500 in case of unexpected situations
   router.route('/user/:owner/group/:name').delete(
     cors(),
-    passport.authenticate('bearer', {
+    passport.authenticate('agile-bearer', {
       session: false
     }),
     function (req, res) {
@@ -90,7 +90,7 @@ function RouterApi(idmcore, router) {
   //curl -H "Content-type: application/json" -H "Authorization: bearer ypr24DKllIbKlV3Ph8oWmZ7Pml3Wku" -X POST 'http://localhost:3000/api/v1/user/bob!@!agile-local/group/me/entities/sensor/1'
   router.route('/user/:owner/group/:name/entities/:entity_type/:id').post(
     cors(),
-    passport.authenticate('bearer', {
+    passport.authenticate('agile-bearer', {
       session: false
     }),
     bodyParser.json(),
@@ -113,7 +113,7 @@ function RouterApi(idmcore, router) {
   //curl -H "Content-type: application/json" -H "Authorization: bearer ypr24DKllIbKlV3Ph8oWmZ7Pml3Wku" -X DELETE 'http://localhost:3000/api/v1/user/bob!@!agile-local/group/me/entities/sensor/1'
   router.route('/user/:owner/group/:name/entities/:entity_type/:id').delete(
     cors(),
-    passport.authenticate('bearer', {
+    passport.authenticate('agile-bearer', {
       session: false
     }),
     bodyParser.json(),

@@ -18,7 +18,7 @@ function RouterApi(idmcore, router, strategies) {
   //curl -H "Content-type: application/json" -H "Authorization: bearer HeTxINCpXD0U6g27D7AIxc2CvfFNaZ" -X POST -d '{"user_name":"a", "auth_type":"github"}' 'http://localhost:3000/api/v1/user'
   router.route('/user/').post(
     cors(),
-    passport.authenticate('bearer', {
+    passport.authenticate('agile-bearer', {
       session: false
     }),
     bodyParser.json(),
@@ -60,7 +60,7 @@ function RouterApi(idmcore, router, strategies) {
   //curl -H "Authorization: bearer ypr24DKllIbKlV3Ph8oWmZ7Pml3Wku" 'http://localhost:3000/api/v1/user/?user_name=bob&auth_type=agile-local'
   router.route('/user/').get(
     cors(),
-    passport.authenticate('bearer', {
+    passport.authenticate('agile-bearer', {
       session: false
     }),
     bodyParser.json(),
@@ -90,7 +90,7 @@ function RouterApi(idmcore, router, strategies) {
   //curl -H "Authorization: bearer ypr24DKllIbKlV3Ph8oWmZ7Pml3Wku"  -X DELETE 'http://localhost:3000/api/v1/user/?user_name=bob&auth_type=agile-local'
   router.route('/user/').delete(
     cors(),
-    passport.authenticate('bearer', {
+    passport.authenticate('agile-bearer', {
       session: false
     }),
     bodyParser.json(),

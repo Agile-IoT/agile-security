@@ -126,7 +126,7 @@ function oauth2Router(tokenconf, entityStorageConf) {
   ];
 
   var user_info = [
-    passport.authenticate('bearer', {
+    passport.authenticate('agile-bearer', {
       session: false
     }),
     function (req, res) {
@@ -145,7 +145,7 @@ function oauth2Router(tokenconf, entityStorageConf) {
 
   //client info
   var client_info = [
-    passport.authenticate('bearer', {
+    passport.authenticate('agile-bearer', {
       session: false
     }),
     function (req, res) {
