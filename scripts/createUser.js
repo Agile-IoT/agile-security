@@ -34,14 +34,12 @@ var sections = [{
       alias: 'p',
       typeLabel: '[underline]{String}',
       description: 'This argument is the password used for the user, and it MUST be passed when  auth is "agile-local".'
-    },
-    {
+    }, {
       name: 'role (optional)',
       alias: 'r',
       typeLabel: '[underline]{String}',
       description: 'This argument specifies the role of the user, by default this is set to admin".'
     }
-
 
   ]
 }, {
@@ -80,13 +78,11 @@ var optionDefinitions = [{
   name: 'help',
   alias: 'h',
   type: String
-},
-{
+}, {
   name: 'role',
   alias: 'r',
   type: String
-} ];
-
+}];
 
 var pepMockOk = {
   declassify: function (userInfo, entityInfo) {
@@ -139,7 +135,6 @@ var PdpMockOk = {
 
 };
 
-
 function help(err) {
   if (err)
     console.log(err);
@@ -154,27 +149,25 @@ try {
   if (args.hasOwnProperty("help"))
     help();
   else {
-    if(args.config){
-        conf = require(args.config);
-    }
-    else{
+    if (args.config) {
+      conf = require(args.config);
+    } else {
       conf = require('../conf/agile-idm-core-conf');
 
     }
     //hack to execute relative to the upper directory
-    if(conf.storage.dbName.indexOf("/")!=0){
-      conf.storage.dbName = "../"+conf.storage.dbName;
+    if (conf.storage.dbName.indexOf("/") != 0) {
+      conf.storage.dbName = "../" + conf.storage.dbName;
     }
 
-    if(conf.policies.dbName.indexOf("/")!=0){
-      conf.policies.dbName = "../"+conf.policies.dbName;
+    if (conf.policies.dbName.indexOf("/") != 0) {
+      conf.policies.dbName = "../" + conf.policies.dbName;
     }
 
     if (args.auth === "agile-local" && !args.password)
       return help(new Error("When local authentication is used a password is required!"));
 
     if (args.username && args.auth) {
-
 
       var user_id = ids.buildId(args.username, args.auth);
       var storage_id = {
@@ -187,8 +180,8 @@ try {
         auth_type: args.auth,
         role: "admin"
       }
-      if(args.role){
-        user.role =args.role;
+      if (args.role) {
+        user.role = args.role;
       }
       if (args.password) {
         user.password = args.password;
@@ -199,7 +192,7 @@ try {
       console.log(JSON.stringify(user_id))
       console.log(JSON.stringify(entity_type))
       console.log(JSON.stringify(user_id))
-      idmcore.createEntityAndSetOwner(user, user_id, entity_type, user, user_id).then(function(result){
+      idmcore.createEntityAndSetOwner(user, user_id, entity_type, user, user_id).then(function (result) {
 
         console.log("SUCCESS: User created " + JSON.stringify(result));
       }, function fail(err) {

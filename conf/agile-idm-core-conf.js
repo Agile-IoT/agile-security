@@ -154,8 +154,8 @@ module.exports = {
       "password": {
         "type": "string"
       },
-      "role":{
-        "type":"string"
+      "role": {
+        "type": "string"
       }
     },
     "required": ["user_name", "auth_type"]
