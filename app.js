@@ -23,15 +23,20 @@ for production:
 
 //load configurations
 var conf;
+//to find the configuration file (if it is provided as argument, then it is used.)
+var location = './conf';
+if(process.argv.length >2){
+  location = process.argv[2];
+}
 try{
   //this one is ignored safely... where you can have your own tokens for Oauth2 :)
-  conf = require('./conf/my-agile-ui-conf');
+  conf = require(location+'/my-agile-ui-conf');
 }
 catch(error){
-  conf = require('./conf/agile-ui-conf');
+  conf = require(location+'/agile-ui-conf');
 }
 
-var core_conf = require('./conf/agile-idm-core-conf');
+var core_conf = require(location+'/agile-idm-core-conf');
 
 var https = require('https');
 var app = express();
