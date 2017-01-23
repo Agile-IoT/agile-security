@@ -114,6 +114,28 @@ module.exports = {
             }]
           }
         ]
+      },
+      "client": {
+        "secret": [
+          // the property can only be read by the user itself
+          {
+            target: {
+              type: "user"
+            },
+            locks: [{
+              lock: "isOwner"
+            }]
+          },
+          // the property can be set by the user itself and
+          {
+            source: {
+              type: "user"
+            },
+            locks: [{
+              lock: "isOwner"
+            }]
+          }
+        ]
       }
 
     }
