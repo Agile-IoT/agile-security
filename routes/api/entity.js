@@ -134,7 +134,7 @@ function RouterApi(idmcore, router) {
   //curl -H "Content-type: application/json" -H "Authorization: bearer 67LwTkbmAYEVHrNUzWCslonPK2VDGj"  -X POST -d '{"criteria":[{"attribute_type":"owner", "attribute_value":"bob!@!agile-local"},{"attribute_type":"name","attribute_value":"Example Consumer App"}]}' 'http://localhost:3000/api/v1/entity/search'
   router.route('/entity/search/').post(
     cors(),
-    passport.authenticate('bearer', {
+    passport.authenticate('agile-bearer', {
       session: false
     }),
     bodyParser.json(),
