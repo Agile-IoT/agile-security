@@ -1,6 +1,7 @@
 var commandLineArgs = require('command-line-args');
 var getUsage = require('command-line-usage');
-var Storage = require('agile-idm-entity-storage').Storage;
+var IdmCore = require('agile-idm-core');
+
 /*
 Usage examples:
 Creates a client called Example Comsumer App with secret.
@@ -52,7 +53,7 @@ var sections = [{
   optionList: [{
     name: "config",
     alias: "c",
-    description: "location of the database. By default '../database_' executed relative to this script's path is used"
+    description: "location of the agile-idm-core configuration file. By default it takes the value from the configuration file in ../conf/agile-idm-core-conf.js, which should be '../database_' normally. This path is interpreted as relative to the parent folder"
   }]
 
 }, {
@@ -98,47 +99,118 @@ var optionDefinitions = [{
   type: String
 }, ];
 
+var pepMockOk = {
+  declassify: function (userInfo, entityInfo) {
+    return new Promise(function (resolve, reject) {
+      resolve(entityInfo);
+    });
+  },
+  declassifyArray: function (userInfo, array) {
+    return new Promise(function (resolve, reject) {
+      resolve(array);
+    });
+  }
+};
+
+var PdpMockOk = {
+  canRead: function (userInfo, entityInfo) {
+    return new Promise(function (resolve, reject) {
+      resolve(entityInfo);
+    });
+  },
+  canDelete: function (userInfo, entityInfo) {
+    return new Promise(function (resolve, reject) {
+      resolve(entityInfo);
+    });
+  },
+  canReadArray: function (userInfo, entities) {
+    return new Promise(function (resolve, reject) {
+      //console.log('resolving with entities '+JSON.stringify(entities));
+      resolve(entities);
+    });
+  },
+  canWriteToAttribute: function (userInfo, entities, attributeName, attributeValue) {
+    return new Promise(function (resolve, reject) {
+      //console.log('resolving with entities '+JSON.stringify(entities));
+      resolve();
+    });
+  },
+  canUpdate: function (userInfo, entityInfo) {
+    return new Promise(function (resolve, reject) {
+      //console.log('resolving with entities '+JSON.stringify(entities));
+      resolve(entityInfo);
+    });
+  },
+  canWriteToAllAttributes: function (userInfo, entityInfo) {
+    return new Promise(function (resolve, reject) {
+      //console.log('resolving with entities '+JSON.stringify(entities));
+      resolve();
+    });
+  }
+
+};
+
+
 function help() {
   console.log(getUsage(sections));
 }
 
 var args;
-var auth_type = "agile-local";
+var conf;
 var entity_type = "/client";
-var owner_auth_type = "agile-local";
-var db_location = {
-  "storage": {
-    "dbName": "../database_"
-  }
-};
 try {
+
+  var user = {
+    user_name: "root",
+    auth_type: "agile-local",
+    role:"admin"
+  };
+  var client;
   args = commandLineArgs(optionDefinitions);
   if (args.hasOwnProperty("help"))
     help();
   else {
+    if (args.config) {
+      conf = require(args.config);
+    } else {
+      conf = require('../conf/agile-idm-core-conf');
+
+    }
+    //hack to execute relative to the upper directory
+    if (conf.storage.dbName.indexOf("/") != 0) {
+      conf.storage.dbName = "../" + conf.storage.dbName;
+    }
+
+    if (conf.policies.dbName.indexOf("/") != 0) {
+      conf.policies.dbName = "../" + conf.policies.dbName;
+    }
+
     if (args.client && args.secret && args.owner && args.name && args.uri) {
-      if (args.config)
-        db_location.storage.dbName = args.config;
-      if (args.owner_auth_type)
-        owner_auth_type = args.owner_auth_type;
-      var storage = new Storage(db_location);
+      if (args.auth_type){
+        user.auth_type = args.auth_type;
+      }
+      user.user_name = args.owner;
+      user.id = user.user_name + "!@!" + user.auth_type;
       var client_id = args.client;
 
-      var client = {
-        name: args.name,
-        clientSecret: args.secret,
-        redirectURI: args.uri
-      };
-      var owner_id = args.owner + "!@!" + owner_auth_type;
-      storage.readEntity(owner_id, "/user").then(function (u) {
-          //u.owner is equivalent to its own id as a string since every user "owns" himself
-          return storage.createEntity(client_id, entity_type, u.owner, client);
-        })
-        .then(function (result) {
-          console.log("SUCCESS: Client created " + JSON.stringify(result));
-        }, function fail(err) {
-          console.warn("FAILURE: Client cannot be created " + err);
-        });
+      var idmcore = new IdmCore(conf);
+      idmcore.setMocks(null, null, PdpMockOk, null, pepMockOk);
+      idmcore.readEntity(user, user.id, "/user")
+        .then(function (read) {
+            user = read;
+            client = {
+              name: args.name,
+              clientSecret: args.secret,
+              redirectURI: args.uri
+            };
+            return idmcore.createEntity(user, client_id, entity_type, client)
+       }).then(function(created){
+           console.log("SUCCESS: Client created " + JSON.stringify(created));
+       }, function handlereject(error) {
+           console.warn("FAILURE: User cannot be created " + error);
+       }).catch(function (err) {
+         throw err;
+       });
 
     } else {
       help();
