@@ -16,4 +16,4 @@ module.exports = {
 	 authStrategies : authStrategies,
 	 oauth2ServerStrategies:oauth2ServerStrategies,
 	 oauth2orizeServer :oauth2orizeServer
-}
+};

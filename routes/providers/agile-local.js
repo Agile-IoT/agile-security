@@ -1,7 +1,7 @@
 var passport = require('passport');
 var express = require('express');
 
-function RouterPassport(router) {
+function RouterPassport(router, conf) {
 
   //Local
   router.route('/agile-local').get(function (req, res) {
@@ -22,7 +22,7 @@ function RouterPassport(router) {
   router.route('/agile-local').post(
     passport.authenticate('agile-local' /*'github'*/ , {
       successReturnToOrRedirect: '/',
-      failureRedirect: '/login',
+      failureRedirect: conf.failureRedirect,
       failureFlash: true
     })
   );

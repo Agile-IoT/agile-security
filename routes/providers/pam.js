@@ -1,7 +1,7 @@
 var passport = require('passport');
 var express = require('express');
 
-function RouterPassport(router) {
+function RouterPassport(router, conf) {
 
   //pam
   router.route('/pam').get(function (req, res) {
@@ -23,7 +23,7 @@ function RouterPassport(router) {
   router.route('/pam').post(
     passport.authenticate('pam', {
       successReturnToOrRedirect: '/',
-      failureRedirect: '/login'
+      failureRedirect: conf.failureRedirect
     })
   );
   return router;

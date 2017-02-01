@@ -1,7 +1,7 @@
 var passport = require('passport');
 var express = require('express');
 
-function RouterPassport(router) {
+function RouterPassport(router, conf) {
 
   //Google
   router.route('/google').get(
@@ -9,7 +9,7 @@ function RouterPassport(router) {
   router.route('/callback_google').get(
     passport.authenticate('google', {
       successReturnToOrRedirect: '/',
-      failureRedirect: '/login'
+      failureRedirect: conf.failureRedirect
     })
   );
   return router;

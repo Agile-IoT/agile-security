@@ -1,15 +1,15 @@
 var passport = require('passport');
 var express = require('express');
 
-function RouterPassport(router) {
+function RouterPassport(router, conf) {
 
   //webid
   router.route('/webid').get(
     passport.authenticate('webid', {
       successReturnToOrRedirect: '/',
-      failureRedirect: '/login',
+      failureRedirect: conf.failureRedirect,
       passReqToCallback: true
-        //failureFlash: false
+      //failureFlash: false
     })
   );
   return router;

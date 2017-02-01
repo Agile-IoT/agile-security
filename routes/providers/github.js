@@ -1,7 +1,7 @@
 var passport = require('passport');
 var express = require('express');
 
-function RouterPassport(router) {
+function RouterPassport(router, conf) {
 
   //Github
   router.route('/github').get(
@@ -12,7 +12,7 @@ function RouterPassport(router) {
   router.route('/callback_github').get(
     passport.authenticate('github', {
       successReturnToOrRedirect: '/',
-      failureRedirect: '/login'
+      failureRedirect: conf.failureRedirect
     })
     //handleRedirect.bind(this, "github")
   );

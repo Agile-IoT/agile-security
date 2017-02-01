@@ -150,7 +150,6 @@ var PdpMockOk = {
 
 };
 
-
 function help() {
   console.log(getUsage(sections));
 }
@@ -163,7 +162,7 @@ try {
   var user = {
     user_name: "root",
     auth_type: "agile-local",
-    role:"admin"
+    role: "admin"
   };
   var client;
   args = commandLineArgs(optionDefinitions);
@@ -186,7 +185,7 @@ try {
     }
 
     if (args.client && args.secret && args.owner && args.name && args.uri) {
-      if (args.auth_type){
+      if (args.auth_type) {
         user.auth_type = args.auth_type;
       }
       user.user_name = args.owner;
@@ -197,20 +196,20 @@ try {
       idmcore.setMocks(null, null, PdpMockOk, null, pepMockOk);
       idmcore.readEntity(user, user.id, "/user")
         .then(function (read) {
-            user = read;
-            client = {
-              name: args.name,
-              clientSecret: args.secret,
-              redirectURI: args.uri
-            };
-            return idmcore.createEntity(user, client_id, entity_type, client)
-       }).then(function(created){
-           console.log("SUCCESS: Client created " + JSON.stringify(created));
-       }, function handlereject(error) {
-           console.warn("FAILURE: User cannot be created " + error);
-       }).catch(function (err) {
-         throw err;
-       });
+          user = read;
+          client = {
+            name: args.name,
+            clientSecret: args.secret,
+            redirectURI: args.uri
+          };
+          return idmcore.createEntity(user, client_id, entity_type, client)
+        }).then(function (created) {
+          console.log("SUCCESS: Client created " + JSON.stringify(created));
+        }, function handlereject(error) {
+          console.warn("FAILURE: User cannot be created " + error);
+        }).catch(function (err) {
+          throw err;
+        });
 
     } else {
       help();
