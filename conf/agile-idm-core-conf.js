@@ -196,5 +196,18 @@ module.exports = {
       }
     },
     "required": ["name", "redirectURI"]
-  }]
+  }],
+  "configure_on_boot": {
+    "user": {
+      "username": "bob",
+      "auth_type": "agile-local",
+      "password": "secret"
+    },
+    "client": {
+      "id": "AGILE-OSJS",
+      "name": "AGILE-OSJS",
+      "uri": "http://agilegw.local:8000/"
+    }
+  }
+
 };

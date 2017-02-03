@@ -6,7 +6,7 @@ var serializer =  require('./lib/auth/serializer');
 var authStrategies =require('./lib/auth/providers/');
 var oauth2ServerStrategies = require('./lib/auth/oauth2/strategies');
 var oauth2orizeServer = require('./lib/auth/oauth2/oauth2orize');
-
+var configurator =  require('./lib/util/configurator');
 module.exports = {
 	 routerProviders : RouterProviders,
 	 routerApi :RouterApi,
@@ -15,5 +15,7 @@ module.exports = {
 	 serializer : serializer,
 	 authStrategies : authStrategies,
 	 oauth2ServerStrategies:oauth2ServerStrategies,
-	 oauth2orizeServer :oauth2orizeServer
+	 oauth2orizeServer :oauth2orizeServer,
+	 configure :configurator
+
 };

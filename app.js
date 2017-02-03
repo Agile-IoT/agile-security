@@ -10,6 +10,7 @@ var logger = require('morgan');
 var methodOverride = require('method-override');
 var idmWeb = require('./index');
 var errorHandler = require('./routes/errorHandler');
+
 /*
  use during development:
  -  var idmWeb = require('../index');
@@ -89,6 +90,7 @@ var options = {
 app.listen(conf.http_port);
 https.createServer(options, app).listen(conf.https_port_with_client);
 options.requestCert = false;
+idmWeb.configure(core_conf);
 https.createServer(options, app).listen(conf.https_port);
 
 console.log("listening on port "+conf.http_port+ " for http ");
