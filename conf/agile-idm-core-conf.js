@@ -195,6 +195,6 @@ module.exports = {
         "type": "string"
       }
     },
-    "required": ["name", "clientSecret", "redirectURI"]
+    "required": ["name", "redirectURI"]
   }]
 };

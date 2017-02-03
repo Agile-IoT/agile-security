@@ -184,7 +184,7 @@ try {
       conf.policies.dbName = "../" + conf.policies.dbName;
     }
 
-    if (args.client && args.secret && args.owner && args.name && args.uri) {
+    if (args.client && args.owner && args.name && args.uri) {
       if (args.auth_type) {
         user.auth_type = args.auth_type;
       }
@@ -199,9 +199,11 @@ try {
           user = read;
           client = {
             name: args.name,
-            clientSecret: args.secret,
             redirectURI: args.uri
           };
+          if (args.secret) {
+            client.clientSecret = args.secret;
+          }
           return idmcore.createEntity(user, client_id, entity_type, client)
         }).then(function (created) {
           console.log("SUCCESS: Client created " + JSON.stringify(created));
