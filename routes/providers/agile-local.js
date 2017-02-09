@@ -23,7 +23,8 @@ function RouterPassport(router, conf) {
     passport.authenticate('agile-local' /*'github'*/ , {
       successReturnToOrRedirect: '/',
       failureRedirect: conf.failureRedirect,
-      failureFlash: true
+      //failureFlash: true
+
     })
   );
   return router;

@@ -29,6 +29,8 @@ var express = require('express');
 var clone = require('clone');
 var login = require('connect-ensure-login');
 var utils = require('../lib/util/tokens');
+var db = require('../lib/db');
+
 var oauth2orize = require('oauth2orize');
 
 function oauth2Router(tokenconf, entityStorageConf) {
@@ -70,7 +72,7 @@ function oauth2Router(tokenconf, entityStorageConf) {
         }
       });
     }, function (client, user, done) {
-      console.log("authorization endpoint is called with client Id " + client.id + " for user id " + user.id + ". We always accept as long as client url matches");
+      console.log("authorization endpoint is called (either for implicit or authorization code) with client Id " + client.id + " for user id " + user.id + ". We always accept as long as client url matches");
       //TODO fix this..... have a PDP at some point here?
       return done(null, true);
       // If we want to ask the user...  This then shows the dialog, and then the decision goes with post to   router.route('/dialog/authorize/decision').post(decision);
@@ -170,6 +172,15 @@ function oauth2Router(tokenconf, entityStorageConf) {
   //querying user and client info
   router.route('/api/userinfo').get(user_info);
   router.route('/api/clientinfo').get(client_info);
+  //logout
+  router.route('/logout').get( passport.authenticate('internal-agile-return-token-bearer', {
+      session: false
+    }),function(req,res){
+      db.accessTokens.logOut(req.authInfo.token, function(error, data){
+          res.json({"success":true});
+      })
+
+  });
 
   return router;
 }
