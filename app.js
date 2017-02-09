@@ -49,7 +49,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(methodOverride());
 app.use(session({
-  secret: 'keyboard cat',
+  secret: idmWeb.tokens.uid(26),
   resave: false,
   saveUninitialized: false
 }));
