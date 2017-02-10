@@ -12,5 +12,6 @@ RUN npm install
 WORKDIR /opt/agile-idm-web-ui/
 RUN npm install
 EXPOSE 3000
-CMD node /opt/agile-idm-web-ui/app.js $DOCKER_CONF
+#CMD node /opt/agile-idm-web-ui/app.js $DOCKER_CONF
+CMD ./Start.sh
 #CMD /bin/bash
