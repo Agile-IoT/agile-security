@@ -201,6 +201,7 @@ module.exports = {
     "user": {
       "username": "bob",
       "auth_type": "agile-local",
+      "role":"admin",
       "password": "secret"
     },
     "client": {
