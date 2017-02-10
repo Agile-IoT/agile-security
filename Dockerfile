@@ -6,7 +6,7 @@ RUN  apt-get clean
 RUN apt-get install -y git
 
 WORKDIR /opt/agile-idm-web-ui
-RUN git clone https://github.com/Agile-IoT/agile-idm-web-ui /opt/agile-idm-web-ui
+COPY . /opt/agile-idm-web-ui
 #npm --save authenticate-pam
 RUN npm install
 WORKDIR /opt/agile-idm-web-ui/
