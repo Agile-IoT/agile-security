@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONF=./my-conf
+CONF=/root/idm.db/
 
 if [ ! -d "$CONF" ]; then
   echo "folder not there for conf"
