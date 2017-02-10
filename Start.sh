@@ -1,10 +1,10 @@
 #!/bin/bash
 
-CONF=/root/idm.db/
+CONF=/root/idm.conf/
 
-if [ ! -d "$CONF" ]; then
+if [ ! -f "$CONF/agile-idm-core-conf.js" ]; then
   echo "folder not there for conf"
-  cp -r rpi-conf/ $CONF
+  cp -r rpi-conf/* $CONF
 fi
 
 node /opt/agile-idm-web-ui/app.js $CONF
