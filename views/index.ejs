@@ -25,7 +25,7 @@
  					<select id="idp">
  						<option value="">choose one</option>
  						<% for(var i=0; i<auth.length; i++) { %>
- 									  <option value="auth/<%= auth[i] %>"><%= auth[i] %></option>
+ 									  <option value="<%= auth[i].link %>"><%= auth[i].name %></option>
  						<% } %>
  					</select>
  		<div id="resultDivContainer" ></div>

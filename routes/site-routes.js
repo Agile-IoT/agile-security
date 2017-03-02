@@ -13,9 +13,13 @@ function siteRouter(stategies, tokenconf) {
   router.route('/login').get(function (req, res) {
     var auth = [];
     stategies.forEach(function (str) {
+
       var n = str.lastIndexOf(".js");
-      if (n > 0)
-        auth.push(str.substr(0, n));
+      if (n > 0){
+        var name = str.substr(0, n);
+        auth.push({"name":name, "link":"/auth/"+name});
+      }
+
     });
     console.log('paths: ' + JSON.stringify(auth));
     res.render('index', {
