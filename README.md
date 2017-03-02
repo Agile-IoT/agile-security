@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Agile-IoT/agile-IDM.svg?branch=master)](https://travis-ci.org/Agile-IoT/agile-IDM)
+[![Build Status](https://travis-ci.org/Agile-IoT/agile-idm-web-ui.svg?branch=master)](https://travis-ci.org/Agile-IoT/agile-idm-web-ui)
 
 # AGILE Identity Management (a.k.a AGILE-IDM Web)
 
