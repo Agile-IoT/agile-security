@@ -78,7 +78,7 @@ app.use("/static", express.static(path.join(__dirname, './static')));
 var oauth2 = idmWeb.oauth2orizeServer(conf,core_conf);
 idmWeb.oauth2ServerStrategies(conf,core_conf);
 app.use("/oauth2",idmWeb.routerOauth2(conf,core_conf));
-app.use("/",idmWeb.routerSite(strategies));
+app.use("/",idmWeb.routerSite(strategies, conf));
 app.use(errorHandler);
 
 

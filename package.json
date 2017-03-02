@@ -39,7 +39,8 @@
     "passport-local": "^1.0.0",
     "passport-oauth2-client-password": "^0.1.2",
     "passport-webid": "git+https://github.com/Agile-IoT/passport-webid#v1.0.0",
-    "request": "2.x"
+    "request": "2.x",
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "grunt": "^1.0.1",
