@@ -30,7 +30,7 @@ var clone = require('clone');
 var login = require('connect-ensure-login');
 var utils = require('../lib/util/tokens');
 var db = require('../lib/db');
-
+var url = require('url');
 var oauth2orize = require('oauth2orize');
 
 function oauth2Router(tokenconf, entityStorageConf) {
@@ -56,6 +56,40 @@ function oauth2Router(tokenconf, entityStorageConf) {
   // first, and rendering the `dialog` view.
   var authorization = [
     login.ensureLoggedIn(tokenconf && tokenconf.failureRedirect ? tokenconf.failureRedirect : undefined),
+    function(req,res,next){
+
+       if(req.originalUrl){
+         var oauth2ReturnToParsed = url.parse(req.originalUrl, true).query;
+         var clientid = oauth2ReturnToParsed.client_id;
+         var response_type = oauth2ReturnToParsed.response_type;
+         console.log("checking whether user is still logged in, with the token! client id from uri in " + JSON.stringify(oauth2ReturnToParsed.client_id));
+         console.log("checking whether user is still logged in, with the token! response_type " + JSON.stringify(oauth2ReturnToParsed.response_type));
+         if(clientid && response_type && req.user.id){
+         var auth_type = req.user.auth_type;
+         var user_name= req.user.user_name;
+         db.accessTokens.findOauth2Token(user_name, auth_type,clientid,response_type, function (err, token) {
+
+           if (err || !token) {
+             // this means there is an inconsistency between tokens and express sessions!
+             //so we logout the user from express and reload login page after logout.
+             req.logout();
+             return res.redirect(req.originalUrl);
+           } else {
+            console.log("success on checking whether user is still logged in");
+            return next();
+           }
+         });
+       }
+       else{
+         return next();
+       }
+     }else{
+       return next();
+     }
+
+
+    },
+
     server.authorization(function (clientID, redirectURI, done) {
       db.clients.findByClientId(clientID, function (err, client) {
         if (err) {
