@@ -2,7 +2,8 @@ var commandLineArgs = require('command-line-args');
 var getUsage = require('command-line-usage');
 var ids = require('../lib/util/id');
 var IdmCore = require('agile-idm-core');
-
+var bcrypt = require('bcrypt');
+var saltrounds = 10;
 /*
 Examples of usage:
   To create a local user wit username bob and password secret:
@@ -184,7 +185,7 @@ try {
         user.role = args.role;
       }
       if (args.password) {
-        user.password = args.password;
+        user.password = bcrypt.hashSync(args.password, saltrounds);
       }
       var idmcore = new IdmCore(conf);
       idmcore.setMocks(null, null, PdpMockOk, null, pepMockOk);
