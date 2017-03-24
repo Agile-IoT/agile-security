@@ -33,6 +33,7 @@
     "node-uuid": "1.4.7",
     "oauth2orize": "^1.5.1",
     "passport": "^0.3.2",
+    "passport-dropbox-oauth2": "^1.1.0",
     "passport-github2": "^0.1.10",
     "passport-google-oauth2": "^0.1.6",
     "passport-http": "^0.3.0",
