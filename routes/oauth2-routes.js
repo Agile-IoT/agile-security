@@ -211,6 +211,9 @@ function oauth2Router(tokenconf, entityStorageConf) {
       session: false
     }),function(req,res){
       db.accessTokens.logOut(req.authInfo.token, function(error, data){
+          if(req.logout){
+            req.logout();
+          }
           res.json({"success":true});
       })
 
