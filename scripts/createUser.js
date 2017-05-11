@@ -161,8 +161,16 @@ try {
       conf.storage.dbName = "../" + conf.storage.dbName;
     }
 
-    if (conf.policies.dbName.indexOf("/") != 0) {
-      conf.policies.dbName = "../" + conf.policies.dbName;
+    if (conf.upfront.pap.storage.dbName.indexOf("/") != 0) {
+      conf.upfront.pap.storage.dbName = "../" + conf.upfront.pap.storage.dbName;
+    }
+
+    if (conf.upfront.pdp.ulocks.locks.indexOf("/") != 0) {
+      conf.upfront.pdp.ulocks.locks = "../" + conf.upfront.pdp.ulocks.locks;
+    }
+
+    if (conf.upfront.pdp.ulocks.actions.indexOf("/") != 0) {
+      conf.upfront.pdp.ulocks.actions = "../" + conf.upfront.pdp.ulocks.actions;
     }
 
     if (args.auth === "agile-local" && !args.password)
@@ -188,17 +196,21 @@ try {
         user.password = bcrypt.hashSync(args.password, saltrounds);
       }
       var idmcore = new IdmCore(conf);
-      idmcore.setMocks(null, null, PdpMockOk, null, pepMockOk);
-      console.log(JSON.stringify(user))
-      console.log(JSON.stringify(user_id))
-      console.log(JSON.stringify(entity_type))
-      console.log(JSON.stringify(user_id))
-      idmcore.createEntityAndSetOwner(user, user_id, entity_type, user, user_id).then(function (result) {
+      //I know... this should be a callback... fix this at some point
+      setTimeout(function () {
+        idmcore.setMocks(null, null, PdpMockOk, null, pepMockOk);
+        console.log(JSON.stringify(user))
+        console.log(JSON.stringify(user_id))
+        console.log(JSON.stringify(entity_type))
+        console.log(JSON.stringify(user_id))
+        idmcore.createEntityAndSetOwner(user, user_id, entity_type, user, user_id).then(function (result) {
 
-        console.log("SUCCESS: User created " + JSON.stringify(result));
-      }, function fail(err) {
-        console.warn("FAILURE: User cannot be created " + err);
-      });
+          console.log("SUCCESS: User created " + JSON.stringify(result));
+        }, function fail(err) {
+          console.warn("FAILURE: User cannot be created " + err);
+        });
+
+      }, 4000);
 
     } else {
       help();

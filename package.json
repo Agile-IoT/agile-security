@@ -8,7 +8,7 @@
     "test": "tests"
   },
   "dependencies": {
-    "agile-idm-core": "git+https://github.com/Agile-IoT/agile-idm-core",
+    "agile-idm-core": "git+https://github.com/Agile-IoT/agile-idm-core#nwepdp",
     "agile-idm-entity-storage": "git+https://github.com/Agile-IoT/agile-idm-entity-storage#v1.0.1",
     "bcrypt": "^1.0.2",
     "body-parser": "1.x",
