@@ -5,6 +5,8 @@ var clone = require('clone');
 var bodyParser = require('body-parser');
 var ids = require('../../lib/util/id');
 var idmcore;
+var saltrounds = 10;
+var bcrypt = require('bcrypt');
 
 function RouterApi(idmcore, router, strategies) {
 
@@ -41,17 +43,21 @@ function RouterApi(idmcore, router, strategies) {
         var user = req.body;
         var entity_type = "/user";
         var entity_id = ids.buildId(req.body.user_name, req.body.auth_type);
-        //for consistency in owner policy lock evaluation, users own themselves.
-        idmcore.createEntityAndSetOwner(req.user, entity_id, entity_type, user, entity_id)
-          .then(function (read) {
-            res.json(read);
-          }).catch(function (error) {
-            console.log("error when posting entity " + error);
-            res.statusCode = error.statusCode || 500;
-            res.json({
-              "error": error.message
+        bcrypt.hash(user.password, saltrounds, function (err, hash) {
+          user.password = hash;
+          //for consistency in owner policy lock evaluation, users own themselves.
+          idmcore.createEntityAndSetOwner(req.user, entity_id, entity_type, user, entity_id)
+            .then(function (read) {
+              res.json(read);
+            }).catch(function (error) {
+              console.log("error when posting entity " + error);
+              res.statusCode = error.statusCode || 500;
+              res.json({
+                "error": error.message
+              });
             });
-          });
+        });
+
       }
     }
   );
