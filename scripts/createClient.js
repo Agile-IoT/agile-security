@@ -180,8 +180,16 @@ try {
       conf.storage.dbName = "../" + conf.storage.dbName;
     }
 
-    if (conf.policies.dbName.indexOf("/") != 0) {
-      conf.policies.dbName = "../" + conf.policies.dbName;
+    if (conf.upfront.pap.storage.dbName.indexOf("/") != 0) {
+      conf.upfront.pap.storage.dbName = "../" + conf.upfront.pap.storage.dbName;
+    }
+
+    if (conf.upfront.pdp.ulocks.locks.indexOf("/") != 0) {
+      conf.upfront.pdp.ulocks.locks = "../" + conf.upfront.pdp.ulocks.locks;
+    }
+
+    if (conf.upfront.pdp.ulocks.actions.indexOf("/") != 0) {
+      conf.upfront.pdp.ulocks.actions = "../" + conf.upfront.pdp.ulocks.actions;
     }
 
     if (args.client && args.owner && args.name && args.uri) {
@@ -193,29 +201,33 @@ try {
       var client_id = args.client;
 
       var idmcore = new IdmCore(conf);
-      idmcore.setMocks(null, null, PdpMockOk, null, pepMockOk);
-      idmcore.readEntity(user, user.id, "/user")
-        .then(function (read) {
-          user = read;
-          client = {
-            name: args.name,
-            redirectURI: args.uri
-          };
-          if (args.secret) {
-            client.clientSecret = args.secret;
-          }
-          return idmcore.createEntity(user, client_id, entity_type, client)
-        }).then(function (created) {
-          console.log("SUCCESS: Client created " + JSON.stringify(created));
-        }, function handlereject(error) {
-          console.warn("FAILURE: User cannot be created " + error);
-        }).catch(function (err) {
-          throw err;
-        });
+      //I know... this should be a callback...... fix this at some point
+      setTimeout(function () {
+        idmcore.setMocks(null, null, PdpMockOk, null, pepMockOk);
+        idmcore.readEntity(user, user.id, "/user")
+          .then(function (read) {
+            user = read;
+            client = {
+              name: args.name,
+              redirectURI: args.uri
+            };
+            if (args.secret) {
+              client.clientSecret = args.secret;
+            }
+            return idmcore.createEntity(user, client_id, entity_type, client)
+          }).then(function (created) {
+            console.log("SUCCESS: Client created " + JSON.stringify(created));
+          }, function handlereject(error) {
+            console.warn("FAILURE: User cannot be created " + error);
+          }).catch(function (err) {
+            throw err;
+          });
+      }, 4000);
 
     } else {
       help();
     }
+
   }
 } catch (err) {
   console.log(err);
