@@ -16,7 +16,7 @@ env:
   matrix:
     - IMAGE=agileiot/$COMPONENT-armv7l
     - IMAGE=agileiot/$COMPONENT-x86_64
-      BASEIMAGE=resin\\/nuc-node:7.2.1
+      BASEIMAGE=resin\\/intel-nuc-node:7.8.0-20170506
 
 before_install:
   - wget https://download.docker.com/linux/ubuntu/dists/trusty/pool/test/amd64/docker-ce_17.05.0~ce~rc3-0~ubuntu-trusty_amd64.deb

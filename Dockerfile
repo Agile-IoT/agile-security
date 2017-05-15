@@ -1,4 +1,4 @@
-FROM resin/raspberrypi3-node:7.2.1
+FROM resin/raspberry-pi3-node:7.8.0-20170426
 
 WORKDIR /opt/agile-idm-web-ui
 COPY . /opt/agile-idm-web-ui
