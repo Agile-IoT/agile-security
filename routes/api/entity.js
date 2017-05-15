@@ -9,6 +9,28 @@ var idmcore;
 function RouterApi(idmcore, router) {
 
   //example to call tthis one
+  //  returns 200 and the list of groups group, or 403, in case of security issues. 500 in case of unexpected situations
+  // curl -H "Authorization: bearer $TOKEN" 'http://localhost:3000/api/v1/group/'
+  //returns entity with 200 if OK, else, it can return an empty array if the entity is not found, 401 or 403 in case of security errors or 500 in case of unexpected situations
+  router.route('/group/').get(
+    cors(),
+    passport.authenticate('agile-bearer', {
+      session: false
+    }),
+    function (req, res) {
+
+      idmcore.readGroups(req.user)
+        .then(function (read) {
+          res.json(read);
+        }).catch(function (error) {
+          res.statusCode = error.statusCode || 500;
+          res.json({
+            "error": error.message
+          });
+        });
+
+    });
+  //example to call tthis one
   // curl -H "Authorization: bearer $TOKEN" 'http://localhost:3000/api/v1/entity/user/
   //returns entity with 200 if OK, else, it can return an empty array if no entity is not found, 401 or 403 in case of security errors or 500 in case of unexpected situations
   router.route('/entity/:entity_type/').get(
