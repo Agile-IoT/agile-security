@@ -9,6 +9,29 @@ var idmcore;
 function RouterApi(idmcore, router) {
 
   //example to call tthis one
+  // curl -H "Authorization: bearer $TOKEN" 'http://localhost:3000/api/v1/entity/user/
+  //returns entity with 200 if OK, else, it can return an empty array if no entity is not found, 401 or 403 in case of security errors or 500 in case of unexpected situations
+  router.route('/entity/:entity_type/').get(
+    cors(),
+    passport.authenticate('agile-bearer', {
+      session: false
+    }),
+    function (req, res) {
+      var entity_type = "/" + req.params.entity_type;
+      idmcore.listEntitiesByEntityType(req.user, entity_type)
+        .then(function (read) {
+          res.json(read);
+        }).catch(function (error) {
+          res.statusCode = error.statusCode || 500;
+          res.json({
+            "error": error.message
+          });
+        });
+
+    }
+  );
+
+  //example to call tthis one
   // curl -H "Authorization: bearer nNGNryDDZ4zQYeWYGYcnOdxJ90k9s6" 'http://localhost:3000/api/v1/entity/user/bob!@!agile-local'
   //returns entity with 200 if OK, else, it can return 404 if the entity is not found, 401 or 403 in case of security errors or 500 in case of unexpected situations
   router.route('/entity/:entity_type/:entity_id').get(
