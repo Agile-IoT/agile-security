@@ -352,9 +352,11 @@ var conf = {
 var fs = require('fs');
 var hostname = fs.readFileSync('/etc/hostname');
 hostname = hostname.toString().trim();
-if(hostname){
+if(process.env.AGILE_HOST){
+   conf.configure_on_boot.client.uri = "http://"+process.env.AGILE_HOST+":8000/";
+} else if(hostname){
    conf.configure_on_boot.client.uri = "http://"+hostname+".local:8000/";
-   console.log(conf.configure_on_boot.client.uri);
 }
+console.log(conf.configure_on_boot.client.uri);
 
 module.exports = conf;
