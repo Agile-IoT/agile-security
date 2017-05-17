@@ -9,6 +9,51 @@ var idmcore;
 function RouterApi(idmcore, router) {
 
   //example to call tthis one
+  //  returns 200 and the list of groups group, or 403, in case of security issues. 500 in case of unexpected situations
+  // curl -H "Authorization: bearer $TOKEN" 'http://localhost:3000/api/v1/group/'
+  //returns entity with 200 if OK, else, it can return an empty array if the entity is not found, 401 or 403 in case of security errors or 500 in case of unexpected situations
+  router.route('/group/').get(
+    cors(),
+    passport.authenticate('agile-bearer', {
+      session: false
+    }),
+    function (req, res) {
+
+      idmcore.readGroups(req.user)
+        .then(function (read) {
+          res.json(read);
+        }).catch(function (error) {
+          res.statusCode = error.statusCode || 500;
+          res.json({
+            "error": error.message
+          });
+        });
+
+    });
+  //example to call tthis one
+  // curl -H "Authorization: bearer $TOKEN" 'http://localhost:3000/api/v1/entity/user/
+  //returns entity with 200 if OK, else, it can return an empty array if no entity is not found, 401 or 403 in case of security errors or 500 in case of unexpected situations
+  router.route('/entity/:entity_type/').get(
+    cors(),
+    passport.authenticate('agile-bearer', {
+      session: false
+    }),
+    function (req, res) {
+      var entity_type = "/" + req.params.entity_type;
+      idmcore.listEntitiesByEntityType(req.user, entity_type)
+        .then(function (read) {
+          res.json(read);
+        }).catch(function (error) {
+          res.statusCode = error.statusCode || 500;
+          res.json({
+            "error": error.message
+          });
+        });
+
+    }
+  );
+
+  //example to call tthis one
   // curl -H "Authorization: bearer nNGNryDDZ4zQYeWYGYcnOdxJ90k9s6" 'http://localhost:3000/api/v1/entity/user/bob!@!agile-local'
   //returns entity with 200 if OK, else, it can return 404 if the entity is not found, 401 or 403 in case of security errors or 500 in case of unexpected situations
   router.route('/entity/:entity_type/:entity_id').get(
@@ -92,7 +137,31 @@ function RouterApi(idmcore, router) {
   );
 
   //returns 200 and the entity, or 401 or 403, in case of security issues, 422 in case a user is attempted to be created through this API, or 409 if entity already exists, 500 in case of unexpected situations
-  //curl -H "Content-type: application/json" -H "Authorization: bearer HeTxINCpXD0U6g27D7AIxc2CvfFNaZ" -X PUT -d '{"value":"my  2 BLE thingy"}' 'http://localhost:3000/api/v1/entity/sensor/1/attribute/name'
+  //curl -H "Content-type: application/json" -H "Authorization: bearer HeTxINCpXD0U6g27D7AIxc2CvfFNaZ" -X DELETE 'http://localhost:3000/api/v1/entity/sensor/1/attribute/name'
+  router.route('/entity/:entity_type/:entity_id/attribute/:attribute_name').delete(
+    cors(),
+    passport.authenticate('agile-bearer', {
+      session: false
+    }),
+    bodyParser.json(),
+    function (req, res) {
+      var entity_type = "/" + req.params.entity_type;
+      var entity_id = req.params.entity_id;
+
+      idmcore.deleteEntityAttribute(req.user, entity_id, entity_type, req.params.attribute_name)
+        .then(function (read) {
+          res.json(read);
+        }).catch(function (error) {
+          console.log("error when updating  entity attribute " + error);
+          res.statusCode = error.statusCode || 500;
+          res.json({
+            "error": error.message
+          });
+        });
+
+    }
+  );
+
   router.route('/entity/:entity_type/:entity_id/attribute/:attribute_name').put(
     cors(),
     passport.authenticate('agile-bearer', {
