@@ -276,22 +276,18 @@ var conf = {
   },
   "schema-validation": [{
     "id": "/sensor",
+    "additionalProperties": false,
     "type": "object",
     "properties": {
       "name": {
         "type": "string"
       },
       "credentials": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "system": {
-              "type": "string"
-            },
-            "value": {
-              "type": "string"
-            }
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "dropbox": {
+            "type": "string"
           }
         }
       }
@@ -312,6 +308,15 @@ var conf = {
       },
       "role": {
         "type": "string"
+      },
+      "credentials": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "dropbox": {
+            "type": "string"
+          }
+        }
       }
     },
     "required": ["user_name", "auth_type"]
