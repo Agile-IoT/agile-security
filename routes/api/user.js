@@ -1,4 +1,3 @@
-var cors = require('cors');
 var passport = require('passport');
 var express = require('express');
 var clone = require('clone');
@@ -24,7 +23,6 @@ function RouterApi(tokenConf, idmcore, router, strategies) {
   //returns 400 if a field of the body is missing or if wrong authentication type is provided. returns 200 and the entity, or 401 or 403, in case of security issues, 422 in case a user is attempted to be created through this API, or 409 if entity already exists, 500 in case of unexpected situations
   //curl -H "Content-type: application/json" -H "Authorization: bearer HeTxINCpXD0U6g27D7AIxc2CvfFNaZ" -X POST -d '{"user_name":"a", "auth_type":"github"}' 'http://localhost:3000/api/v1/user'
   router.route('/user/').post(
-    cors(),
     passport.authenticate('agile-bearer', {
       session: false
     }),
@@ -70,7 +68,6 @@ function RouterApi(tokenConf, idmcore, router, strategies) {
   //returns 200 and the entity, or 401 or 403, in case of security issues, 400 in case there is not enough parameters. or 409 if entity already exists, 500 in case of unexpected situations
   //curl -H "Authorization: bearer ypr24DKllIbKlV3Ph8oWmZ7Pml3Wku" 'http://localhost:3000/api/v1/user/?user_name=bob&auth_type=agile-local'
   router.route('/user/').get(
-    cors(),
     passport.authenticate('agile-bearer', {
       session: false
     }),
@@ -100,7 +97,6 @@ function RouterApi(tokenConf, idmcore, router, strategies) {
   //returns 200 if the user is deleted, or 401 or 403, in case of security issues, 400 in case there is not enough parameters. or 409 if entity already exists, 500 in case of unexpected situations
   //curl -H "Authorization: bearer ypr24DKllIbKlV3Ph8oWmZ7Pml3Wku"  -X DELETE 'http://localhost:3000/api/v1/user/?user_name=bob&auth_type=agile-local'
   router.route('/user/').delete(
-    cors(),
     passport.authenticate('agile-bearer', {
       session: false
     }),

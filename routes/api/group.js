@@ -1,4 +1,3 @@
-var cors = require('cors');
 var passport = require('passport');
 var express = require('express');
 var clone = require('clone');
@@ -19,7 +18,6 @@ function RouterApi(tokenConf, idmcore, router) {
   // curl -H "Authorization: bearer $TOKEN" 'http://localhost:3000/api/v1/group/'
   //returns entity with 200 if OK, else, it can return an empty array if the entity is not found, 401 or 403 in case of security errors or 500 in case of unexpected situations
   router.route('/group/').get(
-    cors(),
     passport.authenticate('agile-bearer', {
       session: false
     }),
@@ -43,7 +41,6 @@ function RouterApi(tokenConf, idmcore, router) {
   // curl -H "Content-type: application/json" -H "Authorization: bearer ypr24DKllIbKlV3Ph8oWmZ7Pml3Wku" 'http://localhost:3000/api/v1/user/bob!@!agile-local/group/me/'
   //returns entity with 200 if OK, else, it can return 404 if the entity is not found, 401 or 403 in case of security errors or 500 in case of unexpected situations
   router.route('/user/:owner/group/:name').get(
-    cors(),
     passport.authenticate('agile-bearer', {
       session: false
     }),
@@ -64,7 +61,6 @@ function RouterApi(tokenConf, idmcore, router) {
   //returns 200 and the group, or 401 or 403, in case of security issues, or 409 if the group already exists, 400 if parameters are missing. 500 in case of unexpected situations
   //curl -H "Content-type: application/json" -H "Authorization: bearer ypr24DKllIbKlV3Ph8oWmZ7Pml3Wku" -d '{"group_name":"me", "owner":"nopbyte@github"}' 'http://localhost:3000/api/v1/group/'
   router.route('/group/').post(
-    cors(),
     passport.authenticate('agile-bearer', {
       session: false
     }),
@@ -96,7 +92,6 @@ function RouterApi(tokenConf, idmcore, router) {
   // curl -H "Content-type: application/json" -H "Authorization: bearer FWrt4MRCEoravyzF1LkPoWzWvKfVBc" '-X DELETE http://localhost:3000/api/v1/user/bob!@!agile-local/group/me/'
   //returns entity with 200 if OK, else, it can return 404 if the entity is not found, 401 or 403 in case of security errors or 500 in case of unexpected situations
   router.route('/user/:owner/group/:name').delete(
-    cors(),
     passport.authenticate('agile-bearer', {
       session: false
     }),
@@ -118,7 +113,6 @@ function RouterApi(tokenConf, idmcore, router) {
   //this line adds the entity of type sensor and id 1, to the group called me and owned by bob who is authenticated with agile-local
   //curl -H "Content-type: application/json" -H "Authorization: bearer ypr24DKllIbKlV3Ph8oWmZ7Pml3Wku" -X POST 'http://localhost:3000/api/v1/user/bob!@!agile-local/group/me/entities/sensor/1'
   router.route('/user/:owner/group/:name/entities/:entity_type/:id').post(
-    cors(),
     passport.authenticate('agile-bearer', {
       session: false
     }),
@@ -141,7 +135,6 @@ function RouterApi(tokenConf, idmcore, router) {
   //this line adds the entity of type sensor and id 1, to the group called me and owned by bob who is authenticated with agile-local
   //curl -H "Content-type: application/json" -H "Authorization: bearer ypr24DKllIbKlV3Ph8oWmZ7Pml3Wku" -X DELETE 'http://localhost:3000/api/v1/user/bob!@!agile-local/group/me/entities/sensor/1'
   router.route('/user/:owner/group/:name/entities/:entity_type/:id').delete(
-    cors(),
     passport.authenticate('agile-bearer', {
       session: false
     }),
