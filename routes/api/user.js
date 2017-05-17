@@ -8,7 +8,12 @@ var idmcore;
 var saltrounds = 10;
 var bcrypt = require('bcrypt');
 
-function RouterApi(idmcore, router, strategies) {
+function RouterApi(tokenConf, idmcore, router, strategies) {
+
+  //enable cors
+  var cors_wrapper = require('../cors_wrapper')(tokenConf);
+  router.route('*').options(cors_wrapper);
+  router.use("*", cors_wrapper);
 
   var stripped_strategies = strategies.map(function (value) {
     var n = value.lastIndexOf(".js");

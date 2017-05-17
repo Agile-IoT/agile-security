@@ -198,12 +198,17 @@ function oauth2Router(tokenconf, entityStorageConf) {
   ];
 
   var router = express.Router();
+  //enabling cors
+  var cors_wrapper = require('./cors_wrapper')(tokenconf);
+  router.route('*').options(cors_wrapper);
+  router.use("*",cors_wrapper);
   //oauth2 protocol
   router.route('/dialog/authorize').get(authorization);
   router.route('/dialog/authorize/decision').post(decision);
   router.route('/token').post(token);
 
   //querying user and client info
+
   router.route('/api/userinfo').get(user_info);
   router.route('/api/clientinfo').get(client_info);
   //logout

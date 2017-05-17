@@ -7,7 +7,12 @@ var bodyParser = require('body-parser');
 var ids = require('../../lib/util/id');
 var idmcore;
 
-function RouterApi(idmcore, router) {
+function RouterApi(tokenConf, idmcore, router) {
+
+  //enable cors
+  var cors_wrapper = require('../cors_wrapper')(tokenConf);
+  router.route('*').options(cors_wrapper);
+  router.use("*", cors_wrapper);
 
   //example to call tthis one
   //  returns 200 and the list of groups group, or 403, in case of security issues. 500 in case of unexpected situations

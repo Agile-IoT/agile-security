@@ -69,7 +69,7 @@ var strategies = idmWeb.authStrategies(conf,core_conf);
 app.use("/auth", idmWeb.routerProviders(strategies, conf));
 
 //set up entities API
-app.use("/api/v1", idmWeb.routerApi(core_conf,strategies));
+app.use("/api/v1", idmWeb.routerApi(conf, core_conf,strategies));
 
 //set up static sites
 app.use("/static", express.static(path.join(__dirname, './static')));

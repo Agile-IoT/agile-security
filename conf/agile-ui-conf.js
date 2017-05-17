@@ -40,5 +40,6 @@ module.exports = {
   "http_port": 3000,
   "https_port": 1444,
   "https_port_with_client": 1443,
-  "enabledStrategies": ["agile-local", "github", "google", "webid"]
+  "enabledStrategies": ["agile-local", "github", "google", "webid"],
+  "cors": ["http://localhost:8080"]
 }

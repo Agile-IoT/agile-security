@@ -11,7 +11,7 @@ module.exports = function (grunt) {
         }
       },
       verify: {
-        src: ['Gruntfile.js', 'lib/**/*.js', 'routes/**.js', 'tests/**.js', 'scripts/*.js'],
+        src: ['Gruntfile.js', 'lib/**/*.js', 'routes/*/**.js', 'tests/**.js', 'scripts/*.js'],
         options: {
           mode: 'VERIFY_ONLY',
           config: '.jsbeautifyrc'

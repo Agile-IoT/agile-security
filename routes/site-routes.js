@@ -7,7 +7,7 @@ function siteRouter(stategies, tokenconf) {
   var router = express.Router();
 
   router.route('/').get(function (req, res) {
-    res.send('AGILE IDM server... you need a client to use it (preferably using Authroziation code grant for Oauth2)');
+    res.send('AGILE IDM server... you need a client to use it (preferably using Authroziation code grant for Oauth2. Check https://github.com/Agile-IoT/agile-idm-oauth2-client-example)');
   });
 
   router.route('/login').get(function (req, res) {
@@ -27,15 +27,7 @@ function siteRouter(stategies, tokenconf) {
     });
   });
 
-  //router.route('/login').post(
-  //   passport.authenticate('agile-local'/*'github'*/, { successReturnToOrRedirect: '/', failureRedirect: '/login', failureFlash: true  })
-  //);
 
-  router.route('/logout').get(function (req, res) {
-    req.logout();
-    //TODO update to delete tokens here?
-    res.redirect('/');
-  });
 
   return router;
 }
