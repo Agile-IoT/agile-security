@@ -275,7 +275,7 @@ var conf = {
     }
   },
   "schema-validation": [{
-    "id": "/sensor",
+    "id": "/device",
     "additionalProperties": false,
     "type": "object",
     "properties": {
