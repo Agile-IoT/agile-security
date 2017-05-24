@@ -10,7 +10,7 @@ var conf = {
           "/any": 0,
           "/group": 1,
           "/user": 2,
-          "/sensor": 3,
+          "/device": 3,
           "/client": 4,
           "/api": 5,
           "/const": 6,
@@ -220,7 +220,7 @@ var conf = {
           }
         ]
       },
-      "sensor": {
+      "device": {
         "credentials": {
           flows: [
             // all properties can be read by everyone
