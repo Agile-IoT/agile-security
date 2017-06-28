@@ -232,7 +232,7 @@ function RouterApi(tokenConf, idmcore, router, strategies) {
         var entity_type = "/user";
         var user_update_id = req.params.user_update_id;
         var auth_result = req.user;
-        updatePasswordWithoutCheck(idmcore, auth_result, user_update_id, entity_type, req.body.old_password, req.body.new_password)
+        updatePasswordWithoutCheck(idmcore, auth_result, user_update_id, entity_type, req.body.new_password)
           .then(function (result) {
             res.statusCode = 200;
             res.json(result || {
