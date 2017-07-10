@@ -1,5 +1,6 @@
 var RouterProviders = require('./routes/providers/');
 var RouterApi = require('./routes/api/');
+var RouterPoliciesApi = require('./routes/policies/');
 var routerOauth2 = require('./routes/oauth2-routes');
 var routerSite = require('./routes/site-routes');
 var serializer =  require('./lib/auth/serializer');
@@ -11,6 +12,7 @@ var tokens = require('./lib/util/tokens');
 module.exports = {
 	 routerProviders : RouterProviders,
 	 routerApi :RouterApi,
+	 RouterPoliciesApi : RouterPoliciesApi,
 	 routerOauth2 : routerOauth2,
 	 routerSite : routerSite,
 	 serializer : serializer,

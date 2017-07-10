@@ -37,6 +37,8 @@ catch(error){
   conf = require(location+'/agile-ui-conf');
 }
 
+var pdp_conf = require(location+'/agile-pdp-conf');
+
 var core_conf = require(location+'/agile-idm-core-conf');
 
 var https = require('https');
@@ -70,6 +72,9 @@ app.use("/auth", idmWeb.routerProviders(strategies, conf));
 
 //set up entities API
 app.use("/api/v1", idmWeb.routerApi(conf, core_conf,strategies));
+//policies API
+app.use("/api/v1", idmWeb.RouterPoliciesApi(conf, core_conf, pdp_conf));
+
 
 //set up static sites
 app.use("/static", express.static(path.join(__dirname, './static')));
