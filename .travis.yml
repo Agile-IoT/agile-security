@@ -36,4 +36,5 @@ script:
 
 after_success:
   - docker_push_if_needed
+  - npm i versionist versionist-plugins
   - versionist_if_needed
