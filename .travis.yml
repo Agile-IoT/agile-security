@@ -28,6 +28,8 @@ before_install:
   - bootstrap
   - echo "Tagging the build with tag - $DOCKER_TAG"
 
+install: true
+
 script:
   - docker_build_if_needed
   - cache_save
