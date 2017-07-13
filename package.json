@@ -1,8 +1,8 @@
 {
-  "name": "agile-idm-web-ui",
-  "version": "1.0.0",
+  "name": "agile-security",
+  "version": "1.0.2",
   "repository": "https://github.com/Agile-IoT/agile-idm-web-ui",
-  "description": "Generic Identity Management for the IoT (Web Component)",
+  "description": "Security components for AGILE Gateway",
   "main": "main.js",
   "directories": {
     "test": "tests"
@@ -66,5 +66,5 @@
     "Gateway"
   ],
   "author": "nopbyte",
-  "license": "Apache-2.0"
+  "license": "MIT"
 }
