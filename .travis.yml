@@ -17,6 +17,7 @@ env:
     - DOCKER_CACHE_FILE=/home/travis/docker-cache/cache.tar.gz
   matrix:
     - DOCKER_IMAGE=agileiot/$COMPONENT-armv7l
+      VERSIONIST=true
     - DOCKER_IMAGE=agileiot/$COMPONENT-x86_64
       BASEIMAGE=resin\\/intel-nuc-node:7.8.0-20170506
 
