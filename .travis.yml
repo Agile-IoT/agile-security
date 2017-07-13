@@ -11,7 +11,7 @@ cache:
 
 env:
   global:
-    - COMPONENT=agile-idm
+    - COMPONENT=agile-security
     - DOCKER_CACHE_FILE=/home/travis/docker-cache/cache.tar.gz
   matrix:
     - IMAGE=agileiot/$COMPONENT-armv7l
