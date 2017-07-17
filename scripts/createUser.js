@@ -207,7 +207,7 @@ try {
 
           console.log("SUCCESS: User created " + JSON.stringify(result));
         }, function fail(err) {
-          console.warn("FAILURE: User cannot be created " + err);
+          console.log("FAILURE: User cannot be created " + err);
         });
 
       }, 4000);

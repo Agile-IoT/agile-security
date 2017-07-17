@@ -218,7 +218,7 @@ try {
           }).then(function (created) {
             console.log("SUCCESS: Client created " + JSON.stringify(created));
           }, function handlereject(error) {
-            console.warn("FAILURE: User cannot be created " + error);
+            console.log("FAILURE: User cannot be created " + error);
           }).catch(function (err) {
             throw err;
           });
