@@ -338,9 +338,10 @@ module.exports = {
       "password": "secret"
     },
     "client": {
-      "id": "AGILE-OSJS",
-      "name": "AGILE-OSJS",
-      "uri": "http://agilegw.local:8000/"
+      "id": "MyAgileClient2",
+      "name": "MyAgileClient2",
+      "secret": "Ultrasecretstuff",
+      "uri": "http://localhost:3002/auth/example/callback"
     }
   }
 

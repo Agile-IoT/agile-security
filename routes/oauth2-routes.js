@@ -174,7 +174,9 @@ function oauth2Router(tokenconf, entityStorageConf) {
         id: req.user.id,
         user_name: req.user.user_name,
         auth_type: req.user.auth_type,
-        scope: req.authInfo.scope
+        client_id: req.authInfo.clientId,
+        scope: req.authInfo.scope,
+        expiration: req.authInfo.expiration
       })
     }
   ];
