@@ -8,8 +8,7 @@ var conf = {
         type: "external",
         dbName: "/root/idm.db/pap_database",
         collection: "policies",
-  }
-  ,
+  },
   "policies": {
     "create_entity_policy": [
       // actions of an actor are not restricted a priori
@@ -54,7 +53,7 @@ var conf = {
           action: "delete"
         }]
       }
-    },
+    ,
     "attribute_level_policies": {
       "user": {
         "password": [
@@ -152,6 +151,7 @@ var conf = {
           }
         ]
       }
+    }
   },
   "schema-validation": [{
     "id": "/device",
