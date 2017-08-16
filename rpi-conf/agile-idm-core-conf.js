@@ -283,22 +283,10 @@ var conf = {
     "client": [{
       "id": "AGILE-OSJS",
       "name": "AGILE-OSJS",
-      "uri": "http://agilegw.local:8000/"
+      "redirectURI": "set-automatically"
     }]
   }
 
 };
-
-//quick fix to enable containers to reference the name of the gateway...
-//this should be handled more gracefully in the future.
-var fs = require('fs');
-var hostname = fs.readFileSync('/etc/hostname');
-hostname = hostname.toString().trim();
-if(process.env.AGILE_HOST){
-   conf.configure_on_boot.client.uri = "http://"+process.env.AGILE_HOST+":8000/";
-} else if(hostname){
-   conf.configure_on_boot.client.uri = "http://"+hostname+".local:8000/";
-}
-console.log(conf.configure_on_boot.client.uri);
 
 module.exports = conf;
