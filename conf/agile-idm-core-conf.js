@@ -164,6 +164,48 @@ module.exports = {
         ]
       },
       "sensor": {
+        //policies for actions executed for this entity (owner or admin only)
+        "actions": [{
+            op: "read",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
+          },
+          // by all users with role admin
+          {
+            op: "read",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "attrEq",
+              args: ["role", "admin"]
+            }]
+          },
+          {
+            op: "write",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
+          },
+          // by all users with role admin
+          {
+            op: "write",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "attrEq",
+              args: ["role", "admin"]
+            }]
+          }
+        ],
         "credentials": [
           // the property can only be read by the user itself
           {
@@ -278,18 +320,18 @@ module.exports = {
     "required": ["name", "redirectURI"]
   }],
   "configure_on_boot": {
-    "user": {
-      "username": "bob",
+    "user": [{
+      "user_name": "bob",
       "auth_type": "agile-local",
       "role": "admin",
       "password": "secret"
-    },
-    "client": {
+    }],
+    "client": [{
       "id": "MyAgileClient2",
       "name": "MyAgileClient2",
-      "secret": "Ultrasecretstuff",
-      "uri": "http://localhost:3002/auth/example/callback"
-    }
+      "clientSecret": "Ultrasecretstuff",
+      "redirectURI": "http://localhost:3002/auth/example/callback"
+    }]
   }
 
 };

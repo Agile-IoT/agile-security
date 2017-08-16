@@ -134,6 +134,49 @@ var conf = {
         ]
       },
       "device": {
+        //policies for actions executed for this entity (owner or admin only)
+        "actions":[
+          {
+            op: "read",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
+          },
+          // by all users with role admin
+          {
+            op: "read",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "attrEq",
+              args: ["role", "admin"]
+            }]
+          },
+          {
+            op: "write",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
+          },
+          // by all users with role admin
+          {
+            op: "write",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "attrEq",
+              args: ["role", "admin"]
+            }]
+          }
+        ],
         "credentials": [
           // the property can only be read by the user itself
           {
@@ -224,8 +267,8 @@ var conf = {
     "required": ["name", "redirectURI"]
   }],
   "configure_on_boot": {
-    "user": {
-      "username": "agile",
+    "user": [{
+      "user_name": "agile",
       "auth_type": "agile-local",
       "role":"admin",
       "password": "secret",
@@ -236,12 +279,12 @@ var conf = {
           "xivelysecret":"067d1c0ad522fa0315782888b4cf89741b0369ec"
           }
         }
-    },
-    "client": {
+    }],
+    "client": [{
       "id": "AGILE-OSJS",
       "name": "AGILE-OSJS",
       "uri": "http://agilegw.local:8000/"
-    }
+    }]
   }
 
 };
