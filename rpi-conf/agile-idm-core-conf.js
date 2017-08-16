@@ -153,6 +153,14 @@ var conf = {
       }
     }
   },
+  "forbidden-attribute-names": [
+    'id',
+    'type',
+    'owner',
+    'groups',
+    'entities',
+    'actions'
+  ],
   "schema-validation": [{
     "id": "/device",
     "additionalProperties": false,

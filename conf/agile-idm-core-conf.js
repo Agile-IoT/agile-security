@@ -213,6 +213,14 @@ module.exports = {
       }
     }
   },
+  "forbidden-attribute-names": [
+    'id',
+    'type',
+    'owner',
+    'groups',
+    'entities',
+    'actions'
+  ],
   "schema-validation": [{
     "id": "/sensor",
     "additionalProperties": false,
