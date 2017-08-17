@@ -277,169 +277,170 @@ module.exports = {
             }]
 
           }
+        ]
+      },
+      "device": {
+        //policies for actions executed for this entity (owner or admin only)
+        "actions": [{
+            op: "read",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
+          },
+          // by all users with role admin
+          {
+            op: "read",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "attrEq",
+              args: ["role", "admin"]
+            }]
+          },
+          {
+            op: "write",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
+          },
+          // by all users with role admin
+          {
+            op: "write",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "attrEq",
+              args: ["role", "admin"]
+            }]
+          }
         ],
-        "device": {
-          //policies for actions executed for this entity (owner or admin only)
-          "actions": [{
-              op: "read",
-              locks: [{
-                lock: "hasType",
-                args: ["/user"]
-              }, {
-                lock: "isOwner"
-              }]
-            },
-            // by all users with role admin
-            {
-              op: "read",
-              locks: [{
-                lock: "hasType",
-                args: ["/user"]
-              }, {
-                lock: "attrEq",
-                args: ["role", "admin"]
-              }]
-            },
-            {
-              op: "write",
-              locks: [{
-                lock: "hasType",
-                args: ["/user"]
-              }, {
-                lock: "isOwner"
-              }]
-            },
-            // by all users with role admin
-            {
-              op: "write",
-              locks: [{
-                lock: "hasType",
-                args: ["/user"]
-              }, {
-                lock: "attrEq",
-                args: ["role", "admin"]
-              }]
-            }
-          ],
-          "credentials": [
-            // the property can only be read by the user itself
-            {
-              op: "read"
-            },
-            // the property can be set by the user itself and
-            {
-              op: "write",
-              locks: [{
-                lock: "hasType",
-                args: ["/user"]
-              }, {
-                lock: "isOwner"
-              }]
-            }
-          ]
+        "credentials": [
+          // the property can only be read by the user itself
+          {
+            op: "read"
+          },
+          // the property can be set by the user itself and
+          {
+            op: "write",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
+          }
+        ]
+      }
+    }
+  },
+  "forbidden-attribute-names": [
+    'id',
+    'type',
+    'owner',
+    'groups',
+    'entities',
+    'actions'
+  ],
+  "schema-validation": [{
+    "id": "/device",
+    "additionalProperties": false,
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "credentials": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "dropbox": {
+            "type": "string"
+          }
         }
       }
     },
-    "forbidden-attribute-names": [
-      'id',
-      'type',
-      'owner',
-      'groups',
-      'entities',
-      'actions'
-    ],
-    "schema-validation": [{
-      "id": "/device",
-      "additionalProperties": false,
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "credentials": {
-          "type": "object",
-          "additionalProperties": true,
-          "properties": {
-            "dropbox": {
-              "type": "string"
-            }
+    "required": ["name"]
+  }, {
+    "id": "/user",
+    "type": "object",
+    "properties": {
+      "user_name": {
+        "type": "string"
+      },
+      "auth_type": {
+        "type": "string"
+      },
+      "password": {
+        "type": "string"
+      },
+      "role": {
+        "type": "string"
+      },
+      "credentials": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "dropbox": {
+            "type": "string"
           }
         }
+      }
+    },
+    "required": ["user_name", "auth_type"]
+  }, {
+    "id": "/client",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "name": {
+        "type": "string"
       },
-      "required": ["name"]
-    }, {
-      "id": "/user",
-      "type": "object",
-      "properties": {
-        "user_name": {
-          "type": "string"
-        },
-        "auth_type": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "role": {
-          "type": "string"
-        },
-        "credentials": {
-          "type": "object",
-          "additionalProperties": true,
-          "properties": {
-            "dropbox": {
-              "type": "string"
-            }
-          }
+      "clientSecret": {
+        "type": "string"
+      },
+      "redirectURI": {
+        "type": "string"
+      }
+    },
+    "required": ["name"]
+  }, {
+    "id": "/gateway",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "name": {
+        "type": "string"
+      }
+    },
+    "required": ["name"]
+  }],
+  "configure_on_boot": {
+    "user": [{
+      "user_name": "agile",
+      "auth_type": "agile-local",
+      "role": "admin",
+      "password": "secret",
+      "credentials": {
+        "xively": {
+          "xivelymaster": "NU9grueAtYdQE0L7DdFlID3NBZuQn7tyyNvjXUvqoQnJ2rox",
+          "xivelyproduct": "Y1o-jUXIj66T1Ekb_Tjx",
+          "xivelysecret": "067d1c0ad522fa0315782888b4cf89741b0369ec"
         }
-      },
-      "required": ["user_name", "auth_type"]
-    }, {
-      "id": "/client",
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "clientSecret": {
-          "type": "string"
-        },
-        "redirectURI": {
-          "type": "string"
-        }
-      },
-      "required": ["name"]
-    }, {
-      "id": "/gateway",
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "name": {
-          "type": "string"
-        }
-      },
-      "required": ["name"]
+      }
     }],
-    "configure_on_boot": {
-      "user": [{
-        "user_name": "agile",
-        "auth_type": "agile-local",
-        "role": "admin",
-        "password": "secret",
-        "credentials": {
-          "xively": {
-            "xivelymaster": "NU9grueAtYdQE0L7DdFlID3NBZuQn7tyyNvjXUvqoQnJ2rox",
-            "xivelyproduct": "Y1o-jUXIj66T1Ekb_Tjx",
-            "xivelysecret": "067d1c0ad522fa0315782888b4cf89741b0369ec"
-          }
-        }
-      }],
-      "client": [{
-        "id": "AGILE-OSJS",
-        "name": "AGILE-OSJS",
-        "redirectURI": "set-automatically"
-      }]
-    }
+    "client": [{
+      "id": "AGILE-OSJS",
+      "name": "AGILE-OSJS",
+      "redirectURI": "set-automatically"
+    }]
   }
+
 };
