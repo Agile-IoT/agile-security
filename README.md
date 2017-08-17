@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/Agile-IoT/agile-security.svg?branch=master)](https://travis-ci.org/Agile-IoT/agile-security)
 
-# AGILE Identity Management (a.k.a AGILE-IDM Web)
+# AGILE Security components (a.k.a formerly AGILE-IDM Web)
 
 The main functionalities of AGILE IDM are the following:
 
