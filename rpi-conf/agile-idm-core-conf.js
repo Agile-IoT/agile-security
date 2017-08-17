@@ -52,6 +52,50 @@ module.exports = {
         action: "delete"
       }]
     },
+    "action-policy-root": {
+        attribute:"actions",
+        policy:[{
+              op: "read",
+              locks: [{
+                lock: "hasType",
+                args: ["/user"]
+              }, {
+                lock: "isOwner"
+              }]
+            },
+            // by all users with role admin
+            {
+              op: "read",
+              locks: [{
+                lock: "hasType",
+                args: ["/user"]
+              }, {
+                lock: "attrEq",
+                args: ["role", "admin"]
+              }]
+            },
+            {
+              op: "write",
+              locks: [{
+                lock: "hasType",
+                args: ["/user"]
+              }, {
+                lock: "isOwner"
+              }]
+            },
+            // by all users with role admin
+            {
+              op: "write",
+              locks: [{
+                lock: "hasType",
+                args: ["/user"]
+              }, {
+                lock: "attrEq",
+                args: ["role", "admin"]
+              }]
+            }
+          ]
+    },
     "attribute_level_policies": {
       "user": {
         "actions": [{
@@ -440,6 +484,10 @@ module.exports = {
       "id": "AGILE-OSJS",
       "name": "AGILE-OSJS",
       "redirectURI": "set-automatically"
+    }],
+    "gateway": [{
+      "id": "self",
+      "name": "local gateway"
     }]
   }
 
