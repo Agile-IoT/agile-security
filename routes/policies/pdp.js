@@ -24,7 +24,7 @@ function RouterApi(tokenConf, idmcore, pdp, router) {
         "error": "expected a path with more slashes (at least 4)"
       });
     } else {
-      var action_info = 'actions.' + path.splice(4).join('.');
+      var action_info =  path.splice(4).join('.');
       evaluateActionPolicy(user, entity_id, entity_type, action_info, method).then(function (result) {
         res.json(result);
       }).catch(function (error) {
@@ -98,7 +98,7 @@ function RouterApi(tokenConf, idmcore, pdp, router) {
   );
 
   /*
-   curl  -H "Authorization: bearer $TOKEN" -H "Content-Type: application/json" -XPOST -d '{"actions": [{"entityId":"self", "entityType":"/gateway", "method":"write","action":"status"},{"entityId":"alice!@!agile-local", "entityType":"/user", "method":"read","action":"delete"}]}' 'http://localhost:3000/api/v1/pdp/batch'
+   curl  -H "Authorization: bearer $TOKEN" -H "Content-Type: application/json" -XPOST -d '{"actions": [{"entityId":"self", "entityType":"/gateway", "method":"write","field":"action.status"},{"entityId":"alice!@!agile-local", "entityType":"/user", "method":"read","field":"id"}]}' 'http://localhost:3000/api/v1/pdp/batch'
    result can have HTTP status code 401 or 403 and be unauthorized or it can be 200 and contain something like
    {"result":[false,true]}
    in this case the array matches one-to-one the actions in the query.
@@ -114,25 +114,29 @@ function RouterApi(tokenConf, idmcore, pdp, router) {
         var user = req.user;
         var ps = [];
         req.body.actions.forEach(function (action) {
-          if (action.entityId && action.entityType && action.action && action.method) {
-            ps.push(alwaysResolve(evaluateActionPolicy(user, action.entityId, action.entityType, action.action, action.method)));
-          } else {
-            res.json({
-              "error": "ensure that every action has action.entityId && action.entityType && action.action && action.method"
-            });
-            return;
+          if (action.entityId && action.entityType && action.field && action.method) {
+            ps.push(alwaysResolve(evaluateActionPolicy(user, action.entityId, action.entityType, action.field, action.method)));
           }
         });
-        Promise.all(ps).then(function (r) {
-          res.json({
-            result: r
+        if(ps.length !== req.body.actions.length){
+          res.statusCode = 400;
+          return res.json({
+            "error": "ensure that every action has action.entityId && action.entityType && action.field && action.method"
           });
-        }).catch(function (err) {
-          res.statusCode = error.statusCode || 500;
-          res.json({
-            "error": error.message
-          });
-        })
+        }
+        else{
+          Promise.all(ps).then(function (r) {
+            res.json({
+              result: r
+            });
+          }).catch(function (err) {
+            res.statusCode = error.statusCode || 500;
+            res.json({
+              "error": error.message
+            });
+          })
+        }
+
 
       } else {
         res.statusCode = 400;
