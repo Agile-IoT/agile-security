@@ -56,6 +56,48 @@ module.exports = {
     },
     "attribute_level_policies": {
       "user": {
+        //policies for actions executed for this entity (owner or admin only)
+        "actions": [{
+            op: "read",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
+          },
+          // by all users with role admin
+          {
+            op: "read",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "attrEq",
+              args: ["role", "admin"]
+            }]
+          },
+          {
+            op: "write",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
+          },
+          // by all users with role admin
+          {
+            op: "write",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "attrEq",
+              args: ["role", "admin"]
+            }]
+          }
+        ],
         "password": [
           // the property can only be read by the user itself
           {
@@ -163,6 +205,50 @@ module.exports = {
           }
         ]
       },
+      "gateway": {
+        //policies for actions executed for this entity (owner or admin only)
+        "actions": [{
+            op: "read",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
+          },
+          // by all users with role admin
+          {
+            op: "read",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "attrEq",
+              args: ["role", "admin"]
+            }]
+          },
+          {
+            op: "write",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
+          },
+          // by all users with role admin
+          {
+            op: "write",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "attrEq",
+              args: ["role", "admin"]
+            }]
+          }
+        ]
+      },
       "sensor": {
         //policies for actions executed for this entity (owner or admin only)
         "actions": [{
@@ -209,7 +295,13 @@ module.exports = {
         "credentials": [
           // the property can only be read by the user itself
           {
-            op: "read"
+            op: "read",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
           },
           // the property can be set by the user itself and
           {
@@ -317,7 +409,17 @@ module.exports = {
         "type": "string"
       }
     },
-    "required": ["name", "redirectURI"]
+    "required": ["name"]
+  }, {
+    "id": "/gateway",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "name": {
+        "type": "string"
+      }
+    },
+    "required": ["name"]
   }],
   "configure_on_boot": {
     "user": [{
@@ -331,6 +433,10 @@ module.exports = {
       "name": "MyAgileClient2",
       "clientSecret": "Ultrasecretstuff",
       "redirectURI": "http://localhost:3002/auth/example/callback"
+    }],
+    "gateway": [{
+      "id": "self",
+      "name": "local gateway"
     }]
   }
 

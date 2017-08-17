@@ -55,6 +55,47 @@ module.exports = {
     ,
     "attribute_level_policies": {
       "user": {
+        "actions": [{
+            op: "read",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
+          },
+          // by all users with role admin
+          {
+            op: "read",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "attrEq",
+              args: ["role", "admin"]
+            }]
+          },
+          {
+            op: "write",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
+          },
+          // by all users with role admin
+          {
+            op: "write",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "attrEq",
+              args: ["role", "admin"]
+            }]
+          }
+        ],
         "password": [
           // the property can only be read by the user itself
           {
@@ -108,7 +149,13 @@ module.exports = {
         "credentials": [
           // the property can only be read by the user itself
           {
-            op: "read"
+            op: "read",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
           },
           // the property can be set by the user itself and
           {
@@ -119,7 +166,41 @@ module.exports = {
             }, {
               lock: "isOwner"
             }]
+          }
+        ]
+      },
+      "gateway": {
+        //policies for actions executed for this entity (owner or admin only)
+        "actions": [{
+            op: "read",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
           },
+          // by all users with role admin
+          {
+            op: "read",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "attrEq",
+              args: ["role", "admin"]
+            }]
+          },
+          {
+            op: "write",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
+          },
+          // by all users with role admin
           {
             op: "write",
             locks: [{
@@ -131,6 +212,71 @@ module.exports = {
             }]
           }
         ]
+      },
+      "client": {
+        //policies for actions executed for this entity (owner or admin only)
+        "actions": [{
+            op: "read",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
+          },
+          // by all users with role admin
+          {
+            op: "read",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "attrEq",
+              args: ["role", "admin"]
+            }]
+          },
+          {
+            op: "write",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
+          },
+          // by all users with role admin
+          {
+            op: "write",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "attrEq",
+              args: ["role", "admin"]
+            }]
+          }
+        ],
+        "credentials": [
+          // the property can only be read by the user itself
+          {
+            op: "read",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
+          },
+          // the property can be set by the user itself and
+          {
+            op: "write",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
+          }
       },
       "device": {
         //policies for actions executed for this entity (owner or admin only)
@@ -252,6 +398,7 @@ module.exports = {
   }, {
     "id": "/client",
     "type": "object",
+    "additionalProperties": false,
     "properties": {
       "name": {
         "type": "string"
@@ -263,7 +410,17 @@ module.exports = {
         "type": "string"
       }
     },
-    "required": ["name", "redirectURI"]
+    "required": ["name"]
+  }, {
+    "id": "/gateway",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "name": {
+        "type": "string"
+      }
+    },
+    "required": ["name"]
   }],
   "configure_on_boot": {
     "user": [{

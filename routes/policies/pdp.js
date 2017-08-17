@@ -55,6 +55,12 @@ function RouterApi(tokenConf, idmcore, pdp, router) {
         });
     });
   }
+
+  function alwaysResolve(promise) {
+    return new Promise(function (resolve, reject) {
+      promise.then(resolve.bind(this, true)).catch(resolve.bind(this, false));
+    });
+  }
   //example to call tthis one
   // curl -I -H "Authorization: bearer $TOKEN" -H "Content-Type: application/json" -XGET 'http://localhost:3000/api/v1/pdp/sensor/1/status'
   // GET /device/{deviceId}/status
@@ -89,6 +95,53 @@ function RouterApi(tokenConf, idmcore, pdp, router) {
     }),
     bodyParser.json(),
     handleReq.bind(this, 'write')
+  );
+
+  /*
+   curl  -H "Authorization: bearer $TOKEN" -H "Content-Type: application/json" -XPOST -d '{"actions": [{"entityId":"self", "entityType":"/gateway", "method":"write","action":"status"},{"entityId":"alice!@!agile-local", "entityType":"/user", "method":"read","action":"delete"}]}' 'http://localhost:3000/api/v1/pdp/batch'
+   result can have HTTP status code 401 or 403 and be unauthorized or it can be 200 and contain something like
+   {"result":[false,true]}
+   in this case the array matches one-to-one the actions in the query.
+
+  */
+  router.route('/pdp/batch/').post(
+    passport.authenticate('agile-bearer', {
+      session: false
+    }),
+    bodyParser.json(),
+    function (req, res) {
+      if (req.body && req.body.hasOwnProperty("actions")) {
+        var user = req.user;
+        var ps = [];
+        req.body.actions.forEach(function (action) {
+          if (action.entityId && action.entityType && action.action && action.method) {
+            ps.push(alwaysResolve(evaluateActionPolicy(user, action.entityId, action.entityType, action.action, action.method)));
+          } else {
+            res.json({
+              "error": "ensure that every action has action.entityId && action.entityType && action.action && action.method"
+            });
+            return;
+          }
+        });
+        Promise.all(ps).then(function (r) {
+          res.json({
+            result: r
+          });
+        }).catch(function (err) {
+          res.statusCode = error.statusCode || 500;
+          res.json({
+            "error": error.message
+          });
+        })
+
+      } else {
+        res.statusCode = 400;
+        res.json({
+          "error": "no actions array specified in the body"
+        });
+        return;
+      }
+    }
   );
 
 }
