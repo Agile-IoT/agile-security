@@ -6,7 +6,7 @@ var Pdp = require('agile-policies').pdp;
 module.exports = function (tokenConf, conf) {
   var storage = new Storage(conf);
   var idmcore = new IdmCore(conf);
-  var pdp = new Pdp(idmcore);
+  var pdp = new Pdp(conf);
 
   idmcore.setStorage(storage);
   var router = express.Router();

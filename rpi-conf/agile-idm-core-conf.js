@@ -1,5 +1,4 @@
-//{"target":{"type":"user"},"locks":[{"path":"hasId","args":["$owner"]}]
-var conf = {
+module.exports = {
   "storage": {
     "dbName": "/root/idm.db/database_"
   },
@@ -288,5 +287,3 @@ var conf = {
   }
 
 };
-
-module.exports = conf;
