@@ -249,7 +249,7 @@ module.exports = {
           }
         ]
       },
-      "sensor": {
+      "device": {
         //policies for actions executed for this entity (owner or admin only)
         "actions": [{
             op: "read",
@@ -356,7 +356,7 @@ module.exports = {
     'actions'
   ],
   "schema-validation": [{
-    "id": "/sensor",
+    "id": "/device",
     "additionalProperties": false,
     "type": "object",
     "properties": {
