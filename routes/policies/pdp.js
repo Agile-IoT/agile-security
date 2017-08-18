@@ -24,7 +24,7 @@ function RouterApi(tokenConf, idmcore, pdp, router) {
         "error": "expected a path with more slashes (at least 4)"
       });
     } else {
-      var action_info =  path.splice(4).join('.');
+      var action_info = path.splice(4).join('.');
       evaluateActionPolicy(user, entity_id, entity_type, action_info, method).then(function (result) {
         res.json(result);
       }).catch(function (error) {
@@ -118,13 +118,12 @@ function RouterApi(tokenConf, idmcore, pdp, router) {
             ps.push(alwaysResolve(evaluateActionPolicy(user, action.entityId, action.entityType, action.field, action.method)));
           }
         });
-        if(ps.length !== req.body.actions.length){
+        if (ps.length !== req.body.actions.length) {
           res.statusCode = 400;
           return res.json({
             "error": "ensure that every action has action.entityId && action.entityType && action.field && action.method"
           });
-        }
-        else{
+        } else {
           Promise.all(ps).then(function (r) {
             res.json({
               result: r
@@ -136,7 +135,6 @@ function RouterApi(tokenConf, idmcore, pdp, router) {
             });
           })
         }
-
 
       } else {
         res.statusCode = 400;

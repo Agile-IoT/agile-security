@@ -8,9 +8,10 @@
     "test": "tests"
   },
   "dependencies": {
-    "agile-idm-core": "git+https://github.com/Agile-IoT/agile-idm-core.git",
+    "agile-audit": "git+https://github.com/Agile-IoT/agile-audit.git#v0.1.0",
+    "agile-idm-core": "git+https://github.com/Agile-IoT/agile-idm-core.git#v1.2.6",
     "agile-idm-entity-storage": "git+https://github.com/Agile-IoT/agile-idm-entity-storage#v1.0.2",
-    "agile-policies": "git+https://github.com/Agile-IoT/agile-policies.git",
+    "agile-policies": "git+https://github.com/Agile-IoT/agile-policies.git#v0.1.1",
     "bcrypt": "^1.0.2",
     "body-parser": "1.x",
     "clone": "1.0.2",

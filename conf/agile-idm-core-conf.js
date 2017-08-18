@@ -355,6 +355,14 @@ module.exports = {
       "id": "self",
       "name": "local gateway"
     }]
+  },
+  "audit": {
+    dbName: "database_",
+    //according to https://www.npmjs.com/package/timeframe-to-seconds,
+    timeframe: '1m',
+    //DETAILED=0, ONLY_IMPORTANT_STUFF=1
+    level: 1,
+    regex: '^actions'
+    //regex in case we want to log only certain
   }
-
 };

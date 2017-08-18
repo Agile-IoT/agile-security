@@ -74,6 +74,8 @@ app.use("/api/v1", idmWeb.routerApi(conf, core_conf,strategies));
 //policies API
 app.use("/api/v1", idmWeb.RouterPoliciesApi(conf, core_conf));
 
+app.use("/api/v1", idmWeb.RouterAuditApi(conf, core_conf));
+
 
 //set up static sites
 app.use("/static", express.static(path.join(__dirname, './static')));

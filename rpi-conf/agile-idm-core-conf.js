@@ -53,48 +53,48 @@ module.exports = {
       }]
     },
     "action-policy-root": {
-        attribute:"actions",
-        policy:[{
-              op: "read",
-              locks: [{
-                lock: "hasType",
-                args: ["/user"]
-              }, {
-                lock: "isOwner"
-              }]
-            },
-            // by all users with role admin
-            {
-              op: "read",
-              locks: [{
-                lock: "hasType",
-                args: ["/user"]
-              }, {
-                lock: "attrEq",
-                args: ["role", "admin"]
-              }]
-            },
-            {
-              op: "write",
-              locks: [{
-                lock: "hasType",
-                args: ["/user"]
-              }, {
-                lock: "isOwner"
-              }]
-            },
-            // by all users with role admin
-            {
-              op: "write",
-              locks: [{
-                lock: "hasType",
-                args: ["/user"]
-              }, {
-                lock: "attrEq",
-                args: ["role", "admin"]
-              }]
-            }
-          ]
+      attribute: "actions",
+      policy: [{
+          op: "read",
+          locks: [{
+            lock: "hasType",
+            args: ["/user"]
+          }, {
+            lock: "isOwner"
+          }]
+        },
+        // by all users with role admin
+        {
+          op: "read",
+          locks: [{
+            lock: "hasType",
+            args: ["/user"]
+          }, {
+            lock: "attrEq",
+            args: ["role", "admin"]
+          }]
+        },
+        {
+          op: "write",
+          locks: [{
+            lock: "hasType",
+            args: ["/user"]
+          }, {
+            lock: "isOwner"
+          }]
+        },
+        // by all users with role admin
+        {
+          op: "write",
+          locks: [{
+            lock: "hasType",
+            args: ["/user"]
+          }, {
+            lock: "attrEq",
+            args: ["role", "admin"]
+          }]
+        }
+      ]
     },
     "attribute_level_policies": {
       "user": {
@@ -489,6 +489,15 @@ module.exports = {
       "id": "self",
       "name": "local gateway"
     }]
+  },
+  "audit": {
+    dbName: "/root/idm.db/database_",
+    //according to https://www.npmjs.com/package/timeframe-to-seconds,
+    timeframe: '1m',
+    //DETAILED=0, ONLY_IMPORTANT_STUFF=1
+    level: 1,
+    regex: '^actions'
+    //regex in case we want to log only certain
   }
 
 };
