@@ -11,9 +11,9 @@ var idmcore;
 function RouterApi(tokenConf, idmcore, router) {
 
   //example to call this one
-  // curl -H "Authorization: bearer nNGNryDDZ4zQYeWYGYcnOdxJ90k9s6" 'http://localhost:3000/api/v1/pap/entity/sensor/sensor-id'
+  // curl -H "Authorization: bearer nNGNryDDZ4zQYeWYGYcnOdxJ90k9s6" 'http://localhost:3000/api/v1/pap/sensor/sensor-id'
   //returns entity with 200 if OK, else, it can return 404 if the entity is not found, 401 or 403 in case of security errors or 500 in case of unexpected situations
-  router.route('/pap/entity/:entity_type/:entity_id').get(
+  router.route('/pap/:entity_type/:entity_id').get(
     passport.authenticate('agile-bearer', {
       session: false
     }),
@@ -33,7 +33,7 @@ function RouterApi(tokenConf, idmcore, router) {
     }
   );
 
-  router.route('/pap/entity/:entity_type/:entity_id/policy/:policy_name').put(
+  router.route('/pap/:entity_type/:entity_id/policy/:policy_name').put(
     passport.authenticate('agile-bearer', {
       session: false
     }),
@@ -63,8 +63,8 @@ function RouterApi(tokenConf, idmcore, router) {
   );
 
   //returns 200 and the entity, or 401 or 403, in case of security issues, 422 in case a user is attempted to be created through this API, or 409 if entity already exists, 500 in case of unexpected situations
-  //curl -H "Content-type: application/json" -H "Authorization: bearer L1q8RdPhqhpcNJR9YRKpfVbie0fZxM31JRW9PPmCcvcLsatWrJBbawzfgDwACH9S" -XDELETE 'http://localhost:3000/api/v1/pap/entity/sensor/mysensor/policy/name'
-  router.route('/pap/entity/:entity_type/:entity_id/policy/:policy_name').delete(
+  //curl -H "Content-type: application/json" -H "Authorization: bearer L1q8RdPhqhpcNJR9YRKpfVbie0fZxM31JRW9PPmCcvcLsatWrJBbawzfgDwACH9S" -XDELETE 'http://localhost:3000/api/v1/pap/sensor/mysensor/policy/name'
+  router.route('/pap/:entity_type/:entity_id/policy/:policy_name').delete(
     passport.authenticate('agile-bearer', {
       session: false
     }),
