@@ -22,7 +22,7 @@ function RouterApi(tokenConf, idmcore, audit, router) {
     }),
     bodyParser.json(),
     function (req, res) {
-      audit.getActionsByOwner(req.user.id).then(function(actions){
+      audit.getActionsByOwner(req.user.id).then(function (actions) {
         res.json({
           result: actions
         });
@@ -42,7 +42,7 @@ function RouterApi(tokenConf, idmcore, audit, router) {
     }),
     bodyParser.json(),
     function (req, res) {
-      audit.getActionsByMe(req.user.id).then(function(actions){
+      audit.getActionsByMe(req.user.id).then(function (actions) {
         res.json({
           result: actions
         });
@@ -62,7 +62,7 @@ function RouterApi(tokenConf, idmcore, audit, router) {
     }),
     bodyParser.json(),
     function (req, res) {
-      audit.clearActionsOnMyEntities(req.user.id).then(function(actions){
+      audit.clearActionsOnMyEntities(req.user.id).then(function (actions) {
         res.statusCode = 200;
         res.send();
       }).catch(function (err) {

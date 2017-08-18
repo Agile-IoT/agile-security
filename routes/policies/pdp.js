@@ -62,7 +62,7 @@ function RouterApi(tokenConf, idmcore, pdp, router) {
     });
   }
   //example to call tthis one
-  // curl -I -H "Authorization: bearer $TOKEN" -H "Content-Type: application/json" -XGET 'http://localhost:3000/api/v1/pdp/sensor/1/status'
+  // curl -I -H "Authorization: bearer $TOKEN" -H "Content-Type: application/json" -XGET 'http://localhost:3000/api/v1/pdp/sensor/1/actions/status'
   // GET /device/{deviceId}/status
   //returns entity with 200 if OK, else, it can return 404 if the entity is not found, 401 or 403 in case of security errors or 500 in case of unexpected situations
   router.route('/pdp/:entity_type/:entity_id/*').get(
@@ -115,6 +115,9 @@ function RouterApi(tokenConf, idmcore, pdp, router) {
         var ps = [];
         req.body.actions.forEach(function (action) {
           if (action.entityId && action.entityType && action.field && action.method) {
+            if (action.entityType.indexOf('/') !== 0) {
+              action.entityType = '/' + action.entityType;
+            }
             ps.push(alwaysResolve(evaluateActionPolicy(user, action.entityId, action.entityType, action.field, action.method)));
           }
         });
