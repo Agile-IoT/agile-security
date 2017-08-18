@@ -23,7 +23,9 @@ function RouterApi(tokenConf, idmcore, router) {
       idmcore.getEntityPolicies(req.user, entity_id, entity_type).then(function (policyResult) {
         return policyResult;
       }).then(function (policies) {
-        res.json(policies);
+        res.json({
+          result: policies
+        });
       }).catch(function (error) {
         res.statusCode = error.statusCode || 500;
         res.json({
@@ -33,7 +35,7 @@ function RouterApi(tokenConf, idmcore, router) {
     }
   );
 
-  router.route('/pap/:entity_type/:entity_id/policy/:policy_name').put(
+  router.route('/pap/:entity_type/:entity_id/:policy_name').put(
     passport.authenticate('agile-bearer', {
       session: false
     }),
@@ -50,7 +52,9 @@ function RouterApi(tokenConf, idmcore, router) {
       } else {
         idmcore.setEntityPolicy(req.user, entity_id, entity_type, policy_name, req.body.policy)
           .then(function (entity) {
-            res.json(entity);
+            res.json({
+              result: entity
+            });
           }).catch(function (error) {
             console.log("error when setting entity policy " + error);
             res.statusCode = error.statusCode || 500;
@@ -62,9 +66,33 @@ function RouterApi(tokenConf, idmcore, router) {
     }
   );
 
+  router.route('/pap/:entity_type/:entity_id/:field').get(
+    passport.authenticate('agile-bearer', {
+      session: false
+    }),
+    bodyParser.json(),
+    function (req, res) {
+      var entity_type = "/" + req.params.entity_type;
+      var entity_id = req.params.entity_id;
+      var field = req.params.field;
+      idmcore.getFieldPoliciy(req.user, entity_id, entity_type, field).then(function (policyResult) {
+        return policyResult;
+      }).then(function (policies) {
+        res.json({
+          result: policies
+        });
+      }).catch(function (error) {
+        res.statusCode = error.statusCode || 500;
+        res.json({
+          "error": error.message
+        });
+      });
+    }
+  );
+
   //returns 200 and the entity, or 401 or 403, in case of security issues, 422 in case a user is attempted to be created through this API, or 409 if entity already exists, 500 in case of unexpected situations
   //curl -H "Content-type: application/json" -H "Authorization: bearer L1q8RdPhqhpcNJR9YRKpfVbie0fZxM31JRW9PPmCcvcLsatWrJBbawzfgDwACH9S" -XDELETE 'http://localhost:3000/api/v1/pap/sensor/mysensor/policy/name'
-  router.route('/pap/:entity_type/:entity_id/policy/:policy_name').delete(
+  router.route('/pap/:entity_type/:entity_id/:policy_name').delete(
     passport.authenticate('agile-bearer', {
       session: false
     }),
@@ -76,7 +104,9 @@ function RouterApi(tokenConf, idmcore, router) {
       console.log(req.user, entity_id, entity_type, policy_name);
       idmcore.deleteEntityPolicy(req.user, entity_id, entity_type, policy_name)
         .then(function (read) {
-          res.json(read);
+          res.json({
+            result: read
+          });
         }).catch(function (error) {
           console.log("error when deleting policy " + error);
           res.statusCode = error.statusCode || 500;
