@@ -56,5 +56,24 @@ function RouterApi(tokenConf, idmcore, audit, router) {
     }
   );
 
+  router.route('/audit/actions/myEntities').delete(
+    passport.authenticate('agile-bearer', {
+      session: false
+    }),
+    bodyParser.json(),
+    function (req, res) {
+      audit.clearActionsOnMyEntities(req.user.id).then(function(actions){
+        res.statusCode = 200;
+        res.send();
+      }).catch(function (err) {
+        res.statusCode = error.statusCode || 500;
+        res.json({
+          "error": error.message
+        });
+      })
+
+    }
+  );
+
 }
 module.exports = RouterApi;
