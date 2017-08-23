@@ -1,0 +1,280 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: AGILE Policy Administration Point API
+  description: API for the AGILE PAP
+    specification
+
+  license:
+    name: MIT
+    url: http://agilegw.local/
+host: agilegw.local
+basePath: /api/v1/
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /pap/{entityType}/{entityId}:
+    parameters:
+      -
+        name: entityType
+        in: path
+        description: 'Entity type'
+        required: true
+        type: string
+      -
+        name: entityId
+        in: path
+        description: 'Entity id. This id is only unique for a certain entity type'
+        required: true
+        type: string
+    get:
+      operationId: ReadEntityPolicy
+      tags:
+        - Policy
+      description: 'Returns the policy for an entity.'
+      responses:
+        '200':
+          description: 'Policy read done'
+          schema:
+            $ref: '#/definitions/Policy'
+          examples:
+            application/json:
+              flows:
+                read:
+                  flows:
+                    -
+                      op: read
+                      locks:
+                        hasType:
+                          -
+                            lock: hasType
+                            args:
+                              -
+                                /user
+                        not: false
+                write:
+                  flows:
+                    -
+                      op: write
+                      locks:
+                        isOnwer:
+                          -
+                            lock: isOwner
+                        not: false
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'No entity found'
+        '500':
+          description: 'Unexpected error'
+  /pap/{entityType}/{entityId}/{field}:
+    parameters:
+      -
+        name: entityType
+        in: path
+        description: 'Entity type'
+        required: true
+        type: string
+      -
+        name: entityId
+        in: path
+        description: 'Entity id. This id is only unique for a certain entity type'
+        required: true
+        type: string
+      -
+        name: field
+        in: path
+        description: 'Field within the Policy e.g. password or actions.status'
+        required: true
+        type: string
+    get:
+      operationId: ReadFieldEntityPolicy
+      tags:
+        - Policy
+      description: 'Returns the policy for a field within a policy structure for an entity.'
+      responses:
+        '200':
+          description: 'Policy update done'
+          schema:
+            $ref: '#/definitions/Policy'
+          examples:
+            application/json:
+              flows:
+                read:
+                  flows:
+                    -
+                      op: read
+                      locks:
+                        hasType:
+                          -
+                            lock: hasType
+                            args:
+                              -
+                                /user
+                        not: false
+                write:
+                  flows:
+                    -
+                      op: write
+                      locks:
+                        isOnwer:
+                          -
+                            lock: isOwner
+                        not: false
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'No entity found'
+        '500':
+          description: 'Unexpected error'
+    delete:
+      operationId: DeleteFieldEntityPolicy
+      tags:
+        - Policy
+      description: 'Returns the resulting policy structure for the entity after deletion.'
+      responses:
+        '200':
+          description: 'Policy read done'
+          schema:
+            $ref: '#/definitions/Policy'
+          examples:
+            application/json:
+              flows:
+                read:
+                  flows:
+                    -
+                      op: read
+                      locks:
+                        hasType:
+                          -
+                            lock: hasType
+                            args:
+                              -
+                                /user
+                        not: false
+                write:
+                  flows:
+                    -
+                      op: write
+                      locks:
+                        isOnwer:
+                          -
+                            lock: isOwner
+                        not: false
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'No entity found'
+        '500':
+          description: 'Unexpected error'
+
+
+    put:
+      operationId: SetFieldEntityPolicy
+      tags:
+        - Policy
+      description: 'Sets a policy for a field and returns the resulting policy structure for the entity after the update.'
+      parameters:
+        -
+          name: policy
+          in: body
+          description: 'the entity to be stored'
+          required: true
+          schema:
+            type: object
+            properties:
+              policy:
+                type: array
+                items:
+                  $ref: '#/definitions/PolicyBlock'
+      responses:
+        '200':
+          description: 'Policy read done'
+          schema:
+            $ref: '#/definitions/Policy'
+          examples:
+            application/json:
+              flows:
+                read:
+                  flows:
+                    -
+                      op: read
+                      locks:
+                        hasType:
+                          -
+                            lock: hasType
+                            args:
+                              -
+                                /user
+                        not: false
+                write:
+                  flows:
+                    -
+                      op: write
+                      locks:
+                        isOnwer:
+                          -
+                            lock: isOwner
+                        not: false
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'No entity found'
+        '500':
+          description: 'Unexpected error'
+definitions:
+  PolicyBlock:
+    description: 'Contains a Policy Block. Inside each lock there cab be keys referencing the name of a lock and inside there is a representation of the lock as it is configured in the policies, i.e. it has a lock attribute of type string and it has an array called args which includes strings'
+    type: object
+    properties:
+      op:
+        type: string
+      locks:
+        type: object
+    example:
+      op: read
+      locks:
+        -
+          lock: hasType
+          args:
+            -
+              user
+        -
+          lock: attrEq
+          args:
+            -
+              role
+            -
+              admin
+
+  Policy:
+    description: 'Contains a Policy according to UPFRont format.'
+    type: object
+    properties:
+      flows:
+        type: array
+        items:
+          $ref: '#/definitions/PolicyBlock'
+      read:
+        type: array
+        items:
+          $ref: '#/definitions/PolicyBlock'
+      write:
+        type: array
+        items:
+          $ref: '#/definitions/PolicyBlock'
+
+
+ 

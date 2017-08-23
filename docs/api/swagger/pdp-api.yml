@@ -1,0 +1,244 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: AGILE Policy Decision Point API
+  description: API for the AGILE PDP
+    specification
+
+  license:
+    name: MIT
+    url: http://agilegw.local/
+host: agilegw.local
+basePath: /api/v1/
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /pdp/{entityType}/{entityId}/{attribute}:
+    parameters:
+      -
+        name: entityType
+        in: path
+        description: 'Entity type'
+        required: true
+        type: string
+      -
+        name: entityId
+        in: path
+        description: 'Entity id. This id is only unique for a certain entity type'
+        required: true
+        type: string
+      -
+        name: attribute
+        in: path
+        description: 'Entity attribute'
+        required: true
+        type: string
+    get:
+      operationId: EvaluateGetEntityAttributePolicy
+      tags:
+        - Policy
+      description: 'Evaluates whether the authenticated user can read an attribute of an entity.'
+      responses:
+        '200':
+          description: 'Policy evaluates to true (access granted)'
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'No entity found'
+        '500':
+          description: 'Unexpected error'
+    put:
+      operationId: EvaluatePutEntityAttributePolicy
+      tags:
+        - Policy
+      description: 'Evaluates whether the authenticated user can update an attribute of an entity.'
+      responses:
+        '200':
+          description: 'Policy evaluates to true (access granted)'
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'No entity found'
+        '500':
+          description: 'Unexpected error'
+    post:
+      operationId: EvaluatePostEntityAttributePolicy
+      tags:
+        - Policy
+      description: 'Evaluates whether the authenticated user can update attribute of an entity.'
+      responses:
+        '200':
+          description: 'Policy evaluates to true (access granted)'
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'No entity found'
+        '500':
+          description: 'Unexpected error'
+    delete:
+      operationId: EvaluateDEntityAttributePolicy
+      tags:
+        - Policy
+      description: 'Evaluates whether the authenticated user can dekete attribute of an entity.'
+      responses:
+        '200':
+          description: 'Policy evaluates to true (access granted)'
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'No entity found'
+        '500':
+          description: 'Unexpected error'
+  /pdp/{entityType}/{entityId}/actions/{action}:
+    parameters:
+      -
+        name: entityType
+        in: path
+        description: 'Entity type'
+        required: true
+        type: string
+      -
+        name: entityId
+        in: path
+        description: 'Entity id. This id is only unique for a certain entity type'
+        required: true
+        type: string
+      -
+        name: action
+        in: path
+        description: 'Action name. It can contain dots'
+        required: true
+        type: string
+    get:
+      operationId: EvaluategetActionPolicy
+      tags:
+        - Policy
+      description: 'Evaluates whether the authenticated user can read  an action of an entity.'
+      responses:
+        '200':
+          description: 'Policy evaluates to true (access granted)'
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'No entity found'
+        '500':
+          description: 'Unexpected error'
+    put:
+      operationId: EvaluatePutActionPolicy
+      tags:
+        - Policy
+      description: 'Evaluates whether the authenticated user can update  an action of an entity.'
+      responses:
+        '200':
+          description: 'Policy evaluates to true (access granted)'
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'No entity found'
+        '500':
+          description: 'Unexpected error'
+    post:
+      operationId: EvaluatePostActionPolicy
+      tags:
+        - Policy
+      description: 'Evaluates whether the authenticated user can post  an action of an entity.'
+      responses:
+        '200':
+          description: 'Policy evaluates to true (access granted)'
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'No entity found'
+        '500':
+          description: 'Unexpected error'
+    delete:
+      operationId: EvaluateDeleteActionPolicy
+      tags:
+        - Policy
+      description: 'Evaluates whether the authenticated user can delete  an action of an entity.'
+      responses:
+        '200':
+          description: 'Policy evaluates to true (access granted)'
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'No entity found'
+        '500':
+          description: 'Unexpected error'
+
+
+  /pdp/batch:
+    post:
+      operationId: EvaluatePoliciesBatch
+      tags:
+        - Policy
+      description: 'Evaluates whether the authenticated user can excute a set of actions or can read attributes from entity.'
+      parameters:
+        -
+          name: actions
+          in: body
+          description: 'requests for the PDP in batch'
+          required: true
+          schema:
+            type: object
+            properties:
+              actions:
+                type: array
+                items:
+                  $ref: '#/definitions/PolicyDecisionRequest'
+
+      responses:
+        '200':
+          description: 'Policy evaluates to true (access granted)'
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'No entity found'
+        '500':
+          description: 'Unexpected error'
+
+definitions:
+  PolicyDecisionRequest:
+    description: 'Contains a Policy Decision Request'
+    type: object
+    properties:
+      entityId:
+        type: string
+        description: 'entity id'
+      entityType:
+        type: string
+        description: 'entity type'
+      field:
+        type: string
+        description: 'attribute name or action field, e.g. actions.status'
+      method:
+        type: string
+        description: 'read or write'
+    example:
+      entityId: dummy12309
+      entitytype: device
+      field: action.status
+      method: read
+  
