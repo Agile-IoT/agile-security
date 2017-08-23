@@ -1,0 +1,126 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: AGILE Audit
+  description: API for the AGILE Audit
+    specification
+
+  license:
+    name: MIT
+    url: http://agilegw.local/
+host: agilegw.local
+basePath: /api/v1/
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /audit/actions/myEntities:
+    get:
+      operationId: actionsMyEntities
+      tags:
+        - Action
+      description: 'returns actions performed on entities owned by the authenticated user'
+      responses:
+        '200':
+          description: 'Actions returned'
+          schema:
+            type: object
+            properties:
+              result:
+                type: array
+                items:
+                  $ref: '#/definitions/ActionLog'
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'No entity found'
+        '500':
+          description: 'Unexpected error'
+    delete:
+      tags:
+        - Action
+      description: 'Clean actions on my entities'
+      responses:
+        '200':
+          description: 'Actions deleted'
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'No entity found'
+        '500':
+          description: 'Unexpected error'
+
+  /audit/actions/byMe:
+    get:
+      operationId: actionsByMe
+      tags:
+        - Action
+      description: 'returns actions performed by the authenticated user on other entities'
+      responses:
+        '200':
+          description: 'Policy evaluates to true (access granted)'
+          schema:
+            type: object
+            properties:
+              result:
+                type: array
+                items:
+                  $ref: '#/definitions/ActionLog'
+        '401':
+          description: 'Not authenticated'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'No entity found'
+        '500':
+          description: 'Unexpected error'
+
+
+definitions:
+  ActionLog:
+    description: 'Contains a Policy Decision Request'
+    type: object
+    properties:
+      user:
+        type: string
+        description: 'id for the user performing the action'
+      client:
+        type: string
+        description: 'client id that authenticated the user'
+      action:
+        type: string
+        description: 'action performed, e.g. actions.status'
+      time:
+        type: number
+        description: 'timestamp in seconds after the epoch'
+      entity:
+        type: object
+        description: 'entity on which the action happend'
+        properties:
+          id:
+            type: string
+            description: 'entity id'
+          type:
+            type: string
+            description : 'entity type'
+          owner:
+            type: string
+            description : 'owner of the entity'
+    example:
+      user: 'alice!@!agile-local'
+      client: 'AGILE-OSJS'
+      entity:
+        id: 'dummy001122334455'
+        type: '/device'
+        owner: 'bob!@!agile-local'
+      action: 'action.status'
+      time: 1503488580709
+
+  
