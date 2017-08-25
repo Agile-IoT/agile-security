@@ -17,6 +17,7 @@ function RouterApi(tokenConf, idmcore, pdp, router) {
     var entity_type = "/" + req.params.entity_type;
     var entity_id = req.params.entity_id;
     var user = req.user;
+    user.client_id = req.authInfo.clientId;
     var path = req.path.split('/');
     if (path.length < 4) {
       res.statusCode = 500;
@@ -30,7 +31,8 @@ function RouterApi(tokenConf, idmcore, pdp, router) {
       }).catch(function (error) {
         res.statusCode = error.statusCode || 500;
         res.json({
-          "error": error.message
+          "error": error.message,
+          "conflicts": error.conflicts
         });
       });
     }
@@ -112,6 +114,7 @@ function RouterApi(tokenConf, idmcore, pdp, router) {
     function (req, res) {
       if (req.body && req.body.hasOwnProperty("actions")) {
         var user = req.user;
+        user.client_id = req.authInfo.clientId;
         var ps = [];
         req.body.actions.forEach(function (action) {
           if (action.entityId && action.entityType && action.field && action.method) {
@@ -134,7 +137,8 @@ function RouterApi(tokenConf, idmcore, pdp, router) {
           }).catch(function (err) {
             res.statusCode = error.statusCode || 500;
             res.json({
-              "error": error.message
+              "error": error.message,
+              "conflicts": error.conflicts
             });
           })
         }

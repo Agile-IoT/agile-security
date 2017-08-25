@@ -29,7 +29,8 @@ function RouterApi(tokenConf, idmcore, router) {
       }).catch(function (error) {
         res.statusCode = error.statusCode || 500;
         res.json({
-          "error": error.message
+          "error": error.message,
+          "conflicts": error.conflicts
         });
       });
     }
@@ -59,7 +60,8 @@ function RouterApi(tokenConf, idmcore, router) {
             console.log("error when setting entity policy " + error);
             res.statusCode = error.statusCode || 500;
             res.json({
-              "error": error.message
+              "error": error.message,
+              "conflicts": error.conflicts
             });
           });
       }
@@ -84,7 +86,8 @@ function RouterApi(tokenConf, idmcore, router) {
       }).catch(function (error) {
         res.statusCode = error.statusCode || 500;
         res.json({
-          "error": error.message
+          "error": error.message,
+          "conflicts": error.conflicts
         });
       });
     }
@@ -111,7 +114,8 @@ function RouterApi(tokenConf, idmcore, router) {
           console.log("error when deleting policy " + error);
           res.statusCode = error.statusCode || 500;
           res.json({
-            "error": error.message
+            "error": error.message,
+            "conflicts": error.conflicts
           });
         });
 
