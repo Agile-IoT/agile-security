@@ -184,21 +184,12 @@ module.exports = {
             }]
           }
         ],
-        "credentials": [
-          // the property can only be read by the user itself
+        "policies.role": [
+          // can be read by everyone
           {
             op: "read"
           },
-          // the property can be set by the user itself and
-          {
-            op: "write",
-            locks: [{
-              lock: "hasType",
-              args: ["/user"]
-            }, {
-              lock: "isOwner"
-            }]
-          },
+          // can only be changed by users with role admin
           {
             op: "write",
             locks: [{
@@ -210,7 +201,7 @@ module.exports = {
             }]
           }
         ],
-        "credentials.dropbox": [{
+        "credentials": [{
             op: "read",
             locks: [{
               lock: "hasType",
@@ -227,16 +218,52 @@ module.exports = {
             }, {
               lock: "isOwner"
             }]
+          }
+        ],
+        "policies.credentials": [{
+            op: "read"
           },
-          // by all users with role admin
           {
             op: "write",
             locks: [{
               lock: "hasType",
               args: ["/user"]
             }, {
-              lock: "attrEq",
-              args: ["role", "admin"]
+              lock: "isOwner"
+            }]
+          }
+        ]
+      },
+      "client": {
+        "clientSecret": [{
+            op: "read",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
+          },
+          {
+            op: "write",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
+          }
+        ],
+        "policies.clientSecret": [{
+            op: "read"
+          },
+          {
+            op: "write",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
             }]
           }
         ]
@@ -264,14 +291,8 @@ module.exports = {
             }]
           }
         ],
-        "credentials.dropbox": [{
-            op: "read",
-            locks: [{
-              lock: "hasType",
-              args: ["/user"]
-            }, {
-              lock: "isOwner"
-            }]
+        "policies.credentials": [{
+            op: "read"
           },
           {
             op: "write",
@@ -280,17 +301,6 @@ module.exports = {
               args: ["/user"]
             }, {
               lock: "isOwner"
-            }]
-          },
-          // by all users with role admin
-          {
-            op: "write",
-            locks: [{
-              lock: "hasType",
-              args: ["/user"]
-            }, {
-              lock: "attrEq",
-              args: ["role", "admin"]
             }]
           }
         ]
@@ -304,7 +314,8 @@ module.exports = {
     'owner',
     'groups',
     'entities',
-    'actions'
+    'actions',
+    'policies'
   ],
   "schema-validation": [{
     "id": "/device",

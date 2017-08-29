@@ -45,9 +45,9 @@ function RouterApi(tokenConf, idmcore, pdp, router) {
       that.idmcore.readEntity(userInfo, entity_id, entity_type)
         .then(function (entityInfo) {
           if (method === "read") {
-            return that.pdp.canReadEntityAttribute(userInfo, entityInfo, action);
+            return that.pdp.canReadPolicyField(userInfo, entityInfo, action);
           } else {
-            return that.pdp.canWriteToAttribute(userInfo, entityInfo, action);
+            return that.pdp.canWriteToPolicyField(userInfo, entityInfo, action);
           }
 
         }).then(function (res) {

@@ -56,13 +56,7 @@ module.exports = {
     "policy-policy-root": {
       attribute: "policies",
       policy: [{
-          op: "read",
-          locks: [{
-            lock: "hasType",
-            args: ["/user"]
-          }, {
-            lock: "isOwner"
-          }]
+          op: "read"
         },
         // by all users with role admin
         {
@@ -199,6 +193,23 @@ module.exports = {
             }]
           }
         ],
+        "policies.role": [
+          // can be read by everyone
+          {
+            op: "read"
+          },
+          // can only be changed by users with role admin
+          {
+            op: "write",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "attrEq",
+              args: ["role", "admin"]
+            }]
+          }
+        ],
         "credentials": [
           // the property can only be read by the user itself
           {
@@ -211,6 +222,19 @@ module.exports = {
             }]
           },
           // the property can be set by the user itself and
+          {
+            op: "write",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
+          }
+        ],
+        "policies.credentials": [{
+            op: "read"
+          },
           {
             op: "write",
             locks: [{
@@ -223,9 +247,7 @@ module.exports = {
         ]
       },
       "client": {
-        "credentials": [
-          // the property can only be read by the user itself
-          {
+        "clientSecret": [{
             op: "read",
             locks: [{
               lock: "hasType",
@@ -234,7 +256,6 @@ module.exports = {
               lock: "isOwner"
             }]
           },
-          // the property can be set by the user itself and
           {
             op: "write",
             locks: [{
@@ -243,21 +264,11 @@ module.exports = {
             }, {
               lock: "isOwner"
             }]
-
           }
         ],
-        "clientSecret":[
-          // the property can only be read by the user itself
-          {
-            op: "read",
-            locks: [{
-              lock: "hasType",
-              args: ["/user"]
-            }, {
-              lock: "isOwner"
-            }]
+        "policies.clientSecret": [{
+            op: "read"
           },
-          // the property can be set by the user itself and
           {
             op: "write",
             locks: [{
@@ -266,7 +277,6 @@ module.exports = {
             }, {
               lock: "isOwner"
             }]
-
           }
         ]
       },
@@ -274,9 +284,28 @@ module.exports = {
         "credentials": [
           // the property can only be read by the user itself
           {
-            op: "read"
+            op: "read",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
           },
           // the property can be set by the user itself and
+          {
+            op: "write",
+            locks: [{
+              lock: "hasType",
+              args: ["/user"]
+            }, {
+              lock: "isOwner"
+            }]
+          }
+        ],
+        "policies.credentials": [{
+            op: "read"
+          },
           {
             op: "write",
             locks: [{
@@ -296,7 +325,8 @@ module.exports = {
     'owner',
     'groups',
     'entities',
-    'actions'
+    'actions',
+    'policies'
   ],
   "schema-validation": [{
     "id": "/device",
