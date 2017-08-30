@@ -41,6 +41,6 @@ module.exports = {
   "https_port": 1444,
   "https_port_with_client": 1443,
   "enabledStrategies": ["agile-local"],
-  "cors": ["http://resin.local:2000"]
+  "cors": ["http://set-automatically:2000"]
 
 }

@@ -365,7 +365,7 @@ module.exports = {
       },
       "credentials": {
         "type": "object",
-        "additionalProperties": true        
+        "additionalProperties": true
       }
     },
     "required": ["user_name", "auth_type"]
