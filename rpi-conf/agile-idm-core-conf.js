@@ -365,12 +365,7 @@ module.exports = {
       },
       "credentials": {
         "type": "object",
-        "additionalProperties": true,
-        "properties": {
-          "dropbox": {
-            "type": "string"
-          }
-        }
+        "additionalProperties": true        
       }
     },
     "required": ["user_name", "auth_type"]

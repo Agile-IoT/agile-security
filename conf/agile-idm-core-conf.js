@@ -353,6 +353,10 @@ module.exports = {
       },
       "role": {
         "type": "string"
+      },
+      "credentials": {
+        "type": "object",
+        "additionalProperties": true
       }
     },
     "required": ["user_name", "auth_type"]
