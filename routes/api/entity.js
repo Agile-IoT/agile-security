@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var ids = require('../../lib/util/id');
 var idmcore;
 
-function RouterApi(tokenConf, idmcore, router) {
+function RouterApi(conf, tokenConf, idmcore, router) {
 
   //enable cors
   var cors_wrapper = require('../cors_wrapper')(tokenConf);
@@ -224,6 +224,26 @@ function RouterApi(tokenConf, idmcore, router) {
           });
       }
     });
+
+  //curl -H "Content-type: application/json" -H "Authorization: bearer $TOKEN"  -XGET  'http://localhost:3000/api/v1/entity_types'
+  router.route('/entity_types/').get(
+    passport.authenticate('agile-bearer', {
+      session: false
+    }),
+    function (req, res) {
+      if (conf.hasOwnProperty("schema-validation")) {
+        res.json({
+          schema: conf["schema-validation"]
+        });
+      } else {
+        res.statusCode = 500;
+        res.json({
+          "error": "no configuration for shcema-valdation found"
+        });
+      }
+
+    }
+  );
 
   return router;
 }

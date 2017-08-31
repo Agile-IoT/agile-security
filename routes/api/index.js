@@ -7,7 +7,7 @@ module.exports = function (tokenConf, conf, strategies) {
   var idmcore = new IdmCore(conf);
   idmcore.setStorage(storage);
   var router = express.Router();
-  require('./entity')(tokenConf, idmcore, router);
+  require('./entity')(conf, tokenConf, idmcore, router);
   require('./user')(tokenConf, idmcore, router, strategies);
   require('./group')(tokenConf, idmcore, router);
   return router;
