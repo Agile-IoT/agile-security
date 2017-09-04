@@ -413,7 +413,7 @@ module.exports = {
     "client": [{
       "id": "AGILE-OSJS",
       "name": "AGILE-OSJS",
-      "redirectURI": "set-automatically"
+      "redirectURI": "http://set-automatically:8000/"
     }],
     "gateway": [{
       "id": "self",
