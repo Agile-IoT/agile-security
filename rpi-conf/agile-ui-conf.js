@@ -41,6 +41,63 @@ module.exports = {
   "https_port": 1444,
   "https_port_with_client": 1443,
   "enabledStrategies": ["agile-local"],
-  "cors": ["http://set-automatically:2000"]
-
+  "cors": ["http://set-automatically:2000"],
+  "gui":{
+    "/device":{
+      "hide": true,
+      "addNew": false,
+      "attributes":{
+          "id":{
+            "editable":false
+          },
+          "owner":{
+            "editable":false
+          }
+      }
+    },
+    "/user":{
+      "attributes":{
+        "id":{
+          "editable":false
+        },
+        "owner":{
+          "editable":false
+        },
+        "user_name":{
+          "editable":false,
+          "name":"user name"
+        },
+        "auth_type":{
+          "editable":false,
+          "name":"authentication method"
+        },
+        "password":{
+          "editable":false,
+          "hidden":true
+        }
+      }
+    },
+    "/client":{
+      "attributes":{
+        "id":{
+          "editable":false
+        },
+        "owner":{
+          "editable":false
+        },
+        "clientSecret":{
+          "editable":false,
+          "name":"client secret"
+        },
+        "redirectURI":{
+          "editable":false,
+          "name":"Oauth2 callback"
+        }
+      }
+    },
+    "/gateway":{
+      "hide": true,
+      "addNew": false
+    }
+  }
 }

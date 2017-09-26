@@ -231,9 +231,11 @@ function RouterApi(conf, tokenConf, idmcore, router) {
       session: false
     }),
     function (req, res) {
+      console.log("conf gui "+JSON.stringify(tokenConf))
       if (conf.hasOwnProperty("schema-validation")) {
         res.json({
-          schema: conf["schema-validation"]
+          schema: conf["schema-validation"],
+          ui: tokenConf["gui"]||{}
         });
       } else {
         res.statusCode = 500;
