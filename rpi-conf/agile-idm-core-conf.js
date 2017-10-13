@@ -355,13 +355,15 @@ module.exports = {
         "type": "string"
       },
       "auth_type": {
-        "type": "string"
+        "type": "string",
+        "enum": ["agile-local"]
       },
       "password": {
         "type": "string"
       },
       "role": {
-        "type": "string"
+        "type": "string",
+        "enum": ["admin"]
       },
       "credentials": {
         "type": "object",
@@ -385,6 +387,15 @@ module.exports = {
       }
     },
     "required": ["name"]
+  }, {
+    "id": "/group",
+    "type": "object",
+    "properties": {
+      "group_name": {
+        "type": "string"
+      }
+    },
+    "required": ["group_name"]
   }, {
     "id": "/gateway",
     "type": "object",

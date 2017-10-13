@@ -42,61 +42,77 @@ module.exports = {
   "https_port_with_client": 1443,
   "enabledStrategies": ["agile-local"],
   "cors": ["http://set-automatically:2000"],
-  "gui":{
-    "/device":{
-      "hide": true,
+  "gui": {
+    "/device": {
+      "hidden": true,
       "addNew": false,
-      "attributes":{
-          "id":{
-            "editable":false
-          },
-          "owner":{
-            "editable":false
-          }
-      }
-    },
-    "/user":{
-      "attributes":{
-        "id":{
-          "editable":false
+      "attributes": {
+        "id": {
+          "notEditable": true
         },
-        "owner":{
-          "editable":false
-        },
-        "user_name":{
-          "editable":false,
-          "name":"user name"
-        },
-        "auth_type":{
-          "editable":false,
-          "name":"authentication method"
-        },
-        "password":{
-          "editable":false,
-          "hidden":true
+        "owner": {
+          "notEditable": true
         }
       }
     },
-    "/client":{
-      "attributes":{
-        "id":{
-          "editable":false
-        },
-        "owner":{
-          "editable":false
-        },
-        "clientSecret":{
-          "editable":false,
-          "name":"client secret"
-        },
-        "redirectURI":{
-          "editable":false,
-          "name":"Oauth2 callback"
+    "/group": {
+      "name": "Groups",
+      "addNew": true,
+      "attributes": {
+        "group_name": {
+          "name": "group name",
+          "notEditable": true
         }
       }
     },
-    "/gateway":{
-      "hide": true,
+    "/user": {
+      "name": "User",
+      "attributes": {
+        "id": {
+          "notEditable": true
+        },
+        "owner": {
+          "notEditable": true
+        },
+        "user_name": {
+          "notEditable": true,
+          "name": "user name"
+        },
+        "auth_type": {
+          "notEditable": true,
+          "name": "authentication method"
+        },
+        "password": {
+          "notEditable": true,
+          "hidden": true
+        },
+        "groups": {
+          "notEditable": true,
+          "hidden": true
+        }
+      }
+    },
+    "/client": {
+      "name": "Client",
+      "attributes": {
+        "id": {
+          "notEditable": true
+        },
+        "owner": {
+          "notEditable": true
+        },
+        "clientSecret": {
+          "notEditable": true,
+          "name": "client secret"
+        },
+        "redirectURI": {
+          "notEditable": true,
+          "name": "Oauth2 callback"
+        }
+      }
+    },
+    "/gateway": {
+      "hidden": true,
       "addNew": false
     }
   }
