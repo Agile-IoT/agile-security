@@ -1,6 +1,6 @@
 {
   "name": "agile-security",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "repository": "https://github.com/Agile-IoT/agile-security",
   "description": "Security components for AGILE Gateway",
   "main": "main.js",
