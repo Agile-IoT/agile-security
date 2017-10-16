@@ -1,4 +1,7 @@
 //{"target":{"type":"user"},"locks":[{"path":"hasId","args":["$owner"]}]
+//path of agile-security
+var path = process.cwd();
+
 module.exports = {
   "storage": {
     "dbName": "database_"
@@ -7,8 +10,12 @@ module.exports = {
     module_name: "agile-upfront-leveldb",
     type: "external",
     dbName: "database_",
-    collection: "policies",
+    collection: "policies"
   },
+  upfront_locks:  path+ "/node_modules/agile-upfront-locks/Locks",
+  upfront_actions: path + "/node_modules/agile-upfront-locks/Actions",
+  /*upfront_locks: __dirname + "/../node_modules/agile-upfront-locks/Locks",
+  upfront_actions: __dirname + "/../node_modules/agile-upfront-locks/Actions",*/
   "policies": {
     "create_entity_policy": [
       // actions of an actor are not restricted a priori
@@ -339,7 +346,7 @@ module.exports = {
     "required": ["name"]
   }, {
     "id": "/user",
-    "additionalProperties": false,
+    "additionalProperties": true,
     "type": "object",
     "properties": {
       "user_name": {

@@ -1,3 +1,4 @@
+var path = process.cwd();
 module.exports = {
   "storage": {
     "dbName": "/root/idm.db/database_"
@@ -8,6 +9,8 @@ module.exports = {
     dbName: "/root/idm.db/database_",
     collection: "policies",
   },
+  upfront_locks:  path+ "/node_modules/agile-upfront-locks/Locks",
+  upfront_actions: path + "/node_modules/agile-upfront-locks/Actions",
   "policies": {
     "create_entity_policy": [
       // actions of an actor are not restricted a priori
