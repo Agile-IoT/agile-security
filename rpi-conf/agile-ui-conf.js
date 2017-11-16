@@ -41,7 +41,7 @@ module.exports = {
   "https_port": 1444,
   "https_port_with_client": 1443,
   "enabledStrategies": ["agile-local"],
-  "cors": ["http://set-automatically:2000"],
+  "cors": ["http://set-automatically:2000", "http://set-automatically:1880"],
   "gui": {
     "/device": {
       "hidden": true,
@@ -64,7 +64,7 @@ module.exports = {
           "notEditable": true
         }
       }
-    },
+    },add-cors
     "/user": {
       "name": "User",
       "attributes": {
