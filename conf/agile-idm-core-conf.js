@@ -12,7 +12,7 @@ module.exports = {
     dbName: "database_",
     collection: "policies"
   },
-  upfront_locks:  path+ "/node_modules/agile-upfront-locks/Locks",
+  upfront_locks: path + "/node_modules/agile-upfront-locks/Locks",
   upfront_actions: path + "/node_modules/agile-upfront-locks/Actions",
   /*upfront_locks: __dirname + "/../node_modules/agile-upfront-locks/Locks",
   upfront_actions: __dirname + "/../node_modules/agile-upfront-locks/Actions",*/
@@ -393,6 +393,25 @@ module.exports = {
       }
     },
     "required": ["name"]
+  }, {
+    "id": "/database",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "host": {
+        "type": "string"
+      },
+      "user": {
+        "type": "string"
+      },
+      "password": {
+        "type": "string"
+      },
+      "database": {
+        "type": "string"
+      }
+    },
+    "required": ["host", "user", "password", "database"]
   }],
   "configure_on_boot": {
     "user": [{
@@ -406,6 +425,11 @@ module.exports = {
       "name": "MyAgileClient2",
       "clientSecret": "Ultrasecretstuff",
       "redirectURI": "http://localhost:3002/auth/example/callback"
+    }, {
+      "id": "mysqlDB",
+      "name": "mysqlDB",
+      "clientSecret": "Ultrasecretstuff",
+      "redirectURI": "http://set-automatically:3002/auth/example/callback"
     }],
     "gateway": [{
       "id": "self",

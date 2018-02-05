@@ -9,7 +9,7 @@ module.exports = {
     dbName: "/root/idm.db/database_",
     collection: "policies",
   },
-  upfront_locks:  path+ "/node_modules/agile-upfront-locks/Locks",
+  upfront_locks: path + "/node_modules/agile-upfront-locks/Locks",
   upfront_actions: path + "/node_modules/agile-upfront-locks/Actions",
   "policies": {
     "create_entity_policy": [
