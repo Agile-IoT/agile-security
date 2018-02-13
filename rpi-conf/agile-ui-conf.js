@@ -115,6 +115,15 @@ module.exports = {
       "/gateway": {
         "hidden": true,
         "addNew": false
+      },
+      "/database": {
+        "name": "Database",
+        "hidden": true,
+        "attributes": {
+          "id": {
+            "notEditable": true
+          }
+        }
       }
     },
     "locks": {

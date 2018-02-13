@@ -409,6 +409,25 @@ module.exports = {
       }
     },
     "required": ["name"]
+  }, {
+    "id": "/database",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "host": {
+        "type": "string"
+      },
+      "user": {
+        "type": "string"
+      },
+      "password": {
+        "type": "string"
+      },
+      "database": {
+        "type": "string"
+      }
+    },
+    "required": ["host", "user", "password", "database"]
   }],
   "configure_on_boot": {
     "user": [{
