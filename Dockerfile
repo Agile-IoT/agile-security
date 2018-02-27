@@ -1,4 +1,5 @@
-FROM resin/raspberry-pi3-node:7.8.0-20170426
+ARG BASEIMAGE_BUILD=resin/raspberry-pi3-node:7.8.0-20170426
+FROM $BASEIMAGE_BUILD
 
 COPY . /opt/agile-idm-web-ui
 WORKDIR /opt/agile-idm-web-ui/
