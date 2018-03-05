@@ -401,6 +401,9 @@ module.exports = {
       "host": {
         "type": "string"
       },
+      "port": {
+        "type": "integer"
+      },
       "user": {
         "type": "string"
       },
@@ -411,7 +414,7 @@ module.exports = {
         "type": "string"
       }
     },
-    "required": ["host", "user", "password", "database"]
+    "required": ["host", "port", "user", "password", "database"]
   }],
   "configure_on_boot": {
     "user": [{
