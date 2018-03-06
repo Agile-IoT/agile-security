@@ -417,6 +417,9 @@ module.exports = {
       "host": {
         "type": "string"
       },
+      "port": {
+        "type": "integer"
+      },
       "user": {
         "type": "string"
       },
