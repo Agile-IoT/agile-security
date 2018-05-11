@@ -433,6 +433,10 @@ module.exports = {
       "name": "mysqlDB",
       "clientSecret": "Ultrasecretstuff",
       "redirectURI": "http://set-automatically:3002/auth/example/callback"
+    },{
+      "id": "AGILE-OSJS",
+      "name": "AGILE-OSJS",
+      "redirectURI": "http://localhost:8000/"
     }],
     "gateway": [{
       "id": "self",

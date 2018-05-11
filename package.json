@@ -42,6 +42,7 @@
     "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0",
     "passport-oauth2-client-password": "^0.1.2",
+    "passport-oauth2-password-grant": "^0.0.4",
     "passport-webid": "git+https://github.com/Agile-IoT/passport-webid#v1.0.0",
     "request": "2.x",
     "url": "^0.11.0"
