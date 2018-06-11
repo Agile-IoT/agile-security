@@ -162,16 +162,6 @@ function oauth2Router(tokenconf, entityStorageConf) {
     server.errorHandler()
   ];
 
-  var usertoken = [
-    bodyParser.json(),
-    passport.authenticate(['oauth2-basic', 'oauth2-password-grant'], {
-      session: false,
-    }),
-    server.token(),
-    server.errorHandler()
-
-  ];
-
   var user_info = [
     passport.authenticate('agile-bearer', {
       session: false
@@ -219,7 +209,6 @@ function oauth2Router(tokenconf, entityStorageConf) {
   router.route('/dialog/authorize').get(authorization);
   router.route('/dialog/authorize/decision').post(decision);
   router.route('/token').post(token);
-  router.route('/usertoken').post(usertoken);
 
   //querying user and client info
 
