@@ -162,20 +162,9 @@ function oauth2Router(tokenconf, entityStorageConf) {
     server.errorHandler()
   ];
 
-  function auth() {
-    return function (req, res, next) {
-      var username = req.body.username;
-      var password = req.body.password;
-      passport.authenticate('oauth2-password-grant', {
-        username: username,
-        password: password
-      })(req, res, next);
-    };
-  }
-
   var usertoken = [
     bodyParser.json(),
-    passport.authenticate('oauth2-password-grant', {
+    passport.authenticate(['oauth2-basic', 'oauth2-password-grant'], {
       session: false,
     }),
     server.token(),
