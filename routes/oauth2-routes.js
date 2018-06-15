@@ -174,6 +174,7 @@ function oauth2Router(tokenconf, entityStorageConf) {
       res.json({
         id: req.user.id,
         user_name: req.user.user_name,
+        role: req.user.role,
         auth_type: req.user.auth_type,
         client_id: req.authInfo.clientId,
         scope: req.authInfo.scope,
