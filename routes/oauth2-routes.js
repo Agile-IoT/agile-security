@@ -32,7 +32,6 @@ var utils = require('../lib/util/tokens');
 var db = require('../lib/db');
 var url = require('url');
 var oauth2orize = require('oauth2orize');
-var bodyParser = require('body-parser')
 
 function oauth2Router(tokenconf, entityStorageConf) {
   //to see the routes go to the bottom...
@@ -57,36 +56,36 @@ function oauth2Router(tokenconf, entityStorageConf) {
   // first, and rendering the `dialog` view.
   var authorization = [
     login.ensureLoggedIn(tokenconf && tokenconf.failureRedirect ? tokenconf.failureRedirect : undefined),
-    function (req, res, next) {
+    function(req,res,next){
 
-      if (req.originalUrl) {
-        var oauth2ReturnToParsed = url.parse(req.originalUrl, true).query;
-        var clientid = oauth2ReturnToParsed.client_id;
-        var response_type = oauth2ReturnToParsed.response_type;
-        console.log("checking whether user is still logged in, with the token! client id from uri in " + JSON.stringify(oauth2ReturnToParsed.client_id));
-        console.log("checking whether user is still logged in, with the token! response_type " + JSON.stringify(oauth2ReturnToParsed.response_type));
-        if (clientid && response_type && req.user.id) {
-          var auth_type = req.user.auth_type;
-          var user_name = req.user.user_name;
-          db.accessTokens.findOauth2Token(user_name, auth_type, clientid, response_type, function (err, token) {
+       if(req.originalUrl){
+         var oauth2ReturnToParsed = url.parse(req.originalUrl, true).query;
+         var clientid = oauth2ReturnToParsed.client_id;
+         var response_type = oauth2ReturnToParsed.response_type;
+         console.log("checking whether user is still logged in, with the token! client id from uri in " + JSON.stringify(oauth2ReturnToParsed.client_id));
+         console.log("checking whether user is still logged in, with the token! response_type " + JSON.stringify(oauth2ReturnToParsed.response_type));
+         if(clientid && response_type && req.user.id){
+         var auth_type = req.user.auth_type;
+         var user_name= req.user.user_name;
+         db.accessTokens.findOauth2Token(user_name, auth_type,clientid,response_type, function (err, token) {
 
-            if (err || !token) {
-              // this means there is an inconsistency between tokens and express sessions!
-              //so we logout the user from express and reload login page after logout.
-              req.logout();
-              return res.redirect(req.originalUrl);
-            } else {
-              console.log("success on checking whether user is still logged in");
-              return next();
-            }
-          });
-        }
-        else {
-          return next();
-        }
-      } else {
-        return next();
-      }
+           if (err || !token) {
+             // this means there is an inconsistency between tokens and express sessions!
+             //so we logout the user from express and reload login page after logout.
+             req.logout();
+             return res.redirect(req.originalUrl);
+           } else {
+            console.log("success on checking whether user is still logged in");
+            return next();
+           }
+         });
+       }
+       else{
+         return next();
+       }
+     }else{
+       return next();
+     }
 
 
     },
@@ -205,7 +204,7 @@ function oauth2Router(tokenconf, entityStorageConf) {
   //enabling cors
   var cors_wrapper = require('./cors_wrapper')(tokenconf);
   router.route('*').options(cors_wrapper);
-  router.use("*", cors_wrapper);
+  router.use("*",cors_wrapper);
   //oauth2 protocol
   router.route('/dialog/authorize').get(authorization);
   router.route('/dialog/authorize/decision').post(decision);
@@ -216,19 +215,18 @@ function oauth2Router(tokenconf, entityStorageConf) {
   router.route('/api/userinfo').get(user_info);
   router.route('/api/clientinfo').get(client_info);
   //logout
-  router.route('/logout').get(passport.authenticate('internal-agile-return-token-bearer', {
-    session: false
-  }), function (req, res) {
-    db.accessTokens.logOut(req.authInfo.token, function (error, data) {
-      if (req.logout) {
-        req.logout();
-      }
-      res.json({"success": true});
-    })
+  router.route('/logout').get( passport.authenticate('internal-agile-return-token-bearer', {
+      session: false
+    }),function(req,res){
+      db.accessTokens.logOut(req.authInfo.token, function(error, data){
+          if(req.logout){
+            req.logout();
+          }
+          res.json({"success":true});
+      })
 
   });
 
   return router;
 }
-
 module.exports = oauth2Router;
