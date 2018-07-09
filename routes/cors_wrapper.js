@@ -22,7 +22,7 @@ var wrapper = function(conf){
       if (!origin || whitelist.indexOf(origin) !== -1) {
         callback(null, true);
       } else {
-        callback(new Error('Not allowed by CORS'),false);
+        callback(new Error(`Request from ${origin} not allowed by CORS`),false);
       }
     }
 

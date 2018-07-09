@@ -170,14 +170,26 @@ function oauth2Router(tokenconf, entityStorageConf) {
       // `BearerStrategy`.  It is typically used to indicate scope of the token,
       // and used in access control checks.  For illustrative purposes, this
       // example simply returns the scope in the response.
-      res.json({
-        id: req.user.id,
-        user_name: req.user.user_name,
-        auth_type: req.user.auth_type,
-        client_id: req.authInfo.clientId,
-        scope: req.authInfo.scope,
-        expiration: req.authInfo.expiration
-      })
+      if(req.user.role) {
+        res.json({
+          id: req.user.id,
+          user_name: req.user.user_name,
+          role: req.user.role,
+          auth_type: req.user.auth_type,
+          client_id: req.authInfo.clientId,
+          scope: req.authInfo.scope,
+          expiration: req.authInfo.expiration
+        })
+      } else {
+        res.json({
+          id: req.user.id,
+          user_name: req.user.user_name,
+          auth_type: req.user.auth_type,
+          client_id: req.authInfo.clientId,
+          scope: req.authInfo.scope,
+          expiration: req.authInfo.expiration
+        })
+      }
     }
   ];
 
