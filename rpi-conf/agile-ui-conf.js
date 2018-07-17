@@ -1,8 +1,15 @@
 module.exports = {
   "gateway_id": "1",
   "token-storage": {
-    "dbName": "/root/idm.db/database_web",
-    "createTables": true
+//    "dbName": "/root/idm.db/database_web",
+    "createTables": true,
+    "type": "mongodb",
+    "host": "localhost",
+    "port": 27017,
+    "password": "secret",
+    "user": "agile",
+    "dbName": "admin",
+    "collection": "token"
   },
   "failureRedirect": "/login",
   "auth": {

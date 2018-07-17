@@ -30,6 +30,8 @@
     "https": "^1.0.0",
     "level": "^1.5.0",
     "level-transactions": "^2.1.4",
+    "mongodb": "^2.2.31",
+    "bluebird": "^3.5.0",
     "method-override": "^2.3.6",
     "morgan": "^1.7.0",
     "node-uuid": "1.4.7",

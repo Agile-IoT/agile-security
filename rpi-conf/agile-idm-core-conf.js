@@ -7,7 +7,14 @@ module.exports = {
     module_name: "agile-upfront-leveldb",
     type: "external",
     dbName: "/root/idm.db/database_",
-    collection: "policies",
+    collection: "policies"
+//     type: "mongodb",
+//     host: "mongo",
+//     port: 27017,
+//     password: "secret",
+//     user: "agile",
+//     dbName: "admin",
+//     collection: "policies"
   },
   upfront_locks: path + "/node_modules/agile-upfront-locks/Locks",
   upfront_actions: path + "/node_modules/agile-upfront-locks/Actions",
