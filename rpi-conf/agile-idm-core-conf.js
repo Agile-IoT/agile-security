@@ -1,20 +1,28 @@
 var path = process.cwd();
 module.exports = {
-  "storage": {
-    "dbName": "/root/idm.db/database_"
+  storage: {
+    // dbName: "/root/idm.db/database_",
+    dbName: "admin",
+    type: "mongodb",
+    host: "mongo",
+    port: 27017,
+    password: "secret",
+    user: "agile",
+    entityCollection: "entities",
+    groupCollection: "groups",
   },
   upfront_storage: {
-    module_name: "agile-upfront-leveldb",
-    type: "external",
-    dbName: "/root/idm.db/database_",
+    // module_name: "agile-upfront-leveldb",
+    // type: "external",
+    // dbName: "/root/idm.db/database_",
+    // collection: "policies",
+    type: "mongodb",
+    host: "mongo",
+    port: 27017,
+    password: "secret",
+    user: "agile",
+    dbName: "admin",
     collection: "policies"
-//     type: "mongodb",
-//     host: "mongo",
-//     port: 27017,
-//     password: "secret",
-//     user: "agile",
-//     dbName: "admin",
-//     collection: "policies"
   },
   upfront_locks: path + "/node_modules/agile-upfront-locks/Locks",
   upfront_actions: path + "/node_modules/agile-upfront-locks/Actions",

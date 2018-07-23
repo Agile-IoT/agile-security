@@ -2,9 +2,9 @@ module.exports = {
   "gateway_id": "1",
   "token-storage": {
 //    "dbName": "./database_web",
-    "createTables": true,
+//     "createTables": true,
     "type": "mongodb",
-    "host": "localhost",
+    "host": "mongo",
     "port": 27017,
     "password": "secret",
     "user": "agile",
