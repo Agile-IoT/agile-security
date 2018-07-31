@@ -38,7 +38,7 @@ const levelConf = {
 const mongoConf = {
   "token-storage": {
     "type": "mongodb",
-    "host": "localhost",
+    "host": "agilegw.local",
     "port": 27017,
     "password": "secret",
     "user": "agile",
@@ -130,11 +130,11 @@ describe('Mongo Token Storage', function () {
                 }
               }))
             } else {
-              throw Error('Could not find token')
+              throw Error('Could not find token. ' + res.error)
             }
           }))
         } else {
-          throw Error('Could not load storage')
+          throw Error('Could not load storage.' + result.error)
         }
       }))
     })
