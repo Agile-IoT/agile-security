@@ -1,9 +1,9 @@
 var path = process.cwd();
 module.exports = {
   storage: {
-    // dbName: "/root/idm.db/database_",
-    dbName: "admin",
-    type: "mongodb",
+    // dbName: "/root/idm.db/database_", //for leveldb
+    dbName: "admin",	//for mongodb
+    type: "mongodb", //leveldb or mongodb
     host: "mongo",
     port: 27017,
     password: "secret",
@@ -12,6 +12,8 @@ module.exports = {
     groupCollection: "groups",
   },
   upfront_storage: {
+  	// use one of the following configurations, either for leveldb or mongodb
+
     // module_name: "agile-upfront-leveldb",
     // type: "external",
     // dbName: "/root/idm.db/database_",

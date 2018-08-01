@@ -1,9 +1,9 @@
 module.exports = {
   "gateway_id": "1",
   "token-storage": {
-//    "dbName": "./database_web",
-//     "createTables": true,
-    "type": "mongodb",
+//    "dbName": "./database_web", //for leveldb
+//     "createTables": true, //for leveldb
+    "type": "mongodb", //leveldb or mongodb
     "host": "mongo",
     "port": 27017,
     "password": "secret",
