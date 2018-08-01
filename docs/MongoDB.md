@@ -5,6 +5,7 @@ To use MongoDB in AGILE security first start and configure MondoDB. If you run i
 ### Intel
 
       mongo:
+        container_name: mongo
         image: mongo:3.2.15
         environment:
           MONGO_INITDB_ROOT_USERNAME: agile
@@ -21,6 +22,7 @@ The user ```agile:secret``` is added to the database ```admin``` and ca be used 
 ### ARM 
 
       mongo:
+        container_name: mongo
         build: https://github.com/Agile-IoT/rpi-mongodb.git
         expose:
           - 27017:27017/tcp
