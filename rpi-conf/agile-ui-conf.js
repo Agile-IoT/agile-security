@@ -41,7 +41,7 @@ module.exports = {
   "https_port": 1444,
   "https_port_with_client": 1443,
   "enabledStrategies": ["agile-local"],
-  "cors": ["http://set-automatically:2000"],
+  "cors": ["http://set-automatically:2000","http://set-automatically:3000"],
   "gui": {
     "entities": {
       "/device": {
